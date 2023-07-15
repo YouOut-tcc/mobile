@@ -1,11 +1,6 @@
 import React, {useState} from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import {TextInput} from 'react-native-paper';
-
 
 export default function InputLogin() {
   const [email, setEmail] = useState('');
@@ -14,18 +9,20 @@ export default function InputLogin() {
 
   return (
     <View style={style.ContainerLogin}>
-      <Text style={style.InputText}>E-mail</Text>
-      <TextInput
-      mode="outlined"
-        style={style.Input}
-        value={email}
-        onChangeText={text => setEmail(text)}
-        right={<TextInput.Icon Icon="gmail" size={25} color={'black'} />}
-      />
+      <View>
+        <Text style={style.InputText}>E-mail</Text>
+        <TextInput
+          mode="outlined"
+          style={style.Input}
+          value={email}
+          onChangeText={text => setEmail(text)}
+          right={<TextInput.Icon icon="account-circle" color={'#8200A8'} />}
+        />
+      </View>
 
       <Text style={style.InputText}>Senha</Text>
       <TextInput
-      mode="outlined"
+        mode="outlined"
         style={style.Input}
         value={password}
         onChangeText={text => setPassword(text)}
@@ -33,16 +30,14 @@ export default function InputLogin() {
         right={
           showPassword ? (
             <TextInput.Icon
-              Icon="eye"
-              size={25}
-              color={'black'}
+              icon="eye" 
+              color={'#8200A8'}
               onPress={() => setShowPassword(!showPassword)}
             />
           ) : (
             <TextInput.Icon
-              Icon="eye-off"
-              size={25}
-              color={'black'}
+              icon="eye-off" 
+              color={'#8200A8'}
               onPress={() => setShowPassword(!showPassword)}
             />
           )
@@ -59,16 +54,21 @@ const style = StyleSheet.create({
     marginTop: '2%',
     width: 60,
     color: '#000',
-    backgroundColor: 'white',
+    backgroundColor: '#EDE0D6',
     zIndex: 1,
     textAlign: 'center',
+  },
+
+  image: {
+    height: 25,
+    width: 25,
+    marginTop: -20,
   },
 
   Input: {
     width: 320,
     height: 50,
     marginTop: -15,
-    backgroundColor: 'white',
+    backgroundColor: '#EDE0D6 ',
   },
- 
 });

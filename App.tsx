@@ -1,30 +1,20 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
-
 import React from 'react';
-import Routes from './src/routes';
-import {NavigationContainer} from '@react-navigation/native';
-import {StatusBar} from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { StatusBar } from 'react-native';
 import { PaperProvider } from 'react-native-paper';
+import AuthNavigatior from './src/navigations/AuthNavigator.js';
+import Routes from './src/routes/index.js';
 
-   
-
-
-function App(): JSX.Element {
-  return(
+function App() {
+  return (
     <PaperProvider>
-    <NavigationContainer>
-    <StatusBar backgroundColor="#4C2C72" barStyle="light-content"/>
-    <Routes/>
-   </NavigationContainer>
-   </PaperProvider>
-  )  
+      <NavigationContainer>
+        <StatusBar backgroundColor="#8200A8" barStyle="light-content" />
+        {/* <AuthNavigatior /> */}
+        <Routes/>
+      </NavigationContainer>
+    </PaperProvider>
+  );
 }
-
-
 
 export default App;
