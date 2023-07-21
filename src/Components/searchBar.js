@@ -14,6 +14,7 @@ const searchBar = () => {
       value={searchQuery}
       style={styles.search}
     />
+    
   );
 };
 

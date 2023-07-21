@@ -3,7 +3,7 @@ import styles from "./style";
 import LogoYO from "../../Components/LogoYouOut";
 import {View, Text} from 'react-native';
 
-export default function Profile(){
+export default function ForgotPass(){
     return(
         <View style={styles.container}>
             <View style={styles.containerLogo}>

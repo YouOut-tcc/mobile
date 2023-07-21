@@ -8,6 +8,7 @@ import Favorites from "../pages/Favorite";
 import Register
  from '../pages/Register';
 import HomePage from "../pages/HomePage";
+import ProfileCommerce from "../pages/ProfileCommerce";
 
 
 const Tab = createBottomTabNavigator();
@@ -28,6 +29,7 @@ export default function Routes(){
                 component={SignInUser}
                 options={{headerShown:false}}
             />
+
             <Stack.Screen
                 name="ForgotPass"
                 component={ForgotPass}
@@ -37,6 +39,12 @@ export default function Routes(){
             <Stack.Screen
                 name="HomePage"
                 component={HomePage}
+                options={{headerShown:false}}
+                
+            />
+             <Stack.Screen
+                name="ProfileCommerce"
+                component={ProfileCommerce}
                 options={{headerShown:false}}
                 
             />
