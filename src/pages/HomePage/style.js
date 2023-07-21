@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
+  
   container: {
     flex: 1,
     backgroundColor: '#8200A8',
@@ -27,6 +28,20 @@ const styles = StyleSheet.create({
   touchableArea: {
     flex: 1,
   },
+  containerSearch:{
+   marginBottom: '17%',
+   margin: '4%',
+   alignContent: 'center',
+   alignItems: 'center',
+
+  },
+  containerPlace:{
+    width: "100%",
+    height: '100%',
+    alignContent: 'center',
+    alignItems: 'center',
+  }
+  
   
 });
 

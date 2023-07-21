@@ -1,17 +1,18 @@
 import React from "react";
 import styles from "./style";
-import LogoYO from "../../Components/LogoYO";
+import LogoYO from "../../Components/LogoYouOut";
 import {View, Text} from 'react-native';
 
-export default function CommercePage(){
+export default function Profile(){
     return(
         <View style={styles.container}>
             <View style={styles.containerLogo}>
                 <LogoYO/>
             </View>
-            <Text>
-                Página dos estabelecimentos
-            </Text>
+            <View style={styles.containerForm}>
+              <Text>Perfil</Text>
+            </View>
+           
         </View>
     )
 }

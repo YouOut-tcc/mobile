@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, TouchableWithoutFeedback, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import HomePage from "../../pages/HomePage";
 
-export default function ButtonUser() {
+export default function ButtonRegis() {
   const navigation = useNavigation();
   const [isPressed, setIsPressed] = useState(false);
 
@@ -12,41 +13,41 @@ export default function ButtonUser() {
 
   const handlePressOut = () => {
     setIsPressed(false);
-    navigation.navigate("SignInUser"); // Navegar para a próxima tela aqui
+    navigation.navigate("HomePage"); 
   };
 
   return (
     <View>
-      <TouchableWithoutFeedback
+      <TouchableOpacity
+        style={[style.buttonAccess, isPressed && style.buttonAccessPressed]}
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
       >
-        <View style={[style.buttonUser, isPressed && style.buttonUserPressed]}>
-          <Text style={style.buttonText}>Usuário</Text>
-        </View>
-      </TouchableWithoutFeedback>
+        <Text style={style.buttonText}>Cadastrar</Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
 const style = StyleSheet.create({
-  buttonUser: {
+  buttonAccess: {
     backgroundColor: "#FE0472",
     borderRadius: 50,
     paddingVertical: 8,
-    marginTop: "15%",
-    width: 250,
+    marginTop: "5%",
+    width: 150,
     height: 50,
     alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
   },
-  buttonUserPressed: {
+  buttonAccessPressed: {
     backgroundColor: "#8200A8",
+    opacity: 0.8,
   },
   buttonText: {
     color: "#fff",
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: 15,
   },
 });

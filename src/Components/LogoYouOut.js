@@ -7,11 +7,11 @@ import {
 
 
 
+
 export default function LogoYouOut(){
     return(
      <>                
-        <Image source={require('../assets/Logotipo.png')} style={style.image}/>
-        <Text style={style.imagetitle}>YouOut</Text>
+        <Image source={require('../assets/logotipo.jpg')} style={style.image}/>
      </>
 
     )
@@ -20,18 +20,13 @@ export default function LogoYouOut(){
 const style = StyleSheet.create({
     
     image:{
-        width: '40%',
-        height: '55%',
-        marginTop: '20%',  
-        borderRadius: 200,
+        width: '100%',
+        maxHeight: '100%', 
+        borderRadius: 300,
+        marginBottom: 20,
         resizeMode:'contain',
     
     },
-    imagetitle:{
-        fontSize: 32,
-        color: '#4C2C72',
-        fontWeight: 'bold',
-        marginTop: '38%',
-        marginRight: '10%',
-    },
+    
+   
     })
