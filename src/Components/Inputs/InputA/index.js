@@ -1,7 +1,6 @@
-import React, {useRef, forwardRef} from 'react';
+import React, {useRef, forwardRef, useState} from 'react';
 import {Text, StyleSheet} from 'react-native';
 import {TextInput} from 'react-native-paper';
-import { Polygon } from 'react-native-svg';
 
 export default forwardRef(function InputA(props, ref) {
 
@@ -48,6 +47,9 @@ const style = StyleSheet.create({
     zIndex: 1,
     textAlign: 'center',
     top: -2,
+  },
+  scrollViewContent: {
+    flexGrow: 1,
   },
 
   Input: {

@@ -1,74 +1,82 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {TextInput} from 'react-native-paper';
+import { useNavigation } from "@react-navigation/native";
+import ButtonLogin from '../../Components/Buttons/ButtonA';
+import InputA from '../Inputs/InputA';
+import ButtonGoogle from '../../Components/Buttons/ButtonGoogle';
+import ButtonForgotPass from '../../Components/Buttons/ButtonForgotPass';
 
 export default function InputLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(true);
 
-  return (
-    <View style={style.ContainerLogin}>
-      <View>
-        <Text style={style.InputText}>E-mail</Text>
-        <TextInput
-          mode="outlined"
-          style={style.Input}
-          value={email}
-          onChangeText={text => setEmail(text)}
-          right={<TextInput.Icon icon="account-circle" color={'#8200A8'} />}
-        />
-      </View>
+  const navigation = useNavigation();
 
-      <Text style={style.InputText}>Senha</Text>
-      <TextInput
-        mode="outlined"
-        style={style.Input}
+  const handlePressOut = () => {
+    navigation.navigate("HomePage"); 
+  };
+
+  return (
+    <View style={style.containerForm}>
+      <InputA
+        label="E-mail"
+        value={email}
+        onChange={setEmail}
+        // ref={nomeRef}
+        width={120}
+        // next={CPFRef}
+        right={<TextInput.Icon icon="account-circle" color={'#8200A8'} />}
+      />
+
+      <InputA
+        label="Senha"
         value={password}
-        onChangeText={text => setPassword(text)}
+        onChange={setPassword}
+        // ref={nomeRef}
+        width={120}
+        // next={CPFRef}
         secureTextEntry={showPassword}
         right={
           showPassword ? (
             <TextInput.Icon
-              icon="eye" 
+              icon="eye"
               color={'#8200A8'}
               onPress={() => setShowPassword(!showPassword)}
             />
           ) : (
             <TextInput.Icon
-              icon="eye-off" 
+              icon="eye-off"
               color={'#8200A8'}
               onPress={() => setShowPassword(!showPassword)}
             />
           )
         }
       />
+      <ButtonLogin
+        text="Entrar"
+        handlePressOut={handlePressOut}
+      />
+      <ButtonForgotPass />
+      <Text style={style.or}>━━━━━━━━━━ ou ━━━━━━━━━━</Text>
+      <ButtonGoogle />
     </View>
   );
 }
 
 const style = StyleSheet.create({
-  InputText: {
-    marginLeft: 20,
-    fontSize: 16,
-    marginTop: '2%',
-    width: 60,
-    color: '#000',
-    backgroundColor: '#EDE0D6',
-    zIndex: 1,
-    textAlign: 'center',
-  },
+  containerForm:{
+    flex: 1,
+    backgroundColor: '#EDE0D6', 
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    alignContent: 'center',
+    alignItems: 'center',
+},
 
-  image: {
-    height: 25,
-    width: 25,
-    marginTop: -20,
-  },
+  or:{
+    alignContent: 'center',
+},
 
-  Input: {
-    width: 320,
-    height: 50,
-    marginTop: -15,
-    backgroundColor: '#EDE0D6 ',
-  },
 });

@@ -11,7 +11,7 @@ import {useNavigation} from '@react-navigation/native';
 import {TextInput} from 'react-native-paper';
 import {MaskedTextInput} from 'react-native-mask-text';
 
-import ButtonRegis from '../../Components/Buttons/ButtonRegis';
+import ButtonRegis from '../../Components/Buttons/ButtonA';
 
 import CommercePage from '../../pages/HomePage';
 import InputA from '../Inputs/InputA';
@@ -39,7 +39,8 @@ export default function InputRegister() {
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(true);
 
   const handleConfirmSubmit = () => {
-    navigation.navigate(CommercePage);
+    // navigation.navigate(CommercePage);
+    navigation.navigate("HomePage"); 
   };
 
   const handleConfirmPassword = () => {
@@ -53,7 +54,7 @@ export default function InputRegister() {
   return (
     <View style={style.ContainerLogin}>
       <KeyboardAvoidingView style={style.ContainerLogin} behavior="padding">
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView style={style.scrollViewContent}>
           <InputA
             label="Nome Completo"
             value={nome}
@@ -165,7 +166,11 @@ export default function InputRegister() {
             }}
           />
 
-          {/* <ButtonRegis ref={registerRef} /> */}
+          <ButtonRegis
+            ref={registerRef}
+            text="Confimar"
+            handlePressOut={handleConfirmSubmit}
+          />
         </ScrollView>
       </KeyboardAvoidingView>
     </View>
@@ -177,6 +182,9 @@ const style = StyleSheet.create({
     flexGrow: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  scrollViewContent: {
+    flexGrow: 1,
   },
 
   ErrorMessage: {

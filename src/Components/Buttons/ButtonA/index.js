@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React, {forwardRef, useState} from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
-export default function Button(props) {
-  const navigation = useNavigation();
+export default forwardRef(function Button(props, ref) {
   const [isPressed, setIsPressed] = useState(false);
 
   const handlePressIn = () => {
@@ -12,7 +10,6 @@ export default function Button(props) {
 
   const handlePressOut = () => {
     setIsPressed(false);
-    navigation.navigate("HomePage"); 
   };
 
   return (
@@ -20,13 +17,16 @@ export default function Button(props) {
       <TouchableOpacity
         style={[style.buttonAccess, isPressed && style.buttonAccessPressed]}
         onPressIn={handlePressIn}
-        onPressOut={handlePressOut}
+        onPressOut={() => {
+          handlePressOut()
+          props.handlePressOut? props.handlePressOut(): false;
+        }}
       >
         <Text style={style.buttonText}>{props.text}</Text>
       </TouchableOpacity>
     </View>
   );
-}
+});
 
 const style = StyleSheet.create({
   buttonAccess: {
