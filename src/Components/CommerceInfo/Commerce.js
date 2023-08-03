@@ -13,7 +13,7 @@ import StarRating from './StarRating';
 
 import {useNavigation} from '@react-navigation/native';
 
-import AvatarCommerce from './Avatar/avatarCommerce';
+import AvatarCommerce from '../Avatar/avatarCommerce';
 
 export default function CommerceInfos() {
   const commerceList = [
@@ -34,7 +34,7 @@ export default function CommerceInfos() {
     {
       id: 3,
       name: 'Lorem Ipsum 3',
-      starRating: 5,
+      rating: 1,
       distance: '5km de distância',
       checkins: 5,
     },
@@ -54,12 +54,14 @@ export default function CommerceInfos() {
     },
   ];
 
-  const CommerceView = ({commerceId, initialRating}) => {
+  const CommerceView = ({commerceId}) => {
     const commerce = commerceList.find(item => item.id === commerceId);
-    const [rating, setRating] = useState();
-    const handleRating = value => {
-      setRating(value);
-    };
+    // const [rating, setRating] = useState(3);
+    // const handleRating = value => {
+    //   console.log(value, "teste")
+    //   console.log(rating, "rating")
+    //   setRating(rating);
+    // };
 
     if (!commerce) {
       <Text>Não encontrado</Text>;
@@ -76,7 +78,7 @@ export default function CommerceInfos() {
         </View>
         <View style={styles.infoCommerce}>
           <Text style={styles.commerceName}>{commerce.name}</Text>
-          <StarRating initialRating={initialRating} onPress={handleRating} />
+          <StarRating stars={commerce.rating} />
           <Text style={styles.commerceDistance}>{commerce.distance}</Text>
           <Text style={styles.commerceCheckin}>
             <Icon name={'users'} size={20} color="#FE0472" />{' '}
@@ -144,6 +146,7 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start',
     marginLeft: '5%',
     marginTop: '2%',
+    
   },
   viewImg: {
     width: '38%',
