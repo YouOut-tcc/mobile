@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './style';
 import LogoYouOut from '../../Components/LogoYouOut';
 import {View, Text, ScrollView} from 'react-native';
-import InputRegister from '../../Components/Inputs/InputRegister';
+import RegisterUser from '../../Components/Forms/RegisterUser';
 
 
 export default function Register() {
@@ -14,7 +14,7 @@ export default function Register() {
       <View style={styles.containerForm}>
         <Text style={styles.message}>Cadastre-se</Text>
 
-        <InputRegister />
+        <RegisterUser />
       </View>
     </View>
   );

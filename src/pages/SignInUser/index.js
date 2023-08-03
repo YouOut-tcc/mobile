@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from './styles';
 import LogoYouOut from '../../Components/LogoYouOut';
-import ButtonAccess from '../../Components/Buttons/ButtonAccess';
+import ButtonAccess from '../../Components/Buttons/ButtonA';
 import ButtonRegister from '../../Components/Buttons/ButtonRegister';
 import ButtonForgotPass from '../../Components/Buttons/ButtonForgotPass';
 import ButtonGoogle from '../../Components/Buttons/ButtonGoogle';
-import InputLogin from '../../Components/Inputs/InputLogin';
+import LoginForm from '../../Components/Forms/LoginUser';
 import {View, Text} from 'react-native';
 
 export default function SignIn() {
@@ -18,9 +18,8 @@ export default function SignIn() {
       <Text style={styles.message}>Login</Text>
       <Text style={styles.text}>Faça login para continuar</Text>
       
-      <InputLogin />
-
-      <ButtonAccess />
+      <LoginForm />
+      <ButtonAccess text="Entrar"/>
       <ButtonForgotPass />
       <Text style={styles.or}>━━━━━━━━━━ ou ━━━━━━━━━━</Text>
       <ButtonGoogle />

@@ -14,6 +14,7 @@ import {MaskedTextInput} from 'react-native-mask-text';
 import ButtonRegis from '../../Components/Buttons/ButtonRegis';
 
 import CommercePage from '../../pages/HomePage';
+import InputA from './InputA';
 
 export default function InputRegister() {
   const nomeRef = useRef();
@@ -47,10 +48,6 @@ export default function InputRegister() {
 
   const handleDateSubmit = () => {
     emailRef.current.focus();
-  };
-
-  const handleEmailSubmit = () => {
-    celularRef.current.focus();
   };
 
   const handleCelularSubmit = () => {
@@ -112,14 +109,14 @@ export default function InputRegister() {
             onChangeText={text => setDate(text)}
           />
 
-          <Text style={style.InputTextEmail}>E-mail</Text>
-          <TextInput
-            mode="outlined"
-            ref={emailRef}
-            onSubmitEditing={handleEmailSubmit}
-            style={style.Input}
+          <InputA
+            label="Email"
             value={email}
-            onChangeText={text => setEmail(text)}
+            onChange={setEmail}
+            ref={emailRef}
+            width={38}
+            // posso passar uma ref no next, mas não de forma normal para o ref
+            next={celularRef}
           />
 
           <Text style={style.InputTextCel}>Celular</Text>
@@ -195,7 +192,7 @@ export default function InputRegister() {
             }
           />
 
-          <ButtonRegis ref={registerRef} />
+          {/* <ButtonRegis ref={registerRef} /> */}
         </ScrollView>
       </KeyboardAvoidingView>
     </View>
@@ -218,7 +215,7 @@ const style = StyleSheet.create({
 
   InputTextName: {
     marginLeft: 20,
-    marginTop: '4%',
+    marginTop: '2%',
     width: 120,
     color: '#000',
     backgroundColor: '#EDE0D6',
