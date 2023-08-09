@@ -8,7 +8,7 @@ import Searchbar from "../../Components/searchBar";
 
 export default function HomePage() {
   return (
-  
+
       <KeyboardAwareScrollView // Substitua o ScrollView pelo KeyboardAwareScrollView
         contentContainerStyle={styles.container}
         resetScrollToCoords={{ x: 0, y: 0 }}

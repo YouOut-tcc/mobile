@@ -20,12 +20,13 @@ export default function InputLogin() {
 
   return (
     <View style={style.containerForm}>
+      <View>
       <InputA
         label="E-mail"
         value={email}
         onChange={setEmail}
         // ref={nomeRef}
-        width={120}
+        width={44}
         // next={CPFRef}
         right={<TextInput.Icon icon="account-circle" color={'#8200A8'} />}
       />
@@ -35,7 +36,7 @@ export default function InputLogin() {
         value={password}
         onChange={setPassword}
         // ref={nomeRef}
-        width={120}
+        width={46}
         // next={CPFRef}
         secureTextEntry={showPassword}
         right={
@@ -54,6 +55,7 @@ export default function InputLogin() {
           )
         }
       />
+      </View>
       <ButtonLogin
         text="Entrar"
         handlePressOut={handlePressOut}

@@ -60,7 +60,7 @@ export default function InputRegister() {
             value={nome}
             onChange={setNome}
             ref={nomeRef}
-            width={120}
+            width={104}
             next={CPFRef}
           />
 
@@ -69,7 +69,7 @@ export default function InputRegister() {
             value={CPF}
             onChange={setCPF}
             ref={CPFRef}
-            width={120}
+            width={30}
             next={dateRef}
             keyboardType="numeric"
             mask={props => <MaskedTextInput {...props} mask="999.999.999-99" />}
@@ -80,7 +80,7 @@ export default function InputRegister() {
             value={Date}
             onChange={setDate}
             ref={dateRef}
-            width={120}
+            width={128}
             next={emailRef}
             keyboardType="numeric"
             mask={props => <MaskedTextInput {...props} mask="99/99/9999" />}
@@ -100,7 +100,7 @@ export default function InputRegister() {
             value={celular}
             onChange={setCelular}
             ref={celularRef}
-            width={120}
+            width={50}
             next={passwordRef}
             keyboardType="numeric"
             mask={props => (
@@ -141,7 +141,7 @@ export default function InputRegister() {
             value={passwordConfirm}
             onChange={setPasswordConfirm}
             ref={confirmRef}
-            width={120}
+            width={114}
             next={celularRef}
             secureTextEntry={showPasswordConfirm}
             onSubmit={handleConfirmSubmit}
