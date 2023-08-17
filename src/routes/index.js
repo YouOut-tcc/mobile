@@ -1,121 +1,137 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
-import Welcome from '../pages/Welcome';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {View, Text, TouchableOpacity} from 'react-native';
+import React from 'react';
+import {Provider as PaperProvider} from 'react-native-paper';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import Favorites from '../pages/Favorite';
+import ForgotPass from '../pages/ForgotPass';
+import HomePage from '../pages/HomePage';
+import ProfileCommerce from '../pages/ProfileCommerce';
+import Register from '../pages/Register';
 import SignInUser from '../pages/SignInUser';
-import ForgotPass from "../pages/ForgotPass";
-import Favorites from "../pages/Favorite";
-import Register
- from '../pages/Register';
-import HomePage from "../pages/HomePage";
-import ProfileCommerce from "../pages/ProfileCommerce";
-
+import Welcome from '../pages/Welcome';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-export default function Routes(){
-    return(
-        <Stack.Navigator>
-            <Stack.Screen
-                name="Welcome"
-                component={Welcome}
-                options={{headerShown:false}}
+// function MyTabBar({ state, descriptors, navigation }) {
+//     return (
+//       <View style={{ flexDirection: 'row' }}>
+//         {state.routes.map((route, index) => {
+//           const { options } = descriptors[route.key];
+//           const label =
+//             options.tabBarLabel !== undefined
+//               ? options.tabBarLabel
+//               : options.title !== undefined
+//               ? options.title
+//               : route.name;
 
-            />
+//           const isFocused = state.index === index;
 
-            <Stack.Screen
-                name="SignInUser"
-                component={SignInUser}
-                options={{headerShown:false}}
-            />
+//           const onPress = () => {
+//             const event = navigation.emit({
+//               type: 'tabPress',
+//               target: route.key,
+//               canPreventDefault: true,
+//             });
 
-            <Stack.Screen
-                name="ForgotPass"
-                component={ForgotPass}
-                options={{headerShown:false}}
-            />
+//             if (!isFocused && !event.defaultPrevented) {
+//               // The `merge: true` option makes sure that the params inside the tab screen are preserved
+//               navigation.navigate({ name: route.name, merge: true });
+//             }
+//           };
 
-            <Stack.Screen
-                name="HomePage"
-                component={HomePage}
-                options={{headerShown:false}}
-                
-            />
-             <Stack.Screen
-                name="ProfileCommerce"
-                component={ProfileCommerce}
-                options={{headerShown:false}}
-                
-            />
+//           const onLongPress = () => {
+//             navigation.emit({
+//               type: 'tabLongPress',
+//               target: route.key,
+//             });
+//           };
 
-            <Stack.Screen
-                name="Register"
-                component={Register}
-                options={{headerShown:false}}
-            />
-             <Stack.Screen
-                name="Favorites"
-                component={Register}
-                options={{headerShown:false}}
-            />
-            
-        </Stack.Navigator>
-    )
+//           return (
+//             <TouchableOpacity
+//               accessibilityRole="button"
+//               accessibilityState={isFocused ? { selected: true } : {}}
+//               accessibilityLabel={options.tabBarAccessibilityLabel}
+//               testID={options.tabBarTestID}
+//               onPress={onPress}
+//               onLongPress={onLongPress}
+//               style={{ flex: 1 }}
+//             >
+//               <Text style={{ color: isFocused ? '#ff0000' : '#222' }}>
+//                 {label}
+//               </Text>
+//             </TouchableOpacity>
+//           );
+//         })}
+//       </View>
+//     );
+//   }
 
+function BottomTab() {
+  return (
+    <PaperProvider>
+      {/* colocar em um compomente separadp */}
+      <Tab.Navigator
+        // tabBar={props => <MyTabBar {...props} />}
+        screenOptions={({route}) => ({
+          tabBarIcon: ({color, size}) => {
+            let iconName;
+
+            if (route.name === 'Home') {
+              iconName = 'home';
+            } else if (route.name === 'Favorites') {
+              iconName = 'heart';
+            }
+
+            return <Icon name={iconName} size={size} color={color} />;
+          },
+
+          headerShown: false,
+          tabBarActiveTintColor: '#FE0472',
+          tabBarInactiveTintColor: '#8200A8',
+          tabBarActiveBackgroundColor: '#ede0d6',
+          tabBarInactiveBackgroundColor: '#ede0d6',
+          tabBarStyle: {
+            borderTopWidth: 0,
+            elevation: 0,
+          },
+          //   tabBarBackground: () => (
+          //   ),
+          //   tabBarLabel: ({focused, color}) => {
+
+          //   },
+        })}>
+        <Tab.Screen name="Home" component={HomePage} />
+        <Tab.Screen name="Favorites" component={Favorites} />
+      </Tab.Navigator>
+    </PaperProvider>
+  );
 }
 
+{
+  /* <Stack.Screen options={{headerShown:false}} /> */
+}
 
-// import React from 'react';
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-// import { NavigationContainer } from '@react-navigation/native';
-// import { StatusBar } from 'react-native';
-// import { Provider as PaperProvider } from 'react-native-paper';
-// import Icon from 'react-native-vector-icons/FontAwesome';
+export default function Routes() {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="Welcome" component={Welcome} />
 
-// import Welcome from '../pages/Welcome';
-// import SignInUser from '../pages/SignInUser';
-// import ForgotPass from '../pages/ForgotPass';
-// import CommercePage from '../pages/CommercePage';
-// import Favorites from '../pages/Favorite';
-// import Register from '../pages/Register';
+      <Stack.Screen name="SignInUser" component={SignInUser} />
 
-// const Tab = createBottomTabNavigator();
+      <Stack.Screen name="ForgotPass" component={ForgotPass} />
 
+      <Stack.Screen name="HomePage" component={BottomTab} />
+      {/* <Stack.Screen name="HomePage" component={HomePage} /> */}
+      <Stack.Screen name="ProfileCommerce" component={ProfileCommerce} />
 
-// export default function Routes() {
-//   return (
-//     <PaperProvider>
-//       <NavigationContainer>
-//         <StatusBar backgroundColor="#8200A8" barStyle="light-content" />
-//         <Tab.Navigator
-//           screenOptions={({ route }) => ({
-//             tabBarIcon: ({ color, size }) => {
-//               let iconName;
-
-//               if (route.name === 'CommercePage') {
-//                 iconName = 'shopping-cart';
-//               } else if (route.name === 'Favorites') {
-//                 iconName = 'heart';
-//               } 
-
-//               return <Icon name={iconName} size={size} color={color} />;
-//             },
-//           })}
-//           tabBarOptions={{
-//             activeTintColor: '#FE0472',
-//             inactiveTintColor: '#8200A8',
-//           }}
-//         >
-//          <Tab.Screen name="Welcome" component={Welcome} options={{ tabBarVisible: false, headerShown:false
-//          }} />
-//           <Tab.Screen name="SignInUser" component={SignInUser} options={{ tabBarVisible: false, headerShown:false }} />
-//           <Tab.Screen name="ForgotPass" component={ForgotPass} options={{ tabBarVisible: false, headerShown:false }} />
-//           <Tab.Screen name="CommercePage" component={CommercePage} options={{headerShown:false }} />
-//           <Tab.Screen name="Favorites" component={Favorites} options={{headerShown:false }} />
-//           <Tab.Screen name="Register" component={Register} options={{headerShown:false }} />
-//         </Tab.Navigator>
-//       </NavigationContainer>
-//     </PaperProvider>
-//   );
-// }
+      <Stack.Screen name="Register" component={Register} />
+      <Stack.Screen name="Favorites" component={Register} />
+    </Stack.Navigator>
+  );
+}
