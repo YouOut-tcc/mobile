@@ -23,14 +23,11 @@ export default function Infos() {
 
 const styles = StyleSheet.create({
     infoCommerce: {
-        alignSelf: 'flex-start',
-        marginTop: '2%',
-        marginLeft: '2%',
+        marginTop: '1%',
+        marginLeft: '4%',
         borderBottomWidth: 1,
         borderBottomColor: '#CCCCCC',
-        // borderWidth: '100%'
-
-      },
+    },
     commerceName: {
         color: '#000',
         fontSize: 20.6,

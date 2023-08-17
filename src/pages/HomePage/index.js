@@ -3,7 +3,7 @@ import { View, KeyboardAvoidingView, Platform } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view"; // Importe o KeyboardAwareScrollView
 import styles from "./style";
 import LogoYO from "../../Components/LogoYouOut";
-import Commerce from "../../Components/Commerce";
+import Commerce from "../../Components/CommerceInfo/Commerce";
 import Searchbar from "../../Components/searchBar";
 
 export default function HomePage() {

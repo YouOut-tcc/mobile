@@ -1,18 +1,29 @@
-import React from "react";
-import styles from "./style";
-import LogoYO from "../../Components/LogoYouOut";
-import { View, Text } from 'react-native';
-import Carousel from "../../Components/Carousel";
+import React from 'react';
+import styles from './style';
+// import LogoYO from '../../Components/Avatar/LogoYouOut';
+import {View, Text, ScrollView} from 'react-native';
+import Carousel from '../../Components/CommerceInfo/Carousel';
+import Infos from '../../Components/CommerceInfo/Infos';
+import Menu from '../../Components/CommerceInfo/Menu';
+import Events from '../../Components/CommerceInfo/Events';
+import Coments from '../../Components/CommerceInfo/Coments';
 
 export default function ProfileCommerce() {
   return (
     <View style={styles.container}>
-      <View style={styles.containerLogo}>
-        <LogoYO />
-      </View>
       <View style={styles.containerForm}>
         <Carousel />
-        <Text>ProfileCommerce</Text>
+        <View style={styles.Infos}>
+          <Infos />
+        </View>
+        
+        <ScrollView>
+         
+            <Menu />
+            <Events/>
+            <Coments/>
+          
+        </ScrollView>
       </View>
     </View>
   );

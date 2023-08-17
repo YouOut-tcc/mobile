@@ -56,13 +56,7 @@ export default function CommerceInfos() {
 
   const CommerceView = ({commerceId}) => {
     const commerce = commerceList.find(item => item.id === commerceId);
-    // const [rating, setRating] = useState(3);
-    // const handleRating = value => {
-    //   console.log(value, "teste")
-    //   console.log(rating, "rating")
-    //   setRating(rating);
-    // };
-
+  
     if (!commerce) {
       <Text>Não encontrado</Text>;
       return null;
