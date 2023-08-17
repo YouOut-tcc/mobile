@@ -13,11 +13,12 @@ export default function Favorites() {
         <LogoYouOut />
       </View>
       <View style={styles.containerForm}>
+        <Text>
        Tela favoritos
-
+       </Text>
        
       </View>
-      <BottomNavigation/>
+      {/* <BottomNavigation/> */}
     </View>
   );
 }
