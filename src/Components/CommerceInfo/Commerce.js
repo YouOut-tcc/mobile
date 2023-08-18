@@ -14,6 +14,7 @@ import StarRating from './StarRating';
 import {useNavigation} from '@react-navigation/native';
 
 import AvatarCommerce from '../Avatar/avatarCommerce';
+import searchBar from '../searchBar';
 
 export default function CommerceInfos() {
   const commerceList = [
@@ -82,7 +83,7 @@ export default function CommerceInfos() {
       </TouchableOpacity>
     );
   };
-  const itemHeight = 140;
+  const itemHeight = 146;
 
   return (
     <KeyboardAvoidingView

@@ -5,8 +5,10 @@ import React from 'react';
 import {Provider as PaperProvider} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Favorites from '../pages/Favorite';
+import Profile from '../pages/Profile';
 import ForgotPass from '../pages/ForgotPass';
 import HomePage from '../pages/HomePage';
+import MapPage from '../pages/MapPage';
 import ProfileCommerce from '../pages/ProfileCommerce';
 import Register from '../pages/Register';
 import SignInUser from '../pages/SignInUser';
@@ -79,9 +81,19 @@ function BottomTab() {
           tabBarIcon: ({color, size}) => {
             let iconName;
 
-            if (route.name === 'Home') {
+            if (route.name === 'Início') {
               iconName = 'home';
-            } else if (route.name === 'Favorites') {
+              
+            } 
+            if (route.name === 'Mapa') {
+              iconName = 'map';
+              
+            } 
+            if (route.name === 'Perfil') {
+              iconName = 'user';
+              
+            } 
+            else if (route.name === 'Favoritos') {
               iconName = 'heart';
             }
 
@@ -93,18 +105,25 @@ function BottomTab() {
           tabBarInactiveTintColor: '#8200A8',
           tabBarActiveBackgroundColor: '#ede0d6',
           tabBarInactiveBackgroundColor: '#ede0d6',
+
           tabBarStyle: {
             borderTopWidth: 0,
             elevation: 0,
           },
+          tabBarLabelStyle:{
+            marginBottom: 5,
+          }
           //   tabBarBackground: () => (
           //   ),
           //   tabBarLabel: ({focused, color}) => {
 
           //   },
         })}>
-        <Tab.Screen name="Home" component={HomePage} />
-        <Tab.Screen name="Favorites" component={Favorites} />
+        <Tab.Screen name="Início" component={HomePage}/>
+        <Tab.Screen name="Favoritos" component={Favorites}/>
+        <Tab.Screen name="Mapa" component={MapPage} />
+        <Tab.Screen name="Perfil" component={Profile} />
+        <Tab.Screen name="ProfileCommerce" component={ProfileCommerce} options={{tabBarButton: () => null}}/>
       </Tab.Navigator>
     </PaperProvider>
   );
@@ -128,7 +147,7 @@ export default function Routes() {
 
       <Stack.Screen name="HomePage" component={BottomTab} />
       {/* <Stack.Screen name="HomePage" component={HomePage} /> */}
-      <Stack.Screen name="ProfileCommerce" component={ProfileCommerce} />
+      {/* <Stack.Screen name="ProfileCommerce" component={ProfileCommerce} /> */}
 
       <Stack.Screen name="Register" component={Register} />
       <Stack.Screen name="Favorites" component={Register} />

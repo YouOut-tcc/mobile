@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./style";
 import LogoYO from "../../Components/LogoYouOut";
+import InputReset from "../../Components/Inputs/InputReset";
 import {View, Text} from 'react-native';
 
 export default function ForgotPass(){
@@ -10,7 +11,8 @@ export default function ForgotPass(){
                 <LogoYO/>
             </View>
             <View style={styles.containerForm}>
-             <Text> Esqueceu senha</Text>
+               <Text>Redefinir senha</Text>
+            <InputReset/>
             </View>
            
         </View>
