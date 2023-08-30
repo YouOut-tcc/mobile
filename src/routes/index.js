@@ -150,7 +150,7 @@ export default function Routes() {
       {/* <Stack.Screen name="ProfileCommerce" component={ProfileCommerce} /> */}
 
       <Stack.Screen name="Register" component={Register} />
-      <Stack.Screen name="Favorites" component={Register} />
+      <Stack.Screen name="Favorites" component={Favorites} />
     </Stack.Navigator>
   );
 }
