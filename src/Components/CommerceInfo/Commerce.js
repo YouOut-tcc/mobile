@@ -20,7 +20,7 @@ export default function CommerceInfos() {
   const commerceList = [
     {
       id: 1,
-      name: 'Lorem Ipsum 1',
+      name: 'Lorem Ipsum 1 Lorem Ipsum 1 Lorem',
       rating: 4,
       distance: '3km de distância',
       checkins: 2,
@@ -57,7 +57,7 @@ export default function CommerceInfos() {
 
   const CommerceView = ({commerceId}) => {
     const commerce = commerceList.find(item => item.id === commerceId);
-  
+
     if (!commerce) {
       <Text>Não encontrado</Text>;
       return null;
@@ -72,8 +72,17 @@ export default function CommerceInfos() {
           <AvatarCommerce />
         </View>
         <View style={styles.infoCommerce}>
-          <Text style={styles.commerceName}>{commerce.name}</Text>
-          <StarRating stars={commerce.rating} />
+          <Text
+            style={[styles.commerceName, {minWidth: '70%'}, {maxWidth: '75%'}]}
+            numberOfLines={1}>
+            {commerce.name}
+          </Text>
+          <View style={styles.starRating}>
+            <StarRating
+              stars={commerce.rating}
+              style={styles.commerceContainer}
+            />
+          </View>
           <Text style={styles.commerceDistance}>{commerce.distance}</Text>
           <Text style={styles.commerceCheckin}>
             <Icon name={'users'} size={20} color="#FE0472" />{' '}
@@ -116,12 +125,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: Dimensions.get('screen').width,
   },
+  starRating: {
+    marginLeft: '10%',
+  },
 
   scrollViewContent: {
     flexGrow: 1,
   },
   commerce: {
     flexDirection: 'row',
+    textAlign: 'center',
     alignItems: 'center',
     width: 350,
     height: 140,
@@ -133,36 +146,25 @@ const styles = StyleSheet.create({
   },
   commerceName: {
     color: '#000',
-    fontSize: 20.6,
+    fontSize: 19,
     fontWeight: 'bold',
-  },
-  infoCommerce: {
-    alignItems: 'center',
-    alignSelf: 'flex-start',
-    marginLeft: '5%',
-    marginTop: '2%',
-    
+    marginLeft: '2%',
   },
   viewImg: {
     width: '38%',
     height: '90%',
     margin: 8,
   },
-
-  starRating: {
-    flexDirection: 'row',
-    marginBottom: 5,
-    alignSelf: 'center',
-  },
   commerceDistance: {
     color: '#333',
     fontSize: 16,
     alignItems: 'center',
-    marginTop: '5%',
+    marginLeft: '5%',
   },
   commerceCheckin: {
     color: '#333',
     fontSize: 15,
-    marginTop: '10%',
+    marginTop: '5%',
+    marginLeft: '10%',
   },
 });
