@@ -14,60 +14,27 @@ import StarRating from './StarRating';
 import {useNavigation} from '@react-navigation/native';
 
 import AvatarCommerce from '../Avatar/avatarCommerce';
-import searchBar from '../searchBar';
+import consts from './consts';
 
 export default function CommerceInfos() {
-  const commerceList = [
-    {
-      id: 1,
-      name: 'Lorem Ipsum 1 Lorem Ipsum 1 Lorem',
-      rating: 4,
-      distance: '3km de distância',
-      checkins: 2,
-    },
-    {
-      id: 2,
-      name: 'Lorem Ipsum 2',
-      rating: 5,
-      distance: '5km de distância',
-      checkins: 5,
-    },
-    {
-      id: 3,
-      name: 'Lorem Ipsum 3',
-      rating: 1,
-      distance: '5km de distância',
-      checkins: 5,
-    },
-    {
-      id: 4,
-      name: 'Lorem Ipsum 4',
-      rating: 5,
-      distance: '5km de distância',
-      checkins: 5,
-    },
-    {
-      id: 5,
-      name: 'Lorem Ipsum 5',
-      rating: 5,
-      distance: '5km de distância',
-      checkins: 5,
-    },
-  ];
+ 
 
   const CommerceView = ({commerceId}) => {
-    const commerce = commerceList.find(item => item.id === commerceId);
+    const commerce = consts.commerceList.find(item => item.id === commerceId);
 
     if (!commerce) {
-      <Text>Não encontrado</Text>;
-      return null;
+      return (
+        <Text>Não encontrado</Text>
+      );
     }
+    
     const navigation = useNavigation();
 
     return (
       <TouchableOpacity
-        onPress={() => navigation.navigate('ProfileCommerce')}
-        style={styles.commerce}>
+      onPress={() => navigation.navigate('ProfileCommerce', { commerceId: commerce.id })}
+      style={styles.commerce}
+    >
         <View style={styles.viewImg}>
           <AvatarCommerce />
         </View>
@@ -100,7 +67,7 @@ export default function CommerceInfos() {
       style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <View style={styles.commerceContainer}>
-          {commerceList.map(commerce => (
+          {consts.commerceList.map(commerce => (
             <CommerceView
               key={commerce.id}
               commerceId={commerce.id}
@@ -112,7 +79,7 @@ export default function CommerceInfos() {
       <View
         style={{
           height:
-            Dimensions.get('window').height - commerceList.length * itemHeight,
+            Dimensions.get('window').height - consts.commerceList.length * itemHeight,
         }}
       />
     </KeyboardAvoidingView>

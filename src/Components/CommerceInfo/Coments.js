@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Avatar } from 'react-native-paper';
+import StarRating from './StarRating';
 
 const CommentList = () => {
   const commentList = [
@@ -25,6 +26,7 @@ const CommentList = () => {
   return (
     <View>
     <Text style={styles.title}>{commentList.length} Comentários</Text>
+    <View style={styles.hate}>{<StarRating />}</View>
     {commentList.map((comment, index) => (
       <View key={comment.id}>
         <View style={[styles.commentContainer, index !== 0 && styles.commentDivider]}>
@@ -70,6 +72,13 @@ const styles = StyleSheet.create({
     marginTop: 16,
     color: '#000',
     marginLeft: 16,
+  },
+  hate: {
+    alignItems: 'flex-end',
+    right: 15,
+    top: 16,
+    position: 'absolute',
+
   },
   commentContainer: {
     flexDirection: 'row',

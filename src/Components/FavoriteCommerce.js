@@ -13,7 +13,7 @@ import {useNavigation} from '@react-navigation/native';
 
 import StarRating from './CommerceInfo/StarRating';
 import AvatarCommerce from './Avatar/avatarCommerce';
-import Searchbar from "../Components/searchBar";
+import Searchbar from '../Components/searchBar';
 
 export default function FavoriteCommerce() {
   const commerceList = [
@@ -24,7 +24,6 @@ export default function FavoriteCommerce() {
       distance: '3km de distância',
       checkins: 2,
     },
-    
   ];
 
   const Favorite = ({commerceId}) => {
@@ -32,19 +31,16 @@ export default function FavoriteCommerce() {
     const navigation = useNavigation();
 
     if (!commerceList.length) {
-      return(
-      <View>
-
-    <Text style={styles.commerceCheckin}>
-                  <Icon name={'users'} size={20} color="#FE0472" />{'  '}
-                  {commerce.checkins} check-ins
-                </Text>
-
-        <Icon name={'heart'} size={30} color="#FE0472" style={styles.heart}/>
-        <Text style={styles.textFavorite}>{"Não há favoritos"}</Text>
-        <Text style={styles.textFavorite2}>{`toque em ❤️ para salvar aqui seus estabelecimentos favoritos.`}</Text>
-      </View>
-      )
+      return (
+        <View>
+          <Icon name={'heart'} size={30} color="#FE0472" style={styles.heart} />
+          <Text style={styles.textFavorite}>{'Não há favoritos'}</Text>
+          <Text
+            style={
+              styles.textFavorite2
+            }>{`toque em ❤️ para salvar aqui seus estabelecimentos favoritos.`}</Text>
+        </View>
+      );
     } else {
       return (
         <View>
@@ -53,7 +49,8 @@ export default function FavoriteCommerce() {
           </View>
 
           <Text style={styles.heartFavorite}>
-            <Icon name={'heart'} size={30} color="#FE0472" />{'  '}
+            <Icon name={'heart'} size={30} color="#FE0472" />
+            {'  '}
             {commerceList.length}
           </Text>
 
@@ -69,18 +66,16 @@ export default function FavoriteCommerce() {
                 <StarRating stars={commerce.rating} />
                 <Text style={styles.commerceDistance}>{commerce.distance}</Text>
                 <Text style={styles.commerceCheckin}>
-                  <Icon name={'users'} size={20} color="#FE0472" />{'  '}
+                  <Icon name={'users'} size={20} color="#FE0472" />
+                  {'  '}
                   {commerce.checkins} check-ins
                 </Text>
               </View>
             </TouchableOpacity>
           ))}
         </View>
-       
-      )
+      );
     }
-
-    
   };
   const itemHeight = 146;
 
@@ -164,36 +159,33 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginTop: '10%',
   },
-  heart:{
+  heart: {
     alignSelf: 'center',
     marginTop: '50%',
-    
   },
-  heartFavorite:{
+  heartFavorite: {
     alignSelf: 'center',
     marginTop: '5%',
     fontWeight: 'bold',
     fontSize: 25,
   },
-  textFavorite:{
+  textFavorite: {
     color: '#333',
     fontSize: 20,
     alignSelf: 'center',
     marginTop: '2%',
     fontWeight: 'bold',
   },
-  textFavorite2:{
+  textFavorite2: {
     color: '#333',
     fontSize: 15,
     textAlign: 'center',
     margin: '5%',
-    
   },
-  containerSearch:{
+  containerSearch: {
     marginBottom: '17%',
     marginTop: '2%',
     alignContent: 'center',
     alignItems: 'center',
- 
-   },
+  },
 });
