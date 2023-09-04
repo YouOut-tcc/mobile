@@ -26,6 +26,8 @@ export default function FavoriteCommerce() {
     },
   ];
 
+  // https://medium.com/@Blochware/react-native-performance-managing-large-lists-with-flatlist-and-sectionlist-85d88cd49e90
+
   const Favorite = ({commerceId}) => {
     // const commerce = commerceList.find(item => item.id === commerceId);
     const navigation = useNavigation();

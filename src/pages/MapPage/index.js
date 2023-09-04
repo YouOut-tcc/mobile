@@ -1,86 +1,87 @@
-import React from 'react';
-import {StyleSheet, View, Text, Dimensions, ScrollView} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {StyleSheet, View, Text, Dimensions, ScrollView, PermissionsAndroid} from 'react-native';
 import MapView, {Marker, Polygon, Polyline, Callout} from 'react-native-maps';
+import Geolocation from '@react-native-community/geolocation';
+
 import PriceMarker from './PriceMarker';
 
 const {width, height} = Dimensions.get('window');
 
 const ASPECT_RATIO = width / height;
-const LATITUDE = 37.78825;
-const LONGITUDE = -122.4324;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 let id = 0;
 
-class Event extends React.Component {
-  shouldComponentUpdate(nextProps) {
-    return this.props.event.id !== nextProps.event.id;
-  }
+export default function App() {
+  const [granted, setGranted] = useState(false);
+  const [location, setLocation] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  render() {
-    const {event} = this.props;
-    return (
-      <View style={styles.event}>
-        <Text style={styles.eventName}>{event.name}</Text>
-        <Text style={styles.eventData}>
-          {JSON.stringify(event.data, null, 2)}
-        </Text>
-      </View>
-    );
-  }
-}
+  const mapRef = useRef(null);
 
-class EventListener extends React.Component{
-  constructor(props) {
-    super(props);
+  let provider = undefined;
 
-    this.state = {
-      region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      },
-      events: [],
-    };
-  }
-
-  makeEvent(e, name) {
-    return {
-      id: id++,
-      name,
-      data: e.nativeEvent ? e.nativeEvent : e,
-    };
-  }
-
-  recordEvent(name) {
-    return (e) => {
-      if (e.persist) {
-        e.persist(); // Avoids warnings relating to https://fb.me/react-event-pooling
+  const requestCameraPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        console.log('foi');
+        Geolocation.getCurrentPosition(info => {
+          setLocation({latitude: info.coords.latitude, longitude: info.coords.longitude})
+        },()=>{},
+        {enableHighAccuracy: true}
+        );
+      } else {
+        console.log('negado');
       }
-      this.setState((prevState) => ({
-        events: [this.makeEvent(e, name), ...prevState.events.slice(0, 10)],
-      }));
-    };
-  }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <MapView
-          provider={this.props.provider}
-          style={styles.map}
-          initialRegion={this.state.region}
-          showsUserLocation
-          showsMyLocationButton
-         >
-        </MapView>
-        <View style={styles.eventList}>
+  useEffect(() => {
+    requestCameraPermission();
+    // Geolocation.requestAuthorization(()=>{
+    //   Geolocation.getCurrentPosition(info => console.log(info));
+    //   const locationSubscription = Geolocation.watchPosition(
+    //     position => {
+    //       console.log(position);
+  
+    //       const {latitude, longitude} = position.coords;
+    //       setLocation({latitude, location});
+    //       console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
           
-        </View>
-      </View>
-    );
-  }
+    //     },
+    //     error => {
+    //       console.error(`Erro ao obter a localização: ${error.message}`);
+    //     },
+    //     {enableHighAccuracy: true, distanceFilter: 100, interval:2,timeout:10},
+    //   );
+    // });
+
+    // Geolocation.getCurrentPosition(info => console.log(info));
+  }, []);
+
+  return (
+    <View style={styles.container}>
+        { location &&
+          <MapView
+        ref={mapRef}
+        showsMyLocationButton={true}
+        provider={provider}
+        style={styles.map}
+        initialRegion={{
+      latitude: location.latitude,
+      longitude: location.longitude,
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA,
+    }}
+        showsUserLocation={true}>
+      </MapView>}
+      <View style={styles.eventList}></View>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -142,5 +143,3 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
 });
-
-export default EventListener;
