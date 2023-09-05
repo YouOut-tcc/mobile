@@ -6,17 +6,16 @@ import ButtonLogin from '../../Components/Buttons/ButtonA';
 import InputA from '../Inputs/InputA';
 import ButtonGoogle from '../../Components/Buttons/ButtonGoogle';
 import ButtonForgotPass from '../../Components/Buttons/ButtonForgotPass';
+import AuthContext from '../../routes/authContext';
 
 export default function InputLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(true);
 
-  const navigation = useNavigation();
+  const { signIn } = React.useContext(AuthContext);
 
-  const handlePressOut = () => {
-    navigation.navigate("HomePage"); 
-  };
+  const navigation = useNavigation();
 
   return (
     <View style={style.containerForm}>
@@ -58,7 +57,7 @@ export default function InputLogin() {
       </View>
       <ButtonLogin
         text="Entrar"
-        handlePressOut={handlePressOut}
+        handlePressOut={() => signIn({ email, password })}
       />
       <ButtonForgotPass />
       <Text style={style.or}>━━━━━━━━━━ ou ━━━━━━━━━━</Text>

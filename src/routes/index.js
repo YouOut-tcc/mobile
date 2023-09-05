@@ -1,7 +1,7 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {View, Text, TouchableOpacity} from 'react-native';
-import React from 'react';
+import {useReducer, useEffect, useMemo, createContext} from 'react';
 import {Provider as PaperProvider} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Favorites from '../pages/Favorite';
@@ -13,63 +13,13 @@ import ProfileCommerce from '../pages/ProfileCommerce';
 import Register from '../pages/Register';
 import SignInUser from '../pages/SignInUser';
 import Welcome from '../pages/Welcome';
+import SecureStore from 'expo-secure-store';
+import AuthContext from './authContext';
+import api from '../apis/backend';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-// function MyTabBar({ state, descriptors, navigation }) {
-//     return (
-//       <View style={{ flexDirection: 'row' }}>
-//         {state.routes.map((route, index) => {
-//           const { options } = descriptors[route.key];
-//           const label =
-//             options.tabBarLabel !== undefined
-//               ? options.tabBarLabel
-//               : options.title !== undefined
-//               ? options.title
-//               : route.name;
-
-//           const isFocused = state.index === index;
-
-//           const onPress = () => {
-//             const event = navigation.emit({
-//               type: 'tabPress',
-//               target: route.key,
-//               canPreventDefault: true,
-//             });
-
-//             if (!isFocused && !event.defaultPrevented) {
-//               // The `merge: true` option makes sure that the params inside the tab screen are preserved
-//               navigation.navigate({ name: route.name, merge: true });
-//             }
-//           };
-
-//           const onLongPress = () => {
-//             navigation.emit({
-//               type: 'tabLongPress',
-//               target: route.key,
-//             });
-//           };
-
-//           return (
-//             <TouchableOpacity
-//               accessibilityRole="button"
-//               accessibilityState={isFocused ? { selected: true } : {}}
-//               accessibilityLabel={options.tabBarAccessibilityLabel}
-//               testID={options.tabBarTestID}
-//               onPress={onPress}
-//               onLongPress={onLongPress}
-//               style={{ flex: 1 }}
-//             >
-//               <Text style={{ color: isFocused ? '#ff0000' : '#222' }}>
-//                 {label}
-//               </Text>
-//             </TouchableOpacity>
-//           );
-//         })}
-//       </View>
-//     );
-//   }
 
 function BottomTab() {
   return (
@@ -83,17 +33,13 @@ function BottomTab() {
 
             if (route.name === 'Início') {
               iconName = 'home';
-              
-            } 
+            }
             if (route.name === 'Mapa') {
               iconName = 'map';
-              
-            } 
+            }
             if (route.name === 'Perfil') {
               iconName = 'user';
-              
-            } 
-            else if (route.name === 'Favoritos') {
+            } else if (route.name === 'Favoritos') {
               iconName = 'heart';
             }
 
@@ -110,20 +56,24 @@ function BottomTab() {
             borderTopWidth: 0,
             elevation: 0,
           },
-          tabBarLabelStyle:{
+          tabBarLabelStyle: {
             marginBottom: 5,
-          }
+          },
           //   tabBarBackground: () => (
           //   ),
           //   tabBarLabel: ({focused, color}) => {
 
           //   },
         })}>
-        <Tab.Screen name="Início" component={HomePage}/>
-        <Tab.Screen name="Favoritos" component={Favorites}/>
+        <Tab.Screen name="Início" component={HomePage} />
+        <Tab.Screen name="Favoritos" component={Favorites} />
         <Tab.Screen name="Mapa" component={MapPage} />
         <Tab.Screen name="Perfil" component={Profile} />
-        <Tab.Screen name="ProfileCommerce" component={ProfileCommerce} options={{tabBarButton: () => null}}/>
+        <Tab.Screen
+          name="ProfileCommerce"
+          component={ProfileCommerce}
+          options={{tabBarButton: () => null}}
+        />
       </Tab.Navigator>
     </PaperProvider>
   );
@@ -134,24 +84,128 @@ function BottomTab() {
 }
 
 export default function Routes() {
+  const [state, dispatch] = useReducer(
+    (prevState, action) => {
+      switch (action.type) {
+        case 'RESTORE_TOKEN':
+          return {
+            ...prevState,
+            userToken: action.token,
+            isLoading: false,
+          };
+        case 'SIGN_IN':
+          return {
+            ...prevState,
+            isSignout: false,
+            userToken: action.token,
+          };
+        case 'SIGN_OUT':
+          return {
+            ...prevState,
+            isSignout: true,
+            userToken: null,
+          };
+      }
+    },
+    {
+      isLoading: true,
+      isSignout: false,
+      userToken: null,
+    },
+  );
+
+  useEffect(() => {
+    // Fetch the token from storage then navigate to our appropriate place
+    const bootstrapAsync = async () => {
+      let userToken;
+
+      try {
+        userToken = await SecureStore.getItemAsync('userToken');
+      } catch (e) {
+        // Restoring token failed
+      }
+
+      // After restoring token, we may need to validate it in production apps
+
+      // This will switch to the App screen or Auth screen and this loading
+      // screen will be unmounted and thrown away.
+      dispatch({type: 'RESTORE_TOKEN', token: userToken});
+    };
+
+    bootstrapAsync();
+  }, []);
+
+
+  const authContext = useMemo(
+    () => ({
+      signIn: async args => {
+        // V.In a production app, we need to send some data (usually username, password) to server and get a token
+        // X.We will also need to handle errors if sign in failed
+        // X.After getting token, we need to persist the token using `SecureStore`
+
+        try {
+          const data = {
+            email: args.email,
+            password: args.password,
+          };
+          const response = await api.post("/usuario/login", data);
+    
+          console.log(response.data);
+          dispatch({type: 'SIGN_IN', token: response.data.token});
+
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      signOut: () => dispatch({type: 'SIGN_OUT'}),
+      signUp: async data => {
+        // In a production app, we need to send user data to server and get a token
+        // We will also need to handle errors if sign up failed
+        // After getting token, we need to persist the token using `SecureStore`
+        // In the example, we'll use a dummy token
+
+        dispatch({type: 'SIGN_IN', token: 'dummy-auth-token'});
+      },
+    }),
+    [],
+  );
+
+
+  if (state.isLoading) {
+    return (
+      <>
+        <View>
+          <Text>aaa</Text>
+        </View>
+      </>
+    );
+  }
+
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}>
-      <Stack.Screen name="Welcome" component={Welcome} />
-
-      <Stack.Screen name="SignInUser" component={SignInUser} />
-
-      <Stack.Screen name="ForgotPass" component={ForgotPass} />
-
-      <Stack.Screen name="HomePage" component={BottomTab} />
-      {/* <Stack.Screen name="HomePage" component={HomePage} /> */}
-      {/* <Stack.Screen name="ProfileCommerce" component={ProfileCommerce} /> */}
-
-      <Stack.Screen name="Register" component={Register} />
-      
-      <Stack.Screen name="Favorites" component={Favorites} />
-    </Stack.Navigator>
+    <AuthContext.Provider value={authContext}>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+        }}>
+        {state.userToken == null ? (
+          <>
+            <Stack.Screen name="Welcome" component={Welcome} />
+            <Stack.Screen
+              name="SignInUser"
+              component={SignInUser}
+              options={{
+                animationTypeForReplace: state.isSignout ? 'pop' : 'push',
+              }}
+            />
+            <Stack.Screen name="ForgotPass" component={ForgotPass} />
+            <Stack.Screen name="Register" component={Register} />
+          </>
+        ) : (
+          <>
+            <Stack.Screen name="HomePage" component={BottomTab} />
+          </>
+        )}
+      </Stack.Navigator>
+    </AuthContext.Provider>
   );
 }
