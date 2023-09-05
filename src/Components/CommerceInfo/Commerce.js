@@ -17,7 +17,7 @@ import AvatarCommerce from '../Avatar/avatarCommerce';
 import consts from './consts';
 
 export default function CommerceInfos() {
- 
+
 
   const CommerceView = ({commerceId}) => {
     const commerce = consts.commerceList.find(item => item.id === commerceId);
@@ -40,7 +40,7 @@ export default function CommerceInfos() {
         </View>
         <View style={styles.infoCommerce}>
           <Text
-            style={[styles.commerceName, {minWidth: '70%'}, {maxWidth: '75%'}]}
+            style={[styles.commerceName, {minWidth: '60%'}, {maxWidth: '72%'}, {textAlign: 'center'}]}
             numberOfLines={1}>
             {commerce.name}
           </Text>
@@ -93,7 +93,10 @@ const styles = StyleSheet.create({
     width: Dimensions.get('screen').width,
   },
   starRating: {
-    marginLeft: '10%',
+    width: '70%',
+    alignItems: 'center',
+    // borderColor: 'red',
+    // borderWidth: 1 ,
   },
 
   scrollViewContent: {
@@ -103,19 +106,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     textAlign: 'center',
     alignItems: 'center',
-    width: 350,
+    width: '90%',
     height: 140,
     marginTop: 10,
     borderWidth: 2,
     borderRadius: 10,
     borderColor: '#8200A8',
     backgroundColor: '#EFD9D3',
+    // borderColor: 'red',
+    // borderWidth: 1 ,
+    
   },
   commerceName: {
     color: '#000',
     fontSize: 19,
     fontWeight: 'bold',
-    marginLeft: '2%',
+    width: '70%',
+    textAlign: 'center',
+    // borderColor: 'red',
+    // borderWidth: 1 ,
+
   },
   viewImg: {
     width: '38%',
@@ -125,13 +135,18 @@ const styles = StyleSheet.create({
   commerceDistance: {
     color: '#333',
     fontSize: 16,
+    width: '70%',
     alignItems: 'center',
-    marginLeft: '5%',
+    textAlign: 'center',
+    // borderColor: 'red',
+    // borderWidth: 1 ,
   },
   commerceCheckin: {
     color: '#333',
     fontSize: 15,
-    marginTop: '5%',
-    marginLeft: '10%',
+    width: '70%',
+    textAlign: 'center',
+    // borderColor: 'red',
+    // borderWidth: 1 ,
   },
 });

@@ -33,4 +33,4 @@ export default function ProfileCommerce() {
   );
  
 }
-console.log(consts.commerceList)
+

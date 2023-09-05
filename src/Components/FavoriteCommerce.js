@@ -27,7 +27,6 @@ export default function FavoriteCommerce() {
   ];
 
   const Favorite = ({commerceId}) => {
-    // const commerce = commerceList.find(item => item.id === commerceId);
     const navigation = useNavigation();
 
     if (!commerceList.length) {
