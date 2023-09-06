@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 
@@ -6,40 +6,45 @@ import FavoriteIcon from './FavoriteIcon';
 import consts from './consts';
 
 export default function Infos() {
+  const [isFavorite, setIsFavorite] = useState(false); // Inicialize como false se não tiver certeza
   const route = useRoute();
-  const commerceTeste = route.params.commerceId; 
+  const commerceTeste = route.params.commerce;
+  const commerce = commerceTeste;
 
-  const commerce = consts.commerceList.find(item => item.id === commerceTeste);
-  
+  // Use useEffect para definir o estado isFavorite quando commerceTeste muda
+  useEffect(() => {
+    if (commerce) {
+      console.log(commerce.favorite)
+      setIsFavorite(commerce.favorite);
+    }
+  }, [commerce]);
+
+  const toggleFavorite = () => {
+    setIsFavorite(!isFavorite);
+  };
 
   if (!commerce) {
-  
     return null;
   }
 
   return (
     <View>
       <View style={styles.infoCommerce}>
-      <Text
-            style={[styles.commerceName, {minWidth: '70%'}, {maxWidth: '90%'}]}
-            numberOfLines={2}>
-            {commerce.name}
-          </Text>
+        <Text
+          style={[styles.commerceName, { minWidth: '70%' }, { maxWidth: '90%' }]}
+          numberOfLines={2}>
+          {commerce.name}
+        </Text>
         <Text style={styles.commerceAbout}>
           {commerce.tipo}, {commerce.Rua}
         </Text>
       </View>
       <View style={styles.favoriteContainer}>
-        <FavoriteIcon
-         favorite={commerce.favorite}
-         style={styles.commerceContainer} />
+        <FavoriteIcon toggle={toggleFavorite} favorite={isFavorite} style={styles.commerceContainer} />
       </View>
     </View>
   );
-  
 }
-
-
 
 const styles = StyleSheet.create({
   infoCommerce: {

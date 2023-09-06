@@ -16,6 +16,8 @@ import ButtonRegis from '../../Components/Buttons/ButtonA';
 import CommercePage from '../../pages/HomePage';
 import InputA from '../Inputs/InputA';
 
+import api from "../../apis/backend";
+
 export default function InputRegister() {
   const nomeRef = useRef();
   const CPFRef = useRef();
@@ -38,9 +40,24 @@ export default function InputRegister() {
   const [showPassword, setShowPassword] = useState(true);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(true);
 
-  const handleConfirmSubmit = () => {
-    // navigation.navigate(CommercePage);
-    navigation.navigate("HomePage"); 
+  const handleConfirmSubmit = async () => {
+    try {
+      const data = {
+        name: nome,
+        email,
+        password,
+      };
+      const response = await api.post("/usuario/cadastro", data);
+
+      console.log(data);
+      console.log(response);
+
+      navigation.navigate("SignInUser");
+
+    } catch (error) {
+      console.log(error);
+    }
+    
   };
 
   const handleConfirmPassword = () => {
