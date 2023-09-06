@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Image, StyleSheet, Text } from 'react-native';
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import FavoriteIcon from './FavoriteIcon';
+import FavoriteIcon from '../CartCommerce/FavoriteIcon';
 
 const Carousel = () => {
   const images = [

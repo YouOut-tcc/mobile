@@ -11,12 +11,47 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useNavigation} from '@react-navigation/native';
 
-import StarRating from './CommerceInfo/StarRating';
+import StarRating from './StarRating';
 import AvatarCommerce from './Avatar/avatarCommerce';
 import Searchbar from '../Components/searchBar';
 
 export default function FavoriteCommerce() {
   const commerceList = [
+    {
+      id: 1,
+      name: 'Lorem Ipsum 1',
+      rating: 4,
+      distance: '3km de distância',
+      checkins: 2,
+    },
+    {
+      id: 1,
+      name: 'Lorem Ipsum 1',
+      rating: 4,
+      distance: '3km de distância',
+      checkins: 2,
+    },
+    {
+      id: 1,
+      name: 'Lorem Ipsum 1',
+      rating: 4,
+      distance: '3km de distância',
+      checkins: 2,
+    },
+    {
+      id: 1,
+      name: 'Lorem Ipsum 1',
+      rating: 4,
+      distance: '3km de distância',
+      checkins: 2,
+    },
+    {
+      id: 1,
+      name: 'Lorem Ipsum 1',
+      rating: 4,
+      distance: '3km de distância',
+      checkins: 2,
+    },
     {
       id: 1,
       name: 'Lorem Ipsum 1',
@@ -31,30 +66,16 @@ export default function FavoriteCommerce() {
   const Favorite = ({commerceId}) => {
     const navigation = useNavigation();
 
-    if (!commerceList.length) {
+    
       return (
         <View>
-          <Icon name={'heart'} size={30} color="#FE0472" style={styles.heart} />
-          <Text style={styles.textFavorite}>{'Não há favoritos'}</Text>
-          <Text
-            style={
-              styles.textFavorite2
-            }>{`toque em ❤️ para salvar aqui seus estabelecimentos favoritos.`}</Text>
-        </View>
-      );
-    } else {
-      return (
-        <View>
-          <View style={styles.containerSearch}>
-            <Searchbar />
-          </View>
 
           <Text style={styles.heartFavorite}>
             <Icon name={'heart'} size={30} color="#FE0472" />
             {'  '}
             {commerceList.length}
           </Text>
-
+        <ScrollView>
           {commerceList.map(commerce => (
             <TouchableOpacity
               onPress={() => navigation.navigate('ProfileCommerce')}
@@ -74,9 +95,9 @@ export default function FavoriteCommerce() {
               </View>
             </TouchableOpacity>
           ))}
+          </ScrollView>
         </View>
       );
-    }
   };
   const itemHeight = 146;
 
@@ -84,18 +105,9 @@ export default function FavoriteCommerce() {
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}>
-      {/* <ScrollView contentContainerStyle={styles.scrollViewContent}> */}
       <View style={styles.commerceContainer}>
-        {/* {commerceList.map(commerce => (
-            <Favorite
-              key={commerce.id}
-              commerceId={commerce.id}
-              rating={commerce.rating}
-            />
-          ))} */}
         <Favorite />
       </View>
-      {/* </ScrollView> */}
       <View
         style={{
           height:
@@ -164,12 +176,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: '50%',
   },
-  heartFavorite: {
-    alignSelf: 'center',
-    marginTop: '5%',
-    fontWeight: 'bold',
-    fontSize: 25,
-  },
+
   textFavorite: {
     color: '#333',
     fontSize: 20,

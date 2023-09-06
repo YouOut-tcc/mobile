@@ -72,7 +72,24 @@ const styles = StyleSheet.create({
     height: '100%',
     alignContent: 'center',
     alignItems: 'center',
-  }
+  },
+  textFavorite: {
+    color: '#333',
+    fontSize: 20,
+    alignSelf: 'center',
+    marginTop: '2%',
+    fontWeight: 'bold',
+  },
+  textFavorite2: {
+    color: '#333',
+    fontSize: 15,
+    textAlign: 'center',
+    margin: '5%',
+  },
+  heart: {
+    alignSelf: 'center',
+    marginTop: '50%',
+  },
   
   
 });

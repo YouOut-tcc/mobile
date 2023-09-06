@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#8200A8',
+    
   },
   containerLogo: {
     flex: 0.15,
@@ -22,8 +23,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#EDE0D6',
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-    alignContent: 'center',
-    alignItems: 'center',
+    // alignContent: 'center',
+    // alignItems: 'center',
   },
   touchableArea: {
     flex: 1,
@@ -36,9 +37,11 @@ const styles = StyleSheet.create({
 
   },
   containerPlace:{
-    width: "100%",
-    height: '100%',
-    alignContent: 'center',
+    // width: "100%",
+    // height: '100%',
+    // backgroundColor: "#fff",
+
+    // alignContent: 'center',
     alignItems: 'center',
   }
   

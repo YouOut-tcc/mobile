@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { StyleSheet } from "react-native";
 import { Searchbar } from 'react-native-paper';
-import consts from './CommerceInfo/consts';
+import consts from './CartCommerce/consts';
 
 const SearchbarComponent = ({ commerceList, onSearchChange }) => {
   const [searchQuery, setSearchQuery] = React.useState('');

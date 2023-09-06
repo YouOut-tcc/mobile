@@ -7,8 +7,6 @@ import Geolocation from '@react-native-community/geolocation';
 const { width, height } = Dimensions.get('window');
 
 const ASPECT_RATIO = width / height;
-const LATITUDE = 37.78825;
-const LONGITUDE = -122.4324;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
@@ -28,7 +26,9 @@ export default function App() {
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
         console.log('foi');
         Geolocation.getCurrentPosition(info => {
+          console.log("entrou")
           setLocation({latitude: info.coords.latitude, longitude: info.coords.longitude})
+          console.log(location)
         },()=>{},
         {enableHighAccuracy: true}
         );
@@ -42,25 +42,6 @@ export default function App() {
 
   useEffect(() => {
     requestCameraPermission();
-    // Geolocation.requestAuthorization(()=>{
-    //   Geolocation.getCurrentPosition(info => console.log(info));
-    //   const locationSubscription = Geolocation.watchPosition(
-    //     position => {
-    //       console.log(position);
-  
-    //       const {latitude, longitude} = position.coords;
-    //       setLocation({latitude, location});
-    //       console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-          
-    //     },
-    //     error => {
-    //       console.error(`Erro ao obter a localização: ${error.message}`);
-    //     },
-    //     {enableHighAccuracy: true, distanceFilter: 100, interval:2,timeout:10},
-    //   );
-    // });
-
-    // Geolocation.getCurrentPosition(info => console.log(info));
   }, []);
 
   return (

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 
-import FavoriteIcon from './FavoriteIcon';
-import consts from './consts';
+import FavoriteIcon from '../CartCommerce/FavoriteIcon';
+import consts from '../CartCommerce/consts';
 
 export default function Infos() {
   const [isFavorite, setIsFavorite] = useState(false); // Inicialize como false se não tiver certeza
@@ -14,7 +14,6 @@ export default function Infos() {
   // Use useEffect para definir o estado isFavorite quando commerceTeste muda
   useEffect(() => {
     if (commerce) {
-      console.log(commerce.favorite)
       setIsFavorite(commerce.favorite);
     }
   }, [commerce]);

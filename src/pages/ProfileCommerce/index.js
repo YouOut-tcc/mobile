@@ -9,26 +9,15 @@ import Menu from '../../Components/CommerceInfo/Menu';
 import Events from '../../Components/CommerceInfo/Events';
 import Coments from '../../Components/CommerceInfo/Coments';
 
-import consts from '../../Components/CommerceInfo/consts';
+import consts from '../../Components/CartCommerce/consts';
+
+import CommerceInfo from '../../Components/CommerceInfo';
 
 export default function ProfileCommerce() {
   
   return (
     <View style={styles.container}>
-      <View style={styles.containerForm}>
-        <Carousel />
-        <View style={styles.Infos}>
-          <Infos  />
-        </View>
-        
-        <ScrollView>
-         
-            <Menu />
-            <Events/>
-            <Coments/>
-          
-        </ScrollView>
-      </View>
+      <CommerceInfo/>
     </View>
   );
  
