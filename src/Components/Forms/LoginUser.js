@@ -6,6 +6,8 @@ import ButtonLogin from '../../Components/Buttons/ButtonA';
 import InputA from '../Inputs/InputA';
 import ButtonGoogle from '../../Components/Buttons/ButtonGoogle';
 import ButtonForgotPass from '../../Components/Buttons/ButtonForgotPass';
+import ButtonRegister from '../../Components/Buttons/ButtonRegister';
+
 import AuthContext from '../../routes/authContext';
 
 export default function InputLogin() {
@@ -62,6 +64,8 @@ export default function InputLogin() {
       <ButtonForgotPass />
       <Text style={style.or}>━━━━━━━━━━ ou ━━━━━━━━━━</Text>
       <ButtonGoogle />
+      <ButtonRegister />
+
     </View>
   );
 }

@@ -32,7 +32,7 @@ export default function CommerceInfos() {
 
     return (
       <TouchableOpacity
-      onPress={() => navigation.navigate('ProfileCommerce', { commerceId: commerce.id })}
+      onPress={() => navigation.navigate('ProfileCommerce', { commerce: commerce })}
       style={styles.commerce}
     >
         <View style={styles.viewImg}>

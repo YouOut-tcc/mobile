@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './styles';
 import LogoYouOut from '../../Components/LogoYouOut';
-import ButtonRegister from '../../Components/Buttons/ButtonRegister';
 import LoginForm from '../../Components/Forms/LoginUser';
 import {View, Text} from 'react-native';
 
@@ -17,7 +16,6 @@ export default function SignIn() {
       
       <LoginForm />
 
-      <ButtonRegister />
       </View>
     </View>
   );

@@ -20,6 +20,7 @@ export default {
         rating: 5,
         distance: '5km de distância',
         checkins: 5,
+        favorite: false,
       },
       {
         id: 3,
@@ -27,6 +28,7 @@ export default {
         rating: 1,
         distance: '5km de distância',
         checkins: 5,
+        favorite: false,
       },
       {
         id: 4,
@@ -34,6 +36,7 @@ export default {
         rating: 5,
         distance: '5km de distância',
         checkins: 5,
+        favorite: false,
       },
       {
         id: 5,
@@ -41,6 +44,7 @@ export default {
         rating: 5,
         distance: '5km de distância',
         checkins: 5,
+        favorite: false,
       },
     ],
   };
