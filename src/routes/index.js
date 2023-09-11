@@ -13,9 +13,10 @@ import ProfileCommerce from '../pages/ProfileCommerce';
 import Register from '../pages/Register';
 import SignInUser from '../pages/SignInUser';
 import Welcome from '../pages/Welcome';
-import SecureStore from 'expo-secure-store';
 import AuthContext from './authContext';
 import api from '../apis/backend';
+import * as SecureStore from 'expo-secure-store';
+import { sessionStorage } from '../helpers/storage';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -119,17 +120,43 @@ export default function Routes() {
     const bootstrapAsync = async () => {
       let userToken;
 
+      // quando o backend esta desligado, ele não funciona e fica preso na tela de loading
+
+
       try {
         userToken = await SecureStore.getItemAsync('userToken');
-      } catch (e) {
+
+        console.log(`token de init: ${userToken}`)
+        if(userToken){
+          let res = await api.post("/usuario/token", null, {
+            headers: {
+              'Authorization': `Bearer ${userToken}` 
+            }
+          }).catch((error) => {
+            if (error.response) {
+              console.log(error.response.data);
+              console.log(error.response.status);
+              console.log(error.response.headers);
+
+              dispatch({type: 'RESTORE_TOKEN', token: null});
+
+            } 
+          });
+
+          if(res.code == 200){
+            // sessionStorage.setItem("userToken", res.data.token);
+            SecureStore.setItemAsync("userToken", res.data.token);
+          }
+        }
+
+        dispatch({type: 'RESTORE_TOKEN', token: userToken});
+      } catch (err) {
+        console.log(err)
+        dispatch({type: 'RESTORE_TOKEN', token: null});
         // Restoring token failed
+        // dispatch({type: 'RESTORE_TOKEN', token: userToken});
+
       }
-
-      // After restoring token, we may need to validate it in production apps
-
-      // This will switch to the App screen or Auth screen and this loading
-      // screen will be unmounted and thrown away.
-      dispatch({type: 'RESTORE_TOKEN', token: userToken});
     };
 
     bootstrapAsync();
@@ -141,31 +168,39 @@ export default function Routes() {
       signIn: async args => {
         // V.In a production app, we need to send some data (usually username, password) to server and get a token
         // X.We will also need to handle errors if sign in failed
-        // X.After getting token, we need to persist the token using `SecureStore`
+        // V.After getting token, we need to persist the token using `SecureStore`
+
+      // dispatch({type: 'SIGN_IN', token: "response.data.token"});
+
 
         try {
           const data = {
             email: args.email,
             password: args.password,
           };
-          const response = await api.post("/usuario/login", data);
+          const res = await api.post("/usuario/login", data);
     
-          console.log(response.data);
-          dispatch({type: 'SIGN_IN', token: response.data.token});
+          console.log(res.data);
+          // sessionStorage.setItem("userToken", res.data.token);
+          SecureStore.setItemAsync("userToken", res.data.token);
+          dispatch({type: 'SIGN_IN', token: res.data.token});
 
         } catch (error) {
           console.log(error);
         }
       },
-      signOut: () => dispatch({type: 'SIGN_OUT'}),
-      signUp: async data => {
-        // In a production app, we need to send user data to server and get a token
-        // We will also need to handle errors if sign up failed
-        // After getting token, we need to persist the token using `SecureStore`
-        // In the example, we'll use a dummy token
-
-        dispatch({type: 'SIGN_IN', token: 'dummy-auth-token'});
+      signOut: () => {
+        dispatch({type: 'SIGN_OUT'})
+      
       },
+      // signUp: async data => {
+      //   // In a production app, we need to send user data to server and get a token
+      //   // We will also need to handle errors if sign up failed
+      //   // After getting token, we need to persist the token using `SecureStore`
+      //   // In the example, we'll use a dummy token
+
+      //   dispatch({type: 'SIGN_IN', token: 'dummy-auth-token'});
+      // },
     }),
     [],
   );

@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {StyleSheet, View, Text, Dimensions, ScrollView, PermissionsAndroid} from 'react-native';
+import {StyleSheet,ActivityIndicator, View, Text, Dimensions, ScrollView, PermissionsAndroid} from 'react-native';
 import MapView, {Marker, Polygon, Polyline, Callout} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 
@@ -13,7 +13,6 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 export default function App() {
   const [granted, setGranted] = useState(false);
   const [location, setLocation] = useState(null);
-  const [loading, setLoading] = useState(true);
 
   const mapRef = useRef(null);
 
@@ -46,6 +45,7 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+        {! location && <ActivityIndicator size="large" />}
         { location &&
           <MapView
         ref={mapRef}

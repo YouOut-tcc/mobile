@@ -3,12 +3,13 @@ import {
   FlatList,
   StyleSheet,
   View,
-  Text
+  Text,
+  ActivityIndicator
 } from 'react-native';
 import CartInfo from './Cart';
 import consts from './consts';
 
-export default function CommerceInfos({Empty, Header, Data}) {
+export default function CommerceInfos({Empty, Header, Data, isLoading}) {
   const itemHeight = 146;
 
   return (
@@ -22,8 +23,10 @@ export default function CommerceInfos({Empty, Header, Data}) {
             <CartInfo commerce={item}/>
           </View>
         )}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.uuid}
       />
+      <ActivityIndicator />
+      {/* {isLoading && <ActivityIndicator size="large" />} */}
       {/* <View
         style={{
           height:
