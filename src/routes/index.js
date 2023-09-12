@@ -17,6 +17,7 @@ import AuthContext from './authContext';
 import api from '../apis/backend';
 import * as SecureStore from 'expo-secure-store';
 import { sessionStorage } from '../helpers/storage';
+import { AxiosError } from 'axios';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -132,16 +133,7 @@ export default function Routes() {
             headers: {
               'Authorization': `Bearer ${userToken}` 
             }
-          }).catch((error) => {
-            if (error.response) {
-              console.log(error.response.data);
-              console.log(error.response.status);
-              console.log(error.response.headers);
-
-              dispatch({type: 'RESTORE_TOKEN', token: null});
-
-            } 
-          });
+          })
 
           if(res.code == 200){
             // sessionStorage.setItem("userToken", res.data.token);
@@ -151,11 +143,14 @@ export default function Routes() {
 
         dispatch({type: 'RESTORE_TOKEN', token: userToken});
       } catch (err) {
-        console.log(err)
-        dispatch({type: 'RESTORE_TOKEN', token: null});
-        // Restoring token failed
-        // dispatch({type: 'RESTORE_TOKEN', token: userToken});
+        console.log(err.constructor.name)
+        if (err instanceof AxiosError){
+          console.log(err.response.status)
+          console.log(err.response.data.message)
+        }
 
+        // Restoring token failed
+        dispatch({type: 'RESTORE_TOKEN', token: null});
       }
     };
 

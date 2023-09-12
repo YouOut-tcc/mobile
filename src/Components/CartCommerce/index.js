@@ -9,9 +9,9 @@ import {
 import CartInfo from './Cart';
 import consts from './consts';
 
-export default function CommerceInfos({Empty, Header, Data, isLoading}) {
+export default function CommerceInfos({Empty, Header, Data, isLoading, fetchData}) {
   const itemHeight = 146;
-
+  // não usar inline function
   return (
     <View>
       <FlatList
@@ -24,9 +24,11 @@ export default function CommerceInfos({Empty, Header, Data, isLoading}) {
           </View>
         )}
         keyExtractor={item => item.uuid}
+        onEndReached={fetchData}
+        onEndReachedThreshold={2}
       />
       <ActivityIndicator />
-      {/* {isLoading && <ActivityIndicator size="large" />} */}
+      {isLoading && <ActivityIndicator size="large" />}
       {/* <View
         style={{
           height:

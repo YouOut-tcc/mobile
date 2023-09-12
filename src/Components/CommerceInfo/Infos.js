@@ -8,8 +8,7 @@ import consts from '../CartCommerce/consts';
 export default function Infos() {
   const [isFavorite, setIsFavorite] = useState(false); // Inicialize como false se não tiver certeza
   const route = useRoute();
-  const commerceTeste = route.params.commerce;
-  const commerce = commerceTeste;
+  const commerce = route.params.commerce;
 
   // Use useEffect para definir o estado isFavorite quando commerceTeste muda
   useEffect(() => {
@@ -32,7 +31,7 @@ export default function Infos() {
         <Text
           style={[styles.commerceName, { minWidth: '70%' }, { maxWidth: '90%' }]}
           numberOfLines={2}>
-          {commerce.name}
+          {commerce.nome}
         </Text>
         <Text style={styles.commerceAbout}>
           {commerce.tipo}, {commerce.Rua}

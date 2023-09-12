@@ -14,7 +14,7 @@ import consts from '../../Components/CartCommerce/consts';
 import CommerceInfo from '../../Components/CommerceInfo';
 
 export default function ProfileCommerce() {
-  
+  // para facilidar a vida, pode ser que usar Context seja uma boa
   return (
     <View style={styles.container}>
       <CommerceInfo/>

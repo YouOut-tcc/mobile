@@ -34,7 +34,7 @@ export default function CartInfo({commerce}) {
             {textAlign: 'center'},
           ]}
           numberOfLines={1}>
-          {commerce.name}
+          {commerce.nome}
         </Text>
         <View style={styles.starRating}>
           <StarRating

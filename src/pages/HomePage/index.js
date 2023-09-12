@@ -16,12 +16,10 @@ function Vazio() {
 
 export default function HomePage() {
   const [data, setData] = useState([]);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredCommerceList, setFilteredCommerceList] = useState([]);
-
-  const pageSize = 10;
 
   const fetchData = async () => {
     let userToken;
@@ -29,7 +27,7 @@ export default function HomePage() {
       setIsLoading(true);
       
       userToken = await SecureStore.getItemAsync('userToken');
-      let res = await api.get("/estabelecimento/places", {
+      let res = await api.get(`/estabelecimento/places?page=${page}`, {
         headers: {
           'Authorization': `Bearer ${userToken}` 
         }
@@ -50,8 +48,6 @@ export default function HomePage() {
   };
 
   useEffect(() => {
-    // setData(consts.commerceList)
-    // console.log(consts.commerceList)
     fetchData();
     
   }, []);
@@ -74,7 +70,7 @@ export default function HomePage() {
           />
         </View>
         <View style={styles.containerPlace}>
-          <Commerce Empty={<Vazio/>} Data={data} isLoading={isLoading}/>
+          <Commerce Empty={<Vazio/>} Data={data} isLoading={isLoading} fetchData={fetchData}/>
         </View>
       </View>
       {/* </KeyboardAwareScrollView> */}
