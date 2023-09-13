@@ -11,7 +11,7 @@ import { sessionStorage } from '../../helpers/storage';
 import * as SecureStore from 'expo-secure-store';
 
 function Vazio() {
-  return <Text>Não encontrado</Text>;
+  return <Text style={styles.textNot}>Não há estabelecimento cadastrados...</Text>;
 }
 
 export default function HomePage() {
@@ -25,7 +25,6 @@ export default function HomePage() {
     let userToken;
     try {
       setIsLoading(true);
-      
       userToken = await SecureStore.getItemAsync('userToken');
       let res = await api.get(`/estabelecimento/places?page=${page}`, {
         headers: {

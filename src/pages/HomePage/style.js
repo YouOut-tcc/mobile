@@ -43,6 +43,10 @@ const styles = StyleSheet.create({
 
     // alignContent: 'center',
     alignItems: 'center',
+  },
+  textNot:{
+    textAlign: 'center',
+    margin: '10%'
   }
   
   

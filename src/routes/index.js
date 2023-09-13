@@ -141,7 +141,7 @@ export default function Routes() {
           }
         }
 
-        dispatch({type: 'RESTORE_TOKEN', token: userToken});
+        dispatch({type: 'RESTORE_TOKEN', token: 'teste'});
       } catch (err) {
         console.log(err.constructor.name)
         if (err instanceof AxiosError){
