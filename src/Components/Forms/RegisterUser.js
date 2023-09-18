@@ -17,6 +17,7 @@ import CommercePage from '../../pages/HomePage';
 import InputA from '../Inputs/InputA';
 
 import api from "../../apis/backend";
+import { AxiosError } from 'axios';
 
 export default function InputRegister() {
   const nomeRef = useRef();
@@ -50,12 +51,20 @@ export default function InputRegister() {
       const response = await api.post("/usuario/cadastro", data);
 
       console.log(data);
-      console.log(response);
+      // console.log(response.data);
+      console.log(response.code);
+      console.log(response.data.message);
+
 
       navigation.navigate("SignInUser");
 
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err.constructor.name)
+      if (err instanceof AxiosError){
+          
+        console.log(err.response.status)
+        console.log(err.response.data.message)
+      }
     }
     
   };

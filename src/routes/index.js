@@ -137,16 +137,20 @@ export default function Routes() {
 
           if(res.code == 200){
             // sessionStorage.setItem("userToken", res.data.token);
+            userToken = res.data.token;
             SecureStore.setItemAsync("userToken", res.data.token);
           }
         }
 
-        dispatch({type: 'RESTORE_TOKEN', token: 'teste'});
+        dispatch({type: 'RESTORE_TOKEN', token: userToken});
       } catch (err) {
         console.log(err.constructor.name)
         if (err instanceof AxiosError){
+          
           console.log(err.response.status)
           console.log(err.response.data.message)
+        } else if (err instanceof ReferenceError){
+          console.log(err.message)
         }
 
         // Restoring token failed
