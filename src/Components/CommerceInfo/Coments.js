@@ -13,8 +13,8 @@ export default function CommentList({comment, index}) {
           style={styles.avatar}
         />
         <View style={styles.commentTextContainer}>
-          <Text style={styles.userName}>{comment.name}</Text>
-          <Text>{comment.comment}</Text>
+          <Text style={styles.userName}>{comment.nome}</Text>
+          <Text>{comment.comentario}</Text>
         </View>
       </View>
       {comment.replies && comment.replies.length > 0 && (

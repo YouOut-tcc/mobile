@@ -11,6 +11,9 @@ import { sessionStorage } from '../../helpers/storage';
 import * as SecureStore from 'expo-secure-store';
 import { AxiosError } from 'axios';
 import Geolocation from '@react-native-community/geolocation';
+import { useIsFocused } from "@react-navigation/native";
+
+import { useFocusEffect } from '@react-navigation/native';
 
 function Vazio({isLoading}) {
   // {!isLoading && <Text style={styles.textNot}>Não há estabelecimento cadastrados...</Text>}
@@ -36,6 +39,8 @@ export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredCommerceList, setFilteredCommerceList] = useState([]);
+
+  const isFocused = useIsFocused();
 
   const fetchData = async () => {
     let userToken;
@@ -71,10 +76,10 @@ export default function HomePage() {
       const granted = await PermissionsAndroid.request(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION)
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        console.log('foi');
+        // console.log('foi');
         Geolocation.getCurrentPosition(info => {
-          console.log(info)
-          console.log("entrou")
+          // console.log(info)
+          // console.log("entrou")
           setLocation({latitude: info.coords.latitude, longitude: info.coords.longitude})
         },()=>{},
         {enableHighAccuracy: true}
@@ -97,7 +102,14 @@ export default function HomePage() {
   // o aplicativo não vai funfionar bem caso o usuario esteja em movimento,
   // não tenho a mimina ideia de como resolver isso kk
 
+
+
   useEffect(() => {
+    console.log("called");
+    if(!isFocused){ 
+      console.log("vapo");
+      return;
+    }
     requestLocationPermission();
     fetchData();
     console.log("why?")
