@@ -1,18 +1,22 @@
 import React from "react";
 import styles from "./style";
-import LogoYO from "../../Components/LogoYouOut";
-import {View, Text} from 'react-native';
+import {View, Text, ScrollView} from 'react-native';
+import AvatarUser from "../../Components/Avatar/avatarUser";
+import Notificacoes from "../../Components/UserProfile/Notificacoes";
+import Cupons from "../../Components/UserProfile/Cupons";
 
 export default function Profile(){
     return(
         <View style={styles.container}>
+            <ScrollView style={styles.scrol}>
             <View style={styles.containerLogo}>
-                <LogoYO/>
+               <AvatarUser/>
             </View>
             <View style={styles.containerForm}>
-              <Text>Perfil</Text>
+              <Notificacoes/>
+              <Cupons/>
             </View>
-           
+            </ScrollView>
         </View>
     )
 }

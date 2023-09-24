@@ -63,15 +63,15 @@ export default function App() {
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        // console.log('foi');
+        console.log('foi2');
         Geolocation.getCurrentPosition(
           info => {
-            // console.log('entrou');
+            console.log('entrou2');
             setLocation({
               latitude: info.coords.latitude,
               longitude: info.coords.longitude,
             });
-            // console.log(location);
+            console.log(location);
           },
           () => {},
           {enableHighAccuracy: true},

@@ -5,7 +5,7 @@ import { useRoute } from '@react-navigation/native'; // Importe useRoute
 
 const FavoriteIcon = ({ favorite, toggle }) => {
   const route = useRoute(); // Use useRoute para acessar route.params
-  const commerceTeste = route.params.commerceId; // Use commerceTeste ou route.params.commerceId, dependendo do que deseja
+  // const commerceTeste = route.params.commerceId; // Use commerceTeste ou route.params.commerceId, dependendo do que deseja
   // setIsFavorite(favorite);
   // console.log(isFavorite);
   // const toggleFavorite = () => {

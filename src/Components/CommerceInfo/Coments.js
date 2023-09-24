@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {Avatar} from 'react-native-paper';
+import MenuComponent from '../menuDenuncia';
 
 export default function CommentList({comment, index}) {
   return (
@@ -16,6 +17,7 @@ export default function CommentList({comment, index}) {
           <Text style={styles.userName}>{comment.nome}</Text>
           <Text>{comment.comentario}</Text>
         </View>
+        <MenuComponent/>
       </View>
       {comment.replies && comment.replies.length > 0 && (
         <View style={styles.replyContainer}>

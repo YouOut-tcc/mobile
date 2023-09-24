@@ -12,11 +12,11 @@ import * as SecureStore from 'expo-secure-store';
 import api from '../../apis/backend';
 import axios from'axios';
 
-function CommentHeader({Length}) {
+function CommentHeader({Length, stars}) {
   return (
     <View style={styles.containerCommentHeader}>
       <Text style={styles.title}>{Length} Comentários</Text>
-      <View style={styles.rate}>{<StarRating />}</View>
+      <View style={styles.rate}>{<StarRating stars={stars}/>}</View>
     </View>
   );
 }
@@ -120,7 +120,7 @@ export default function ProfileCommerce() {
           <>
             <Menu />
             <Events />
-            <CommentHeader Length={data3.length}/>
+            <CommentHeader Length={data3.length} stars={commerce.nota}/>
           </>
         }
         data={data3}

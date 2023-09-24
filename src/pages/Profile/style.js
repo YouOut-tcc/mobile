@@ -4,17 +4,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#8200A8',
+    
   },
   containerLogo: {
     flex: 0.15,
     justifyContent: 'space-between',
     flexDirection: 'row',
-    alignSelf: 'center',
-    width: '30%',
-    height: '30%',
+    width: '90%',
+    height: '20%',
     marginTop: '5%',
-    borderRadius: 300,
+    borderRadius: 400,
     marginBottom: '5%',
+    marginLeft: '5%',  
   },
   containerForm: {
     flex: 1,
@@ -23,6 +24,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 25,
     alignContent: 'center',
     alignItems: 'center',
+    
   },
   touchableArea: {
     flex: 1,

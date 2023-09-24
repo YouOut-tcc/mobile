@@ -1,6 +1,6 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 import {useReducer, useEffect, useMemo, createContext} from 'react';
 import {Provider as PaperProvider} from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -18,6 +18,9 @@ import api from '../apis/backend';
 import * as SecureStore from 'expo-secure-store';
 import { sessionStorage } from '../helpers/storage';
 import { AxiosError } from 'axios';
+import { Image } from 'react-native-paper/lib/typescript/src/components/Avatar/Avatar';
+import LogoYouOut from '../Components/LogoYouOut';
+import Load from  '../Components/load'
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -208,9 +211,7 @@ export default function Routes() {
   if (state.isLoading) {
     return (
       <>
-        <View>
-          <Text>aaa</Text>
-        </View>
+       <Load/>
       </>
     );
   }

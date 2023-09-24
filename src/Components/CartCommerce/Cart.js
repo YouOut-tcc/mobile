@@ -12,18 +12,24 @@ import {useNavigation} from '@react-navigation/native';
 
 import AvatarCommerce from '../Avatar/avatarCommerce';
 import consts from './consts';
+import FavoriteIcon from './FavoriteIcon';
 
 export default function CartInfo({commerce}) {
   const navigation = useNavigation();
-
+console.log(commerce)
   return (
     <TouchableOpacity
-      onPress={() =>
-        navigation.navigate('ProfileCommerce', {commerce: commerce})
-      }
-      style={styles.commerce}>
+    onPress={() =>
+      navigation.navigate('ProfileCommerce', {commerce: commerce})
+    }
+    style={styles.commerce}>
       <View style={styles.viewImg}>
         <AvatarCommerce />
+        {!commerce.favorito ? null : (
+    <View style={styles.viewFav}>
+      <FavoriteIcon favorite={true}/>
+    </View>
+  )}
       </View>
       <View style={styles.infoCommerce}>
         <Text
@@ -38,7 +44,7 @@ export default function CartInfo({commerce}) {
         </Text>
         <View style={styles.starRating}>
           <StarRating
-            stars={commerce.rating}
+            stars={commerce.nota}
             style={styles.commerceContainer}
           />
         </View>
@@ -68,6 +74,10 @@ const styles = StyleSheet.create({
 //   scrollViewContent: {
 //     flexGrow: 1,
 //   },
+favorite:{
+position: 'relative',
+
+},
   commerce: {
     flexDirection: 'row',
     textAlign: 'center',
@@ -112,5 +122,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     // borderColor: 'red',
     // borderWidth: 1 ,
+  }, 
+  viewFav: {
+    width: '30%',
+    // borderColor: 'red',
+    // borderWidth: 1,
+    alignItems:'center',
+    alignSelf:'flex-end', 
+    position:'absolute',
+    marginTop: '75%'
   },
 });

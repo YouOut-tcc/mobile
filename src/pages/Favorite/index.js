@@ -64,6 +64,7 @@ export default function Favorites({ navigation }) {
       console.log(newData);
       setData(data.concat(newData));
 
+      setcommerceLength(newData.length);
 
 
     } catch (err) {
@@ -86,7 +87,6 @@ export default function Favorites({ navigation }) {
         console.log("fucus")
         fetchData();
         console.log(data)
-        setcommerceLength(consts.length);
         setFocusBool(false)
       }
     });
