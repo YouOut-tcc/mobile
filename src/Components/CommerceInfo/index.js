@@ -7,10 +7,9 @@ import Coments from './Coments';
 import StarRating from '../StarRating';
 import { useRoute } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
-import { AxiosError } from 'axios';
-import * as SecureStore from 'expo-secure-store';
-import api from '../../apis/backend';
-import axios from'axios';
+import { getCommerceInfo, getAvaliacoes } from '../../services/commerce';
+import { fetchCEP } from '../../services/cep';
+
 
 function CommentHeader({Length, stars}) {
   return (
@@ -33,55 +32,29 @@ export default function ProfileCommerce() {
   const route = useRoute();
   const commerce = route.params.commerce;
   
-  const api2 = axios.create({
-    baseURL:"https://viacep.com.br/ws"
-  });
-
   const fetchData = async () => {
-    let userToken;
+
     try {
       setIsLoading(true);
-      userToken = await SecureStore.getItemAsync('userToken');
-      let res = await api.get(`/estabelecimento/places/${commerce.uuid}/informacoes`, {
-        headers: {
-          'Authorization': `Bearer ${userToken}` 
-        }
-      });
 
-      let res3 = await api.get(`/estabelecimento/places/${commerce.uuid}/avaliacoes`, {
-        headers: {
-          'Authorization': `Bearer ${userToken}` 
-        }
-      });
-      const newData3 = res3.data;
+      let commerceInfo = await getCommerceInfo(commerce.uuid);
+      let avaliacoes = await getAvaliacoes(commerce.uuid);
+      let cep = await fetchCEP(commerceInfo.cep);
+      
+      setData(commerceInfo);
+      setData2(cep);
+      setData3(avaliacoes)
+      
+      console.log(commerceInfo)
+      console.log()
+      console.log()
 
-      setData3(newData3);
+      console.log("cep: "+ cep);
 
-      // console.log(newData3);
-      const newData = res.data.message;
-
-      console.log("cep: "+res.data.message.cep);
-
-      let res2 = await api2.get(`/${newData.cep}/json/`, {
-      });
-      const newData2 = res2.data;
-      // console.log(newData2);
-
-      setData(newData);
-      setData2(newData2);
-      console.log(newData);
-      // console.log(res3.data);
-      // console.log(newData);
-
-
-    } catch (err) {
-      console.log(err.constructor.name)
-      if (err instanceof AxiosError){
-          
-        console.log(err.response.status)
-        console.log(err.response.data.message)
-      } else if (err instanceof ReferenceError){
-        console.log(err.message)
+    } catch (error) {
+      console.log("Error: " + error.constructor.name)
+      if (error instanceof ReferenceError){
+        console.log(error.message)
       }
     } finally {
       setIsLoading(false);

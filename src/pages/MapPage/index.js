@@ -12,9 +12,9 @@ import {
 import MapView, {Marker, Polygon, Polyline, Callout} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import {useIsFocused} from '@react-navigation/native';
-import * as SecureStore from 'expo-secure-store';
-import {AxiosError} from 'axios';
-import api from '../../apis/backend';
+
+
+import { getPlaces } from '../../services/commerce';
 
 const {width, height} = Dimensions.get('window');
 
@@ -33,26 +33,15 @@ export default function App() {
   let provider = undefined;
 
   const fetchData = async () => {
-    let userToken;
-    try {
-      userToken = await SecureStore.getItemAsync('userToken');
-      let res = await api.get(
-        `/estabelecimento/places?page=${page}&latitute=13&longitude=43`,
-        {
-          headers: {
-            Authorization: `Bearer ${userToken}`,
-          },
-        },
-      );
-      const newData = res.data;
 
-      setData(newData);
-      console.log(newData);
-    } catch (err) {
-      console.log(err.constructor.name);
-      if (err instanceof AxiosError) {
-        console.log(err.response.status);
-        console.log(err.response.data.message);
+    try {
+      let places = await getPlaces(page, 13 , 13);
+
+      setData(places);
+    } catch (error) {
+      console.log(error.constructor.name);
+      if (error instanceof ReferenceError) {
+        console.log(error.message);
       }
     }
   };

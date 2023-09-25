@@ -4,11 +4,8 @@ import {useRoute} from '@react-navigation/native';
 
 import FavoriteIcon from '../CartCommerce/FavoriteIcon';
 import consts from '../CartCommerce/consts';
-import {AxiosError} from 'axios';
-import * as SecureStore from 'expo-secure-store';
-import api from '../../apis/backend';
+import { deleteFav, setFav, getFav } from '../../services/commerce';
 
-import axios from 'axios';
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Infos({commerce, info, endereco}) {
@@ -19,61 +16,30 @@ export default function Infos({commerce, info, endereco}) {
 
   // Use useEffect para definir o estado isFavorite quando commerceTeste muda
   const toggleFavorite = async () => {
-    let userToken;
-    
     try {
-      userToken = await SecureStore.getItemAsync('userToken');
-
       if (isFavorite) {
-        let res = await api.delete(
-          `/estabelecimento/places/${commerce.uuid}/favorito`,
-          {
-            headers: {
-              'Authorization': `Bearer ${userToken}` 
-            }
-          });
+        deleteFav(commerce.uuid)
         setIsFavorite(false);
       } else {
-        let res = await api.post(
-          `/estabelecimento/places/${commerce.uuid}/favoritar`, null,
-          {
-            headers: {
-              'Authorization': `Bearer ${userToken}` 
-            }
-          });
+        setFav(commerce.uuid)
         setIsFavorite(true);
       }
-    } catch (err) {
-      console.log(err.constructor.name);
-      if (err instanceof AxiosError) {
-        console.log(err.response.status);
-        console.log(err.response.data);
-      } else if (err instanceof ReferenceError) {
-        console.log(err.message);
+    } catch (error) {
+      console.log(error.constructor.name);
+      if (error instanceof ReferenceError) {
+        console.log(error.message);
       }
     }
   };
 
   const fetchFavorito = async () => {
-    let userToken;
     try {
-      userToken = await SecureStore.getItemAsync('userToken');
-      let res = await api.get(
-        `/estabelecimento/places/${commerce.uuid}/favorito`,
-        {
-          headers: {
-            Authorization: `Bearer ${userToken}`,
-          },
-        },
-      );
-      setIsFavorite(res.data.message);
-    } catch (err) {
-      console.log(err.constructor.name);
-      if (err instanceof AxiosError) {
-        console.log(err.response.status);
-        console.log(err.response.data.message);
-      } else if (err instanceof ReferenceError) {
-        console.log(err.message);
+      let fav = await getFav(commerce.uuid)
+      setIsFavorite(fav);
+    } catch (error) {
+      console.log(error.constructor.name);
+      if (error instanceof ReferenceError) {
+        console.log(error.message);
       }
     }
   }

@@ -10,14 +10,10 @@ import Commerce from '../../Components/CartCommerce';
 import SearchbarComponent from '../../Components/searchBar';
 import FavoriteHeader from '../../Components/CartCommerce/FavotieHeader';
 // import consts from "../../Components/CartCommerce/consts";
-import * as SecureStore from 'expo-secure-store';
-import { AxiosError } from 'axios';
-
-import api from '../../apis/backend';
 import { useIsFocused } from "@react-navigation/native";
-
 import { useFocusEffect } from '@react-navigation/native';
 
+import { getAllFav } from '../../services/commerce';
 
 function Vazio() {
   return (
@@ -51,35 +47,21 @@ export default function Favorites({ navigation }) {
   ];
   
   const fetchData = async () => {
-    let userToken;
     try {
-      userToken = await SecureStore.getItemAsync('userToken');
-      let res = await api.get(`/usuario/favoritos`, {
-        headers: {
-          'Authorization': `Bearer ${userToken}` 
-        }
-      });
-
-      const newData = res.data;
-      console.log(newData);
-      setData(data.concat(newData));
-
-      setcommerceLength(newData.length);
-
-
-    } catch (err) {
-      console.log(err.constructor.name)
-      if (err instanceof AxiosError){
-          
-        console.log(err.response.status)
-        console.log(err.response.data.message)
-      } else if (err instanceof ReferenceError){
-        console.log(err.message)
+      let favs = await getAllFav();
+      console.log(favs);
+      setData(data.concat(favs));
+      setcommerceLength(favs.length);
+    } catch (error) {
+      console.log(error.constructor.name)
+      if (error instanceof AxiosError){
+        console.log(error.response.status)
+        console.log(error.response.data.message)
+      } else if (error instanceof ReferenceError){
+        console.log(error.message)
       }
     }
   }
-
-  
 
   useEffect(()=>{
     const unsubscribe = navigation.addListener('focus', () => {

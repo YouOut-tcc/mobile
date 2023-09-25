@@ -14,13 +14,13 @@ import Register from '../pages/Register';
 import SignInUser from '../pages/SignInUser';
 import Welcome from '../pages/Welcome';
 import AuthContext from './authContext';
-import api from '../apis/backend';
 import * as SecureStore from 'expo-secure-store';
 import { sessionStorage } from '../helpers/storage';
-import { AxiosError } from 'axios';
 import { Image } from 'react-native-paper/lib/typescript/src/components/Avatar/Avatar';
 import LogoYouOut from '../Components/LogoYouOut';
-import Load from  '../Components/load'
+import Load from  '../Components/load';
+
+import { getToken, userLogin } from '../services/user';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -125,18 +125,12 @@ export default function Routes() {
       let userToken;
 
       // quando o backend esta desligado, ele não funciona e fica preso na tela de loading
-
-
       try {
         userToken = await SecureStore.getItemAsync('userToken');
 
         console.log(`token de init: ${userToken}`)
         if(userToken){
-          let res = await api.post("/usuario/token", null, {
-            headers: {
-              'Authorization': `Bearer ${userToken}` 
-            }
-          })
+          let res = await getToken(userToken);
 
           if(res.code == 200){
             // sessionStorage.setItem("userToken", res.data.token);
@@ -148,11 +142,7 @@ export default function Routes() {
         dispatch({type: 'RESTORE_TOKEN', token: userToken});
       } catch (err) {
         console.log(err.constructor.name)
-        if (err instanceof AxiosError){
-          
-          console.log(err.response.status)
-          console.log(err.response.data.message)
-        } else if (err instanceof ReferenceError){
+        if (err instanceof ReferenceError){
           console.log(err.message)
         }
 
@@ -180,15 +170,20 @@ export default function Routes() {
             email: args.email,
             password: args.password,
           };
-          const res = await api.post("/usuario/login", data);
+          
+          let token = await userLogin(data);
     
           console.log(res.data);
           // sessionStorage.setItem("userToken", res.data.token);
-          SecureStore.setItemAsync("userToken", res.data.token);
-          dispatch({type: 'SIGN_IN', token: res.data.token});
+          SecureStore.setItemAsync("userToken", token);
+          dispatch({type: 'SIGN_IN', token: token});
 
         } catch (error) {
-          console.log(error);
+          console.log(error.constructor.name);
+
+          if (error instanceof ReferenceError) {
+            console.log(error.message);
+          }
         }
       },
       signOut: () => {

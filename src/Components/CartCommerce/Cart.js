@@ -16,7 +16,7 @@ import FavoriteIcon from './FavoriteIcon';
 
 export default function CartInfo({commerce}) {
   const navigation = useNavigation();
-console.log(commerce)
+// console.log(commerce)
   return (
     <TouchableOpacity
     onPress={() =>

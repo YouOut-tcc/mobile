@@ -6,10 +6,10 @@ import LogoYO from '../../Components/LogoYouOut';
 import Commerce from '../../Components/CartCommerce';
 import SearchbarComponent from '../../Components/searchBar';
 import consts from '../../Components/CartCommerce/consts';
-import api from '../../apis/backend';
+
 import { sessionStorage } from '../../helpers/storage';
-import * as SecureStore from 'expo-secure-store';
-import { AxiosError } from 'axios';
+import { getPlaces } from '../../services/commerce';
+
 import Geolocation from '@react-native-community/geolocation';
 import { useIsFocused } from "@react-navigation/native";
 
@@ -43,27 +43,18 @@ export default function HomePage() {
   const isFocused = useIsFocused();
 
   const fetchData = async () => {
-    let userToken;
+
     try {
       setIsLoading(true);
-      userToken = await SecureStore.getItemAsync('userToken');
-      let res = await api.get(`/estabelecimento/places?page=${page}&latitute=13&longitude=43`, {
-        headers: {
-          'Authorization': `Bearer ${userToken}` 
-        }
-      });
-      const newData = res.data;
-      
+      let places = await getPlaces(page, 13 ,13);
 
-      setData(data.concat(newData));
+      setData(data.concat(places));
       setPage(page + 1);
-      console.log(newData);
-    } catch (err) {
-      console.log(err.constructor.name)
-      if (err instanceof AxiosError){
-          
-        console.log(err.response.status)
-        console.log(err.response.data.message)
+
+    } catch (error) {
+      console.log(error.constructor.name)
+      if (error instanceof ReferenceError) {
+        console.log(error.message);
       }
     } finally {
       setIsLoading(false);
