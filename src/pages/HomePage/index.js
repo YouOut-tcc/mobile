@@ -12,7 +12,6 @@ import { getPlaces } from '../../services/commerce';
 
 import Geolocation from '@react-native-community/geolocation';
 import { useIsFocused } from "@react-navigation/native";
-
 import { useFocusEffect } from '@react-navigation/native';
 
 function Vazio({isLoading}) {
@@ -108,6 +107,7 @@ export default function HomePage() {
   }, []);
 
   return (
+
     <View style={styles.container}>
       {/* <KeyboardAwareScrollView
       contentContainerStyle={styles.container}
@@ -131,5 +131,6 @@ export default function HomePage() {
       </View>
       {/* </KeyboardAwareScrollView> */}
     </View>
+
   );
 }

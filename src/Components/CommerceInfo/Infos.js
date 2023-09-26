@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 
@@ -16,6 +16,7 @@ export default function Infos({commerce, info, endereco}) {
 
   // Use useEffect para definir o estado isFavorite quando commerceTeste muda
   const toggleFavorite = async () => {
+    console.log(dataList)
     try {
       if (isFavorite) {
         deleteFav(commerce.uuid)

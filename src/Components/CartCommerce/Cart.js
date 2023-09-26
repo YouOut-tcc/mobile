@@ -16,20 +16,20 @@ import FavoriteIcon from './FavoriteIcon';
 
 export default function CartInfo({commerce}) {
   const navigation = useNavigation();
-// console.log(commerce)
+  // console.log(commerce)
   return (
     <TouchableOpacity
-    onPress={() =>
-      navigation.navigate('ProfileCommerce', {commerce: commerce})
-    }
-    style={styles.commerce}>
+      onPress={() =>
+        navigation.navigate('ProfileCommerce', {commerce: commerce})
+      }
+      style={styles.commerce}>
       <View style={styles.viewImg}>
         <AvatarCommerce />
         {!commerce.favorito ? null : (
-    <View style={styles.viewFav}>
-      <FavoriteIcon favorite={true}/>
-    </View>
-  )}
+          <View style={styles.viewFav}>
+            <FavoriteIcon favorite={true} />
+          </View>
+        )}
       </View>
       <View style={styles.infoCommerce}>
         <Text
@@ -43,10 +43,7 @@ export default function CartInfo({commerce}) {
           {commerce.nome}
         </Text>
         <View style={styles.starRating}>
-          <StarRating
-            stars={commerce.nota}
-            style={styles.commerceContainer}
-          />
+          <StarRating stars={commerce.nota} style={styles.commerceContainer} />
         </View>
         <Text style={styles.commerceDistance}>{commerce.distance}</Text>
         <Text style={styles.commerceCheckin}>
@@ -71,13 +68,12 @@ const styles = StyleSheet.create({
     // borderWidth: 1 ,
   },
 
-//   scrollViewContent: {
-//     flexGrow: 1,
-//   },
-favorite:{
-position: 'relative',
-
-},
+  //   scrollViewContent: {
+  //     flexGrow: 1,
+  //   },
+  favorite: {
+    position: 'relative',
+  },
   commerce: {
     flexDirection: 'row',
     textAlign: 'center',
@@ -122,14 +118,14 @@ position: 'relative',
     textAlign: 'center',
     // borderColor: 'red',
     // borderWidth: 1 ,
-  }, 
+  },
   viewFav: {
     width: '30%',
     // borderColor: 'red',
     // borderWidth: 1,
-    alignItems:'center',
-    alignSelf:'flex-end', 
-    position:'absolute',
-    marginTop: '75%'
+    alignItems: 'center',
+    alignSelf: 'flex-end',
+    position: 'absolute',
+    marginTop: '75%',
   },
 });

@@ -13,7 +13,7 @@ import ProfileCommerce from '../pages/ProfileCommerce';
 import Register from '../pages/Register';
 import SignInUser from '../pages/SignInUser';
 import Welcome from '../pages/Welcome';
-import AuthContext from './authContext';
+import AuthContext from '../context/authContext';
 import * as SecureStore from 'expo-secure-store';
 import { sessionStorage } from '../helpers/storage';
 import { Image } from 'react-native-paper/lib/typescript/src/components/Avatar/Avatar';
@@ -162,9 +162,6 @@ export default function Routes() {
         // X.We will also need to handle errors if sign in failed
         // V.After getting token, we need to persist the token using `SecureStore`
 
-      // dispatch({type: 'SIGN_IN', token: "response.data.token"});
-
-
         try {
           const data = {
             email: args.email,
@@ -173,7 +170,7 @@ export default function Routes() {
           
           let token = await userLogin(data);
     
-          console.log(res.data);
+          console.log(token);
           // sessionStorage.setItem("userToken", res.data.token);
           SecureStore.setItemAsync("userToken", token);
           dispatch({type: 'SIGN_IN', token: token});

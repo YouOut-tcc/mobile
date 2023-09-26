@@ -8,7 +8,7 @@ import ButtonGoogle from '../../Components/Buttons/ButtonGoogle';
 import ButtonForgotPass from '../../Components/Buttons/ButtonForgotPass';
 import ButtonRegister from '../../Components/Buttons/ButtonRegister';
 
-import AuthContext from '../../routes/authContext';
+import AuthContext from '../../context/authContext';
 
 export default function InputLogin() {
   const [email, setEmail] = useState('');

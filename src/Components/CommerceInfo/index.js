@@ -1,4 +1,5 @@
 import {View, Text, ScrollView, StyleSheet, FlatList} from 'react-native';
+import { useContext } from 'react';
 import Carousel from './Carousel';
 import Infos from './Infos';
 import Menu from './Menu';
@@ -9,7 +10,6 @@ import { useRoute } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { getCommerceInfo, getAvaliacoes } from '../../services/commerce';
 import { fetchCEP } from '../../services/cep';
-
 
 function CommentHeader({Length, stars}) {
   return (
