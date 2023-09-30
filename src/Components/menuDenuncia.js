@@ -1,34 +1,40 @@
 import * as React from 'react';
-import { View } from 'react-native';
-import { Button, Menu, Divider, PaperProvider } from 'react-native-paper';
+import { View, StyleSheet } from 'react-native';
+import { Button, Menu, Divider, PaperProvider ,Provider } from 'react-native-paper';
+import styles from '../pages/Favorite/style';
 
-const MenuComponent = () => {
+const MenuDenuncia = () => {
   const [visible, setVisible] = React.useState(false);
 
-  const openMenu = () => setVisible(true);
+  const openMenu = () => {setVisible(true) 
+    console.log("abriu")};
 
-  const closeMenu = () => setVisible(false);
+  const closeMenu = () => {setVisible(false)};
 
   return (
-    <PaperProvider>
-      <View
-        style={{
-          paddingTop: 50,
-          flexDirection: 'row',
-          justifyContent: 'center',
-        }}>
+    <Provider>
+      <View style={style.denuncia}>
         <Menu
           visible={visible}
           onDismiss={closeMenu}
-          anchor={<Button onPress={openMenu}>Show menu</Button>}>
+          anchor={<Button onPress={openMenu}>:</Button>}>
           <Menu.Item onPress={() => {}} title="Item 1" />
           <Menu.Item onPress={() => {}} title="Item 2" />
           <Divider />
           <Menu.Item onPress={() => {}} title="Item 3" />
         </Menu>
       </View>
-    </PaperProvider>
+    </Provider>
   );
 };
+export default MenuDenuncia;
 
-export default MenuComponent;
+const style = StyleSheet.create({
+  denuncia: {
+    width: 60,
+    height: 100,
+    // zIndex: 1,
+    borderColor: 'red',
+    borderWidth: 1,
+  },
+})

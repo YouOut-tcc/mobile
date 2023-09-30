@@ -4,6 +4,7 @@ import {View, Text, ScrollView} from 'react-native';
 import AvatarUser from "../../Components/Avatar/avatarUser";
 import Notificacoes from "../../Components/UserProfile/Notificacoes";
 import Cupons from "../../Components/UserProfile/Cupons";
+import Checkins from "../../Components/UserProfile/Checkins";
 
 export default function Profile(){
     return(
@@ -15,6 +16,7 @@ export default function Profile(){
             <View style={styles.containerForm}>
               <Notificacoes/>
               <Cupons/>
+              <Checkins/>
             </View>
             </ScrollView>
         </View>

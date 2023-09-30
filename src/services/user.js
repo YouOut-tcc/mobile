@@ -29,6 +29,7 @@ async function userLogin(data) {
     return res.data.token;
   } catch (error) {
     console.log(error.constructor.name);
+    console.log("aqui");
     if (error instanceof AxiosError) {
       console.log(error.response.status);
       console.log(error.response.data.message);

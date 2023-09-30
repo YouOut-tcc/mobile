@@ -1,18 +1,19 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import CardCupom from './cardCupom';
+import CardCheck from './CardCheck';
 
-export default function Cupons() {
+
+export default function Checkins() {
   return (
     <View style={styles.container}>
       <Text style={styles.buttonText}>
         {''}
-        <Icon name={'ticket'} size={30} color="#FE0472" />
-        <Text style={styles.textCup}> Cupons </Text>
+        <Icon name={'check-square-o'} size={30} color="#FE0472" />
+        <Text style={styles.textCup}> Checkins </Text>
       </Text>
       <View>
-        <CardCupom/>
+        <CardCheck/>
       </View>
     </View>
   );

@@ -130,8 +130,9 @@ export default function Routes() {
 
         console.log(`token de init: ${userToken}`)
         if(userToken){
+          console.log("entrando na verificação do token");
           let res = await getToken(userToken);
-
+          console.log("feito a req do token");
           if(res.code == 200){
             // sessionStorage.setItem("userToken", res.data.token);
             userToken = res.data.token;

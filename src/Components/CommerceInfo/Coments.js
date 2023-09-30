@@ -1,10 +1,14 @@
 import * as React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {Avatar} from 'react-native-paper';
-import MenuComponent from '../menuDenuncia';
+import MenuDenuncia from '../menuDenuncia';
 
 export default function CommentList({comment, index}) {
   return (
+    <>
+      <View style={styles.containerDenuncia}>
+        {/* <MenuDenuncia /> */}
+      </View>
     <View>
       <View
         style={[styles.commentContainer, index !== 0 && styles.commentDivider]}>
@@ -12,12 +16,11 @@ export default function CommentList({comment, index}) {
           size={70}
           source={require('../../assets/people.png')}
           style={styles.avatar}
-        />
+          />
         <View style={styles.commentTextContainer}>
           <Text style={styles.userName}>{comment.nome}</Text>
           <Text>{comment.comentario}</Text>
         </View>
-        <MenuComponent/>
       </View>
       {comment.replies && comment.replies.length > 0 && (
         <View style={styles.replyContainer}>
@@ -27,7 +30,7 @@ export default function CommentList({comment, index}) {
                 size={40}
                 source={require('../../assets/commerceLogo.png')}
                 style={styles.avatar}
-              />
+                />
               <View style={styles.replyTextContainer}>
                 <Text style={styles.replyUserName}>{reply.name}</Text>
                 <Text style={styles.replyText} numberOfLines={20}>
@@ -39,6 +42,7 @@ export default function CommentList({comment, index}) {
         </View>
       )}
     </View>
+      </>
   );
 }
 
@@ -88,4 +92,11 @@ const styles = StyleSheet.create({
   replyText: {
     flexWrap: 'wrap',
   },
+  containerDenuncia:{
+    // width: 60,
+    // height: 100,
+    zIndex: 1,
+    borderColor: 'red',
+    borderWidth: 1,
+  }
 });
