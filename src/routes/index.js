@@ -15,16 +15,16 @@ import SignInUser from '../pages/SignInUser';
 import Welcome from '../pages/Welcome';
 import AuthContext from '../context/authContext';
 import * as SecureStore from 'expo-secure-store';
-import { sessionStorage } from '../helpers/storage';
-import { Image } from 'react-native-paper/lib/typescript/src/components/Avatar/Avatar';
+import {sessionStorage} from '../helpers/storage';
+import {Image} from 'react-native-paper/lib/typescript/src/components/Avatar/Avatar';
 import LogoYouOut from '../Components/LogoYouOut';
-import Load from  '../Components/load';
+import Load from '../Components/load';
 
-import { getToken, userLogin } from '../services/user';
+import {getToken, userLogin} from '../services/user';
+import {BackendAcessError, LoginError} from '../error/user';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
-
 
 function BottomTab() {
   return (
@@ -128,23 +128,26 @@ export default function Routes() {
       try {
         userToken = await SecureStore.getItemAsync('userToken');
 
-        console.log(`token de init: ${userToken}`)
-        if(userToken){
-          console.log("entrando na verificação do token");
+        console.log(`token de init: ${userToken}`);
+        if (userToken) {
+          console.log('entrando na verificação do token');
           let res = await getToken(userToken);
-          console.log("feito a req do token");
-          if(res.code == 200){
+          console.log('feito a req do token');
+          if (res.status == 200) {
             // sessionStorage.setItem("userToken", res.data.token);
             userToken = res.data.token;
-            SecureStore.setItemAsync("userToken", res.data.token);
+            SecureStore.setItemAsync('userToken', res.data.token);
           }
         }
 
         dispatch({type: 'RESTORE_TOKEN', token: userToken});
-      } catch (err) {
-        console.log(err.constructor.name)
-        if (err instanceof ReferenceError){
-          console.log(err.message)
+      } catch (error) {
+        console.log(error.constructor.name);
+        console.log(error.message);
+        if (error instanceof ReferenceError) {
+          console.log(error.message);
+        } else if (error instanceof TypeError) {
+          console.log(error.message);
         }
 
         // Restoring token failed
@@ -154,7 +157,6 @@ export default function Routes() {
 
     bootstrapAsync();
   }, []);
-
 
   const authContext = useMemo(
     () => ({
@@ -168,28 +170,28 @@ export default function Routes() {
             email: args.email,
             password: args.password,
           };
-          
+
           let token = await userLogin(data);
-    
+
           console.log(token);
           // sessionStorage.setItem("userToken", res.data.token);
-          SecureStore.setItemAsync("userToken", token);
+          SecureStore.setItemAsync('userToken', token);
           dispatch({type: 'SIGN_IN', token: token});
-
         } catch (error) {
           console.log(error.constructor.name);
-
-          if (error instanceof ReferenceError) {
+          if (error instanceof LoginError) {
+            throw error;
+          } else if (error instanceof BackendAcessError){
+            throw error;
+          } else if (error instanceof ReferenceError) {
             console.log(error.message);
-          }
-          else if (error instanceof TypeError){
-            console.log (error.message)
+          } else if (error instanceof TypeError) {
+            console.log(error.message);
           }
         }
       },
       signOut: () => {
-        dispatch({type: 'SIGN_OUT'})
-      
+        dispatch({type: 'SIGN_OUT'});
       },
       // signUp: async data => {
       //   // In a production app, we need to send user data to server and get a token
@@ -202,7 +204,6 @@ export default function Routes() {
     }),
     [],
   );
-
 
   // if (state.isLoading) {
   //   return (

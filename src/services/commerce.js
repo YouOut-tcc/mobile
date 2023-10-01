@@ -1,6 +1,7 @@
 import api from './apis';
 import {AxiosError} from 'axios';
 import * as SecureStore from 'expo-secure-store';
+import { BackendAcessError } from '../error/user';
 
 async function getCommerceInfo(uuid) {
   let token;
