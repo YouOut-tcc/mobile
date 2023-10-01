@@ -1,7 +1,6 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {TextInput} from 'react-native-paper';
-import { useNavigation } from "@react-navigation/native";
+import React, { useState } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { TextInput } from 'react-native-paper';
 import ButtonLogin from '../../Components/Buttons/ButtonA';
 import InputA from '../Inputs/InputA';
 import ButtonGoogle from '../../Components/Buttons/ButtonGoogle';
@@ -14,74 +13,101 @@ export default function InputLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(true);
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
   const { signIn } = React.useContext(AuthContext);
 
-  const navigation = useNavigation();
+  const handleSignIn = async  () => {
+    if (!email) {
+      setEmailError('Por favor, preencha o campo de e-mail.');
+    } else {
+      setEmailError(''); 
+    }
+
+    if (!password) {
+      setPasswordError('Por favor, preencha o campo de senha.');
+    } else {
+      setPasswordError(''); 
+    }
+
+    if (email && password) {
+      try {
+        const response = await signIn({ email, password });
+      
+        if (response.code === 200) {
+        
+        } else if (response.code === 401) {
+          setPasswordError(
+            <Text style={styles.errorMessage}>
+              Credenciais incorretas. Verifique seu e-mail e senha.
+            </Text>
+          );
+        } else {
+          setPasswordError('Ocorreu um erro durante o login. Tente novamente mais tarde.');
+        }
+      } catch (error) {
+        setPasswordError('Ocorreu um erro durante o login. Tente novamente mais tarde!', error);
+      }
+    }
+  };
 
   return (
     <View style={style.containerForm}>
       <View>
-      <InputA
-        label="E-mail"
-        value={email}
-        onChange={setEmail}
-        // ref={nomeRef}
-        width={44}
-        // next={CPFRef}
-        right={<TextInput.Icon icon="account-circle" color={'#8200A8'} />}
-      />
+        <InputA
+          label="E-mail"
+          value={email}
+          onChange={setEmail}
+          error={emailError}
+          width={44}
+          right={<TextInput.Icon icon="account-circle" color={'#8200A8'} />}
+        />
 
-      <InputA
-        label="Senha"
-        value={password}
-        onChange={setPassword}
-        // ref={nomeRef}
-        width={46}
-        // next={CPFRef}
-        secureTextEntry={showPassword}
-        right={
-          showPassword ? (
-            <TextInput.Icon
-              icon="eye"
-              color={'#8200A8'}
-              onPress={() => setShowPassword(!showPassword)}
-            />
-          ) : (
-            <TextInput.Icon
-              icon="eye-off"
-              color={'#8200A8'}
-              onPress={() => setShowPassword(!showPassword)}
-            />
-          )
-        }
-      />
+        <InputA
+          label="Senha"
+          value={password}
+          onChange={setPassword}
+          error={passwordError} 
+          width={46}
+          secureTextEntry={showPassword}
+          right={
+            showPassword ? (
+              <TextInput.Icon
+                icon="eye"
+                color={'#8200A8'}
+                onPress={() => setShowPassword(!showPassword)}
+              />
+            ) : (
+              <TextInput.Icon
+                icon="eye-off"
+                color={'#8200A8'}
+                onPress={() => setShowPassword(!showPassword)}
+              />
+            )
+          }
+        />
       </View>
-      <ButtonLogin
-        text="Entrar"
-        handlePressOut={() => signIn({ email, password })}
-      />
+      <ButtonLogin text="Entrar" handlePressOut={handleSignIn} />
       <ButtonForgotPass />
       <Text style={style.or}>━━━━━━━━━━ ou ━━━━━━━━━━</Text>
       <ButtonGoogle />
       <ButtonRegister />
-
     </View>
   );
 }
 
 const style = StyleSheet.create({
-  containerForm:{
+  containerForm: {
     flex: 1,
-    backgroundColor: '#EDE0D6', 
+    backgroundColor: '#EDE0D6',
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     alignContent: 'center',
     alignItems: 'center',
-},
-
-  or:{
+  },
+  or: {
     alignContent: 'center',
-},
-
+  },
+  
 });

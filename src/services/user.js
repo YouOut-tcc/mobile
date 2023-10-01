@@ -4,7 +4,7 @@ import * as SecureStore from 'expo-secure-store';
 
 async function getUserToken(token) {
   try {
-    let res = await api.post("/usuario/token", null, {
+    let res = await api.post("http://localhost:3333/usuario/token", null, {
       headers: {
         'Authorization': `Bearer ${token}` 
       }
@@ -24,7 +24,7 @@ async function getUserToken(token) {
 
 async function userLogin(data) {
   try {
-    const res = await api.post("/usuario/login", data);
+    const res = await api.post("http://localhost:3333/usuario/login", data);
 
     return res.data.token;
   } catch (error) {

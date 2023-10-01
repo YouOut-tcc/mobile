@@ -33,7 +33,11 @@ export default forwardRef(function InputA(props, ref) {
         secureTextEntry={props.secureTextEntry}
         right={props.right}
         onBlur={props.onBlur}
+        error={props.error}
       />
+      {props.error ? (
+        <Text style={style.errorText}>{props.error}</Text> 
+      ) : null}
     </>
   );
 });
@@ -58,5 +62,12 @@ const style = StyleSheet.create({
     borderRadius: 20,
     marginTop: -16,
     backgroundColor: '#EDE0D6',
+  },
+  
+  errorText: {
+    color: 'red', 
+    fontSize: 12, 
+    marginTop: 4, 
+    fontWeight: 'bold',
   },
 });

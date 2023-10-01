@@ -27,7 +27,16 @@ const styles = StyleSheet.create({
   touchableArea: {
     flex: 1,
   },
-  
+  recTextTitle:{
+    fontSize: 20,
+    marginTop: '10%',
+    color: '#8200A8',
+  },
+  recText:{
+    fontSize: 15,
+    // marginTop: '10%',
+    color: '#8200A8',
+  }
 });
 
 export default styles;

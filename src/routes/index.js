@@ -182,6 +182,9 @@ export default function Routes() {
           if (error instanceof ReferenceError) {
             console.log(error.message);
           }
+          else if (error instanceof TypeError){
+            console.log (error.message)
+          }
         }
       },
       signOut: () => {
@@ -201,13 +204,13 @@ export default function Routes() {
   );
 
 
-  if (state.isLoading) {
-    return (
-      <>
-       <Load/>
-      </>
-    );
-  }
+  // if (state.isLoading) {
+  //   return (
+  //     <>
+  //      <Load/>
+  //     </>
+  //   );
+  // }
 
   return (
     <AuthContext.Provider value={authContext}>
