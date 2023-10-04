@@ -101,8 +101,8 @@ export default function App() {
             
             <Marker
             coordinate={{
-              latitude: element.coordenadas[0],
-              longitude: element.coordenadas[1],
+              latitude: element.coordenadas.x,
+              longitude: element.coordenadas.y,
               
             }}
               key= {element.uuid}
