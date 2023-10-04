@@ -115,15 +115,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#8200A8',
   },
   containerCommentHeader: {
+    
   },
   containerForm: {
     flex: 1,
     backgroundColor: '#EDE0D6',
     borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
+    borderTopRightRadius: 25,   
+     
   },
   touchableArea: {
     flex: 1,
+    
   },
   title: {
     fontSize: 20,
@@ -136,6 +139,5 @@ const styles = StyleSheet.create({
     right: 15,
     top: 16,
     position: 'absolute',
-
   },
 });

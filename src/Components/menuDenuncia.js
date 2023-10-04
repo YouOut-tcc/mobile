@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { Button, Menu, Divider, PaperProvider ,Provider } from 'react-native-paper';
-import styles from '../pages/Favorite/style';
+import { Button, Menu } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 
 const MenuDenuncia = () => {
   const [visible, setVisible] = React.useState(false);
@@ -12,29 +13,21 @@ const MenuDenuncia = () => {
   const closeMenu = () => {setVisible(false)};
 
   return (
-    <Provider>
       <View style={style.denuncia}>
         <Menu
           visible={visible}
           onDismiss={closeMenu}
-          anchor={<Button onPress={openMenu}>:</Button>}>
-          <Menu.Item onPress={() => {}} title="Item 1" />
-          <Menu.Item onPress={() => {}} title="Item 2" />
-          <Divider />
-          <Menu.Item onPress={() => {}} title="Item 3" />
+          anchor={<Button onPress={openMenu}> <Icon name="ellipsis-v" size={16} color="#FE0472" /> </Button>}>
+          <Menu.Item onPress={() => {}} title="Denunciar" />
         </Menu>
       </View>
-    </Provider>
   );
 };
 export default MenuDenuncia;
 
 const style = StyleSheet.create({
   denuncia: {
-    width: 60,
-    height: 100,
-    // zIndex: 1,
-    borderColor: 'red',
-    borderWidth: 1,
+    zIndex: 1, 
+
   },
 })

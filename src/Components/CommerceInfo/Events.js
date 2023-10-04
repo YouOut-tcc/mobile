@@ -10,18 +10,15 @@ const Events = () => {
     require('../../assets/events.png'),
     require('../../assets/events.png'),
   ];
-  const [isModalVisible, setModalVisible] = useState(images.map(() => false));
+
+  const [modalIndex, setModalIndex] = useState(null);
 
   const openModal = (index) => {
-    const newModalVisible = [...isModalVisible];
-    newModalVisible[index] = true;
-    setModalVisible(newModalVisible);
+    setModalIndex(index);
   };
 
-  const closeModal = (index) => {
-    const newModalVisible = [...isModalVisible];
-    newModalVisible[index] = false;
-    setModalVisible(newModalVisible);
+  const closeModal = () => {
+    setModalIndex(null);
   };
 
   return (
@@ -31,7 +28,7 @@ const Events = () => {
         style={styles.wrapper}
         showsButtons={true}
         autoplay={true}
-        autoplayTimeout={7}
+        autoplayTimeout={5}
         showsPagination={false}
         buttonWrapperStyle={styles.buttonWrapper}
         prevButton={
@@ -45,20 +42,24 @@ const Events = () => {
             <Icon name={'chevron-right'} size={20} color="#FE0472" />
           </Text>
         }
+        onIndexChanged={(index) => {
+          closeModal();
+        }}
       >
         {images.map((image, index) => (
           <View key={index} style={styles.slide}>
-             <TouchableOpacity onPress={() => openModal(index)} style={styles.touch}>
-            <Image source={image} style={styles.image} />
-            <ModalEvent
-              isVisible={isModalVisible[index]}
-              closeModal={() => closeModal(index)}
-            />
+            <TouchableOpacity onPress={() => openModal(index)} style={styles.touch}>
+              <Image source={image} style={styles.image} />
             </TouchableOpacity>
           </View>
-          
         ))}
       </Swiper>
+      {modalIndex !== null && (
+        <ModalEvent
+          isVisible={true}
+          closeModal={closeModal}
+        />
+      )}
     </View>
   );
 }
@@ -86,15 +87,14 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
   },
-
   title: {
     alignSelf: 'center',
     fontSize: 20,
     marginTop: '10%',
     color: '#000',
   },
-  touch:{
-    width: '100%'
+  touch: {
+    width: '100%',
   }
 });
 

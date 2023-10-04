@@ -1,102 +1,70 @@
-import * as React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {Avatar} from 'react-native-paper';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import { Avatar } from 'react-native-paper';
 import MenuDenuncia from '../menuDenuncia';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default function CommentList({comment, index}) {
+export default function CommentList({ comment, index }) {
+  const [denunciado, setDenunciado] = useState(false);
+  const comentarioDenunciado = {
+    nome: "Usuário",
+    comentario: "Este é um comentário denunciado.",
+    denunciado: true 
+  };
   return (
-    <>
-      <View style={styles.containerDenuncia}>
-        {/* <MenuDenuncia /> */}
-      </View>
-    <View>
-      <View
-        style={[styles.commentContainer, index !== 0 && styles.commentDivider]}>
-        <Avatar.Image
-          size={70}
-          source={require('../../assets/people.png')}
-          style={styles.avatar}
-          />
-        <View style={styles.commentTextContainer}>
+    <View style={styles.commentContainer}>
+      <Avatar.Image
+        size={70}
+        source={require('../../assets/people.png')}
+        style={styles.avatar}
+      />
+      <View style={styles.commentContent}>
+        <View style={styles.header}>
           <Text style={styles.userName}>{comment.nome}</Text>
-          <Text>{comment.comentario}</Text>
+          <View style={styles.tst}>
+          {denunciado && (
+            <>
+              <Icon name="exclamationcircle" size={16} color="red" />
+              <Text style={styles.denunciadoText}>Comentário Denunciado</Text>
+            </>
+          )}
+          <MenuDenuncia denunciado={denunciado} setDenunciado={setDenunciado} />
+          </View>
         </View>
+        <Text>{comment.comentario}</Text>
       </View>
-      {comment.replies && comment.replies.length > 0 && (
-        <View style={styles.replyContainer}>
-          {comment.replies.map(reply => (
-            <View key={reply.id} style={styles.reply}>
-              <Avatar.Image
-                size={40}
-                source={require('../../assets/commerceLogo.png')}
-                style={styles.avatar}
-                />
-              <View style={styles.replyTextContainer}>
-                <Text style={styles.replyUserName}>{reply.name}</Text>
-                <Text style={styles.replyText} numberOfLines={20}>
-                  {reply.content}
-                </Text>
-              </View>
-            </View>
-          ))}
-        </View>
-      )}
     </View>
-      </>
   );
 }
 
 const styles = StyleSheet.create({
   commentContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginLeft: 16,
     marginTop: 8,
     paddingBottom: 8,
-  },
-  commentDivider: {
-    marginTop: '2%',
-    marginBottom: '2%',
+    borderBottomWidth: 1,
+    borderBottomColor: '#CCCCCC',
+    paddingBottom: 16,
+    position: 'relative',
   },
   avatar: {
     marginRight: 16,
   },
-  commentTextContainer: {
+  commentContent: {
     flex: 1,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   userName: {
     fontSize: 16,
     fontWeight: 'bold',
   },
-  replyContainer: {
-    marginLeft: 50,
-    paddingLeft: 16,
-    borderLeftWidth: 1,
-    borderLeftColor: '#CCCCCC',
-    marginTop: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingBottom: 10,
-  },
-  replyIcon: {
-    marginRight: 8,
-  },
-  replyTextContainer: {
-    flex: 1,
-  },
-  replyUserName: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#666',
-  },
-  replyText: {
-    flexWrap: 'wrap',
-  },
-  containerDenuncia:{
-    // width: 60,
-    // height: 100,
+  tst:{
     zIndex: 1,
-    borderColor: 'red',
-    borderWidth: 1,
   }
 });

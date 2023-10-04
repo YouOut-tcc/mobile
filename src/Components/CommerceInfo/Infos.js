@@ -5,6 +5,7 @@ import {useRoute} from '@react-navigation/native';
 import FavoriteIcon from '../CartCommerce/FavoriteIcon';
 import consts from '../CartCommerce/consts';
 import { deleteFav, setFav, getFav } from '../../services/commerce';
+import TagsCommerce from './TagsCommerce';
 
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -81,6 +82,9 @@ export default function Infos({commerce, info, endereco}) {
           style={styles.commerceContainer}
         />
       </View>
+      <View style={styles.tagsContainer}>
+        <TagsCommerce/>
+      </View>
     </View>
   );
 }
@@ -100,6 +104,7 @@ const styles = StyleSheet.create({
   commerceAbout: {
     color: '#333',
     fontSize: 16,
+    
   },
   favoriteContainer: {
     alignItems: 'flex-end',
@@ -107,5 +112,11 @@ const styles = StyleSheet.create({
     top: 0,
     position: 'absolute',
     zIndex: 1,
+    
   },
+  tagsContainer:{
+    height: 100,
+    // borderWidth: 1,
+    // borderColor: 'red'
+  }
 });
