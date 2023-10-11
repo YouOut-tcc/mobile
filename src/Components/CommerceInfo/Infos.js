@@ -5,7 +5,7 @@ import {useRoute} from '@react-navigation/native';
 import FavoriteIcon from '../CartCommerce/FavoriteIcon';
 import consts from '../CartCommerce/consts';
 import { deleteFav, setFav, getFav } from '../../services/commerce';
-import TagsCommerce from './TagsCommerce';
+// import TagsCommerce from './TagsCommerce';
 
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -82,9 +82,9 @@ export default function Infos({commerce, info, endereco}) {
           style={styles.commerceContainer}
         />
       </View>
-      <View style={styles.tagsContainer}>
-        <TagsCommerce/>
-      </View>
+      {/* <View style={styles.tagsContainer}> */}
+        {/* <TagsCommerce/> */}
+      {/* </View> */}
     </View>
   );
 }

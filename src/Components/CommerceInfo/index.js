@@ -10,6 +10,7 @@ import { useRoute } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { getCommerceInfo, getAvaliacoes } from '../../services/commerce';
 import { fetchCEP } from '../../services/cep';
+import TagsCommerce from './TagsCommerce';
 
 function CommentHeader({Length, stars}) {
   return (
@@ -39,6 +40,7 @@ export default function ProfileCommerce() {
 
       let commerceInfo = await getCommerceInfo(commerce.uuid);
       let avaliacoes = await getAvaliacoes(commerce.uuid);
+      console.log(`json ${JSON.stringify(commerceInfo)}`)
       let cep = await fetchCEP(commerceInfo.cep);
       
       setData(commerceInfo);
@@ -91,6 +93,9 @@ export default function ProfileCommerce() {
       { data3 && <FlatList
         ListHeaderComponent={
           <>
+            <View style={styles.tagsContainer}>
+        <TagsCommerce/>
+      </View>
             <Menu />
             <Events />
             <CommentHeader Length={data3.length} stars={commerce.nota}/>
@@ -116,6 +121,11 @@ const styles = StyleSheet.create({
   },
   containerCommentHeader: {
     
+  },
+  tagsContainer:{
+    height: 100,
+    // borderWidth: 1,
+    // borderColor: 'red'
   },
   containerForm: {
     flex: 1,

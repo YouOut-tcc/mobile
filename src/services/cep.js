@@ -10,6 +10,7 @@ async function fetchCEP(cep) {
   } catch (error) {
     console.log(error.constructor.name)
     if (error instanceof AxiosError){
+      console.log("aqui")
       console.log(error.response.status)
       console.log(error.response.data.message)
     } else if (error instanceof ReferenceError){
