@@ -1,28 +1,40 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const StarRating = ({ stars }) => {
-  const [rating, setRating] = useState(stars);
+const StarRating = ({ stars, clickable = false, onRatingPress, starSize = 18 }) => {
+  const handleRatingPress = (selectedRating) => {
+    if (clickable && onRatingPress) {
+      onRatingPress(selectedRating);
+    }
+  };
 
   const renderStars = () => {
-    const stars = [];
+    const starsElements = [];
     for (let i = 1; i <= 5; i++) {
-      stars.push(
-        <TouchableOpacity key={i} onPress={() => handleRatingPress(i)}>
-          <Icon name={i <= rating ? 'star' : 'star-o'} size={18} color="#FE0472" />
+      starsElements.push(
+        <TouchableOpacity
+          key={i}
+          onPress={() => handleRatingPress(i)}
+          disabled={!clickable}
+        >
+          <Icon
+            name={i <= stars ? 'star' : 'star-o'}
+            size={starSize}
+            color="#FE0472"
+            style={{ marginRight: 5 }}
+          />
         </TouchableOpacity>
       );
     }
-    return stars;
+    return starsElements;
   };
 
-  const handleRatingPress = (selectedRating) => {
-    setRating(selectedRating);
-   
-  };
-
-  return <View style={{ flexDirection: 'row' }}>{renderStars()}</View>;
+  return (
+    <View style={{ flexDirection: 'row' }}>
+      {renderStars()}
+    </View>
+  );
 };
 
 export default StarRating;

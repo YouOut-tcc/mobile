@@ -43,8 +43,12 @@ export default function CartInfo({commerce}) {
           {commerce.nome}
         </Text>
         <View style={styles.starRating}>
-          <StarRating stars={commerce.nota} style={styles.commerceContainer} />
+          <StarRating
+            stars={commerce.nota}
+            style={{...styles.commerceContainer, pointerEvents: 'none'}}
+          />
         </View>
+
         <Text style={styles.commerceDistance}>{commerce.distance}</Text>
         <Text style={styles.commerceCheckin}>
           <Icon name={'users'} size={20} color="#FE0472" /> {commerce.checkins}{' '}
