@@ -12,7 +12,7 @@ export default function ButtonPub() {
 
   const handlePressOut = () => {
     setIsPressed(false);
-    navigation.navigate(""); 
+    navigation.navigate("AccessCommerce"); 
   };
 
   return (

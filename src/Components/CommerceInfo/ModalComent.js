@@ -52,21 +52,22 @@ const ModalComent = ({isVisible, closeModal, selectedRating}) => {
               numberOfLines={5}
               maxLength={300}
             />
-            
+
             <Text
-              style={{color: comment.length > maxCharacters ? 'red' : 'black', textAlign: 'right', margin: '3%'}}>
+              style={{
+                color: comment.length > maxCharacters ? 'red' : 'black',
+                textAlign: 'right',
+                margin: '3%',
+              }}>
               {comment.length} / {maxCharacters}
             </Text>
             <View style={styles.viewButton}>
-            <TouchableOpacity style={styles.buttonR}>
-              <Text style={styles.buttonText}>Enviar comentário</Text>
-            </TouchableOpacity>
+              <TouchableOpacity style={styles.buttonR}>
+                <Text style={styles.buttonText}>Enviar comentário</Text>
+              </TouchableOpacity>
             </View>
           </View>
-          
-          
         </TouchableOpacity>
-        
       </View>
     </Modal>
   );
@@ -106,7 +107,7 @@ const styles = StyleSheet.create({
   closeButton: {
     width: '10%',
     alignSelf: 'center',
-    marginLeft: '8%'
+    marginLeft: '8%',
   },
   buttonR: {
     width: '80%',
@@ -137,9 +138,9 @@ const styles = StyleSheet.create({
     minHeight: 100,
     maxHeight: 300,
   },
-  viewButton:{
+  viewButton: {
     maxHeight: '15%',
-  }
+  },
 });
 
 export default ModalComent;

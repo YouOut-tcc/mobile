@@ -1,27 +1,28 @@
-import React, { useState } from 'react';
-import { View, Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import React, {useState} from 'react';
+import {View, StyleSheet, TouchableOpacity, Text} from 'react-native';
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Cupom from './CupomDesign';
+import ModalCupom from './ModalCupom';
 
-
-const cupom = () => {
-  const images = [
-    require('../../assets/cupom.png'),
-    require('../../assets/cupom.png'),
-    require('../../assets/cupom.png'),
+const CardCupom = () => {
+  const cupons = [
+    {id: 1, title: 'Cupom 1', discount: '30%', off: 'OFF'},
+    {id: 2, title: 'Cupom 2', discount: '20%', off: 'OFF'},
+    {id: 3, title: 'Cupom 3', discount: '10%', off: 'OFF'},
   ];
-  const [isModalVisible, setModalVisible] = useState(images.map(() => false));
 
-  const openModal = (index) => {
-    const newModalVisible = [...isModalVisible];
-    newModalVisible[index] = true;
-    setModalVisible(newModalVisible);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [selectedCupomIndex, setSelectedCupomIndex] = useState(null);
+
+  const openModal = index => {
+    setSelectedCupomIndex(index);
+    setModalVisible(true);
   };
 
-  const closeModal = (index) => {
-    const newModalVisible = [...isModalVisible];
-    newModalVisible[index] = false;
-    setModalVisible(newModalVisible);
+  const closeModal = () => {
+    setModalVisible(false);
+    setSelectedCupomIndex(null);
   };
 
   return (
@@ -35,7 +36,6 @@ const cupom = () => {
         buttonWrapperStyle={styles.buttonWrapper}
         prevButton={
           <Text style={styles.buttonText}>
-            {' '}
             <Icon name={'chevron-left'} size={20} color="#FE0472" />
           </Text>
         }
@@ -43,27 +43,36 @@ const cupom = () => {
           <Text style={styles.buttonText}>
             <Icon name={'chevron-right'} size={20} color="#FE0472" />
           </Text>
-        }
-      >
-        {images.map((image, index) => (
-          <View key={index} style={styles.slide}>
-             <TouchableOpacity onPress={() => openModal(index)} style={styles.touch}>
-            <Image source={image} style={styles.image} />
-        
+        }>
+        {cupons.map((cupon, index) => (
+          <View key={cupon.id} style={styles.slide}>
+            <TouchableOpacity
+              onPress={() => openModal(index)}
+              style={styles.touch}>
+              <Cupom
+                title={cupon.title}
+                discount={cupon.discount}
+                off={cupon.off}
+              />
             </TouchableOpacity>
           </View>
-          
         ))}
       </Swiper>
+      <ModalCupom
+        isVisible={isModalVisible}
+        cuponIndex={selectedCupomIndex}
+        closeModal={closeModal}
+        cupons={cupons}
+      />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   carouselContainer: {
     height: 250,
     marginBottom: 10,
-    width: '100%'
+    width: '100%',
   },
   wrapper: {},
   slide: {
@@ -71,21 +80,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  image: {
-    width: '60%',
-    height: 150,
-    alignSelf: 'center',
-    borderColor: '#FAC8B9',
-    borderWidth: 1,
+  buttonText: {
+    fontSize: 20,
   },
-  buttonWrapper: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
+  touch: {
+    width: '100%',
   },
-  touch:{
-    width: '100%'
-  }
 });
 
-export default cupom;
+export default CardCupom;

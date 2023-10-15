@@ -11,10 +11,10 @@ import consts from './consts';
 
 export default function CommerceInfos({Empty, Header, Data, isLoading, fetchData}) {
   const itemHeight = 146;
-  // não usar inline function
   return (
     <View>
       <FlatList
+      style={styles.flatList}
         ListEmptyComponent={Empty}
         ListHeaderComponent={Header}
         data={Data}
@@ -25,17 +25,10 @@ export default function CommerceInfos({Empty, Header, Data, isLoading, fetchData
         )}
         keyExtractor={item => item.uuid}
         onEndReached={fetchData}
-        onEndReachedThreshold={2}
+        onEndReachedThreshold={5}
       />
       <ActivityIndicator />
       {isLoading && <ActivityIndicator size="large" />}
-      {/* <View
-        style={{
-          height:
-            Dimensions.get('window').height -
-            consts.commerceList.length * itemHeight + 40,
-        }}
-      /> */}
     </View>
   );
 }
@@ -45,9 +38,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center'
   },
-  // commerceContainer: {
-  //   flexGrow: 1,
-  //   alignItems: 'center',
-  //   width: Dimensions.get('screen').width,
-  // },
+  flatList: {
+    marginBottom: '18%',
+  },
+
 });

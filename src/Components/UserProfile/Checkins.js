@@ -25,6 +25,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     alignSelf: 'center',
     width: '90%',
+    height: 250
     
   },
   textCup: {

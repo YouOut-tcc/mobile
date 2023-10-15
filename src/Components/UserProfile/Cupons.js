@@ -23,8 +23,7 @@ const styles = StyleSheet.create({
     margin: '2%',
     textAlign: 'center',
     alignSelf: 'center',
-    width: '90%',
-    
+    width: '90%',  
   },
   textCup: {
     fontSize: 20,

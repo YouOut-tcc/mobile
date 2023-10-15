@@ -13,6 +13,7 @@ import ProfileCommerce from '../pages/ProfileCommerce';
 import Register from '../pages/Register';
 import SignInUser from '../pages/SignInUser';
 import Welcome from '../pages/Welcome';
+import AccessCommerce from '../pages/AccessCommerce';
 import AuthContext from '../context/authContext';
 import * as SecureStore from 'expo-secure-store';
 import {sessionStorage} from '../helpers/storage';
@@ -230,6 +231,7 @@ export default function Routes() {
               }}
             />
             <Stack.Screen name="ForgotPass" component={ForgotPass} />
+            <Stack.Screen name="AccessCommerce" component={AccessCommerce} />
             <Stack.Screen name="Register" component={Register} />
           </>
         ) : (
