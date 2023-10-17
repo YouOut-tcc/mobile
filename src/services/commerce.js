@@ -163,4 +163,27 @@ async function getPlaces(page, latitute, longitude) {
     }
   }
 }
-export {getAvaliacoes, getCommerceInfo, setFav, deleteFav, getFav, getAllFav, getPlaces};
+
+async function postComment(uuid, comentario, nota) {
+  let token;
+  try {
+    token = await SecureStore.getItemAsync('userToken');
+
+  let res = await api.post(`estabelecimento/places/${uuid}/avaliacoes`, {comentario, nota} ,{
+      headers: {
+        'Authorization': `Bearer ${token}` 
+      }
+    });
+
+    return res.data;
+  } catch (error) {
+    console.log(error.constructor.name);
+    if (error instanceof AxiosError) {
+      console.log(error.response.status);
+      console.log(error.response.data.message);
+    } else if (error instanceof ReferenceError) {
+      console.log(error.message);
+    }
+  }
+}
+export {getAvaliacoes, getCommerceInfo, setFav, deleteFav, getFav, getAllFav, getPlaces, postComment};

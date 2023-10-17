@@ -2,13 +2,13 @@ import React from 'react';
 import { View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const StarRating = ({ stars, clickable = false, onRatingPress, starSize = 18 }) => {
+const StarRating = ({ stars, clickable = false, onRatingPress, starSize = 18, uuid }) => {
   const handleRatingPress = (selectedRating) => {
     if (clickable && onRatingPress) {
       onRatingPress(selectedRating);
     }
   };
-
+  
   const renderStars = () => {
     const starsElements = [];
     for (let i = 1; i <= 5; i++) {
@@ -16,7 +16,7 @@ const StarRating = ({ stars, clickable = false, onRatingPress, starSize = 18 }) 
         <TouchableOpacity
           key={i}
           onPress={() => handleRatingPress(i)}
-          disabled={!clickable}
+          disabled={!clickable} 
         >
           <Icon
             name={i <= stars ? 'star' : 'star-o'}

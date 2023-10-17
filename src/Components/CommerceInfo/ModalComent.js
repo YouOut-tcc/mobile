@@ -11,8 +11,9 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {TextInput} from 'react-native-paper';
 import StarRating from '../StarRating';
+import { postComment } from '../../services/commerce';
 
-const ModalComent = ({isVisible, closeModal, selectedRating}) => {
+const ModalComent = ({isVisible, closeModal, selectedRating, uuid}) => {
   const [comment, setComment] = useState('');
   const maxCharacters = 300;
 
@@ -20,6 +21,12 @@ const ModalComent = ({isVisible, closeModal, selectedRating}) => {
     if (text.length <= maxCharacters) {
       setComment(text);
     }
+  }; 
+  const coment=() => {
+   postComment(uuid, comment, selectedRating);
+   console.log(selectedRating)
+   console.log(comment)
+   console.log(uuid)
   };
 
   return (
@@ -62,7 +69,7 @@ const ModalComent = ({isVisible, closeModal, selectedRating}) => {
               {comment.length} / {maxCharacters}
             </Text>
             <View style={styles.viewButton}>
-              <TouchableOpacity style={styles.buttonR}>
+              <TouchableOpacity style={styles.buttonR} onPress={coment}>
                 <Text style={styles.buttonText}>Enviar comentário</Text>
               </TouchableOpacity>
             </View>

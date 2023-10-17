@@ -12,7 +12,7 @@ import {getCommerceInfo, getAvaliacoes} from '../../services/commerce';
 import {fetchCEP} from '../../services/cep';
 import TagsCommerce from './TagsCommerce';
 import ModalComent from './ModalComent';
-function CommentHeader({ Length, stars }) {
+function CommentHeader({ Length, stars, uuid }) {
   const [startRating, setStarsRating] = useState(0);
   const [isModalVisible, setModalVisible] = useState(false);
 
@@ -34,20 +34,21 @@ function CommentHeader({ Length, stars }) {
             stars={startRating}
             clickable={true}
             onRatingPress={handleRatingPress}
-            starSize={35}
+            starSize={35} 
           />
         </View>
       </View>
       <View>
         <Text style={styles.title}>{Length} Comentários</Text>
         <View style={styles.rate}>{<StarRating stars={stars} />}</View>
-        <ModalComent isVisible={isModalVisible} closeModal={closeModal} selectedRating={startRating} />
+        <ModalComent isVisible={isModalVisible} closeModal={closeModal} selectedRating={startRating} uuid={uuid} />
       </View>
     </>
   );
 }
 
 export default function ProfileCommerce() {
+  const [uuid, setUuid] = useState();
   const [data, setData] = useState(null);
   const [data2, setData2] = useState(null);
   const [data3, setData3] = useState(null);
@@ -60,7 +61,8 @@ export default function ProfileCommerce() {
   const fetchData = async () => {
     try {
       setIsLoading(true);
-
+      setUuid (commerce.uuid);
+      console.log(uuid)
       let commerceInfo = await getCommerceInfo(commerce.uuid);
       let avaliacoes = await getAvaliacoes(commerce.uuid);
       console.log(`json ${JSON.stringify(commerceInfo)}`);
@@ -124,7 +126,7 @@ export default function ProfileCommerce() {
               </View>
               <Menu />
               <Events />
-              <CommentHeader Length={data3.length} stars={commerce.nota} />
+              <CommentHeader Length={data3.length} stars={commerce.nota} uuid={uuid} />
             </>
           }
           data={data3}
