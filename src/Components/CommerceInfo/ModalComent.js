@@ -24,9 +24,7 @@ const ModalComent = ({isVisible, closeModal, selectedRating, uuid}) => {
   }; 
   const coment=() => {
    postComment(uuid, comment, selectedRating);
-   console.log(selectedRating)
-   console.log(comment)
-   console.log(uuid)
+  closeModal();
   };
 
   return (

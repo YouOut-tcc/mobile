@@ -89,9 +89,10 @@ export default function ProfileCommerce() {
 
   useEffect(() => {
     fetchData();
+
     // console.log(commerce)
     // console.log(data.uuid)
-  }, [commerce]);
+  }, [commerce, data3]);
 
   const commentList = [
     {

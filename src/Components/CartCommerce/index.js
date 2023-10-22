@@ -10,7 +10,6 @@ import CartInfo from './Cart';
 import consts from './consts';
 
 export default function CommerceInfos({Empty, Header, Data, isLoading, fetchData}) {
-  const itemHeight = 146;
   return (
     <View>
       <FlatList

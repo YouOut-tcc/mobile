@@ -1,7 +1,8 @@
 import * as React from 'react';
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Searchbar } from 'react-native-paper';
 import consts from './CartCommerce/consts';
+import TagsSearch from './TagsSearch';
 
 const SearchbarComponent = ({ commerceList, onSearchChange }) => {
   const [searchQuery, setSearchQuery] = React.useState('');
@@ -16,12 +17,17 @@ const SearchbarComponent = ({ commerceList, onSearchChange }) => {
   };
 
   return (
+   <>
     <Searchbar
       placeholder="Busque por estabelecimentos"
       onChangeText={onChangeSearch}
       value={searchQuery}
       style={styles.search}
-    />
+      />
+      <View style={styles.tags}>
+      <TagsSearch/>
+      </View>
+    </>
   );
 };
 
@@ -29,10 +35,13 @@ export default SearchbarComponent;
 
 const styles = StyleSheet.create({
   search: {
-    margin: '2%',
     position: 'absolute',
     backgroundColor: '#EDE0D6',
     borderWidth: 2,
     borderColor: "#8200A8",
+  }, 
+  tags:{
+    height: '60%',
+    marginTop: '16%',
   }
 });

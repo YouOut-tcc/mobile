@@ -12,7 +12,7 @@ export default function Checkins() {
         <Icon name={'check-square-o'} size={30} color="#FE0472" />
         <Text style={styles.textCup}> Checkins </Text>
       </Text>
-      <View>
+      <View style={styles.enfim}>
         <CardCheck/>
       </View>
     </View>
@@ -25,11 +25,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     alignSelf: 'center',
     width: '90%',
-    height: 250
-    
+    height: 300,    
   },
   textCup: {
     fontSize: 20,
     color: '#000',
   },
+  enfim:{
+    height: 200,
+  }
 });

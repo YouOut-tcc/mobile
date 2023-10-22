@@ -70,11 +70,6 @@ export default function CardCheck({commerce}) {
 }
 
 const styles = StyleSheet.create({
-  commerceContainer: {
-    flexGrow: 1,
-    alignItems: 'center',
-    width: Dimensions.get('screen').width,
-  },
   starRating: {
     width: '70%',
     alignItems: 'center',
@@ -95,9 +90,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: '#8200A8',
     backgroundColor: '#EFD9D3',
-    alignSelf: 'center'
-    // borderColor: 'red',
-    // borderWidth: 1 ,
+    alignSelf: 'center',
+    borderColor: 'red',
+    borderWidth: 1 ,
   },
   commerceName: {
     color: '#000',
@@ -143,12 +138,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     right: 0,
-    // borderColor: 'red',
-    // borderWidth: 1,
     width: '100%',
-    height: '20%'
+    height: '20%',
+    marginTop: '15%',
 
   },
-  
-
 });

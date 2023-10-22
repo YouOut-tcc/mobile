@@ -81,12 +81,9 @@ export default function Favorites({ navigation }) {
         <LogoYO />
       </View>
       <View style={styles.containerForm}>
-        <View style={styles.containerSearch}>
-          <SearchbarComponent />
-        </View>
         <View style={styles.containerPlace}>
           <Commerce
-            // fetchData={fetchData}
+            fetchData={fetchData}
             Empty={<Vazio />}
             Header={<FavoriteHeader Length={commerceLength} />}
             Data={data}

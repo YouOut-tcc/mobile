@@ -109,11 +109,6 @@ export default function HomePage() {
   return (
 
     <View style={styles.container}>
-      {/* <KeyboardAwareScrollView
-      contentContainerStyle={styles.container}
-      resetScrollToCoords={{ x: 0, y: 0 }}
-      scrollEnabled={true}
-    > */}
       <View style={styles.containerLogo}>
         <LogoYO />
       </View>
@@ -129,7 +124,6 @@ export default function HomePage() {
           {location && <Commerce Empty={<Vazio isLoading={isLoading}/>} Data={data} isLoading={isLoading} fetchData={fetchData}/>}
         </View>
       </View>
-      {/* </KeyboardAwareScrollView> */}
     </View>
 
   );

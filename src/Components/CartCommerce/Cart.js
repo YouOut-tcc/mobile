@@ -62,8 +62,8 @@ export default function CartInfo({commerce}) {
 const styles = StyleSheet.create({
   commerceContainer: {
     flexGrow: 1,
-    alignItems: 'center',
-    width: Dimensions.get('screen').width,
+    alignItems: 'center',   
+   
   },
   starRating: {
     width: '70%',

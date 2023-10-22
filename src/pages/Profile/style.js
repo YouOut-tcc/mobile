@@ -22,8 +22,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#EDE0D6',
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-    alignContent: 'center',
-    alignItems: 'center',
+    //alignContent: 'center',
+   // alignItems: 'center',
     
   },
   touchableArea: {
