@@ -38,6 +38,28 @@ export default function App() {
   const [data, setData] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [selectedPlace, setSelectedPlace] = useState(null);
+  const _scrolView = useRef(null);
+
+  const scrollToMarker = (element) => {
+    mapRef.current.animateToRegion({
+      latitude: element.coordenadas.x,
+      longitude: element.coordenadas.y,
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA,
+    });
+  };
+
+  const scrollToCard = (element) => {
+    if (_scrolView.current) {
+      const index = data.indexOf(element);
+      if (index !== -1) {
+        _scrollView.current.scrollTo({
+          x: index * CARD_WIDTH,
+          animated: true,
+        });
+      }
+    }
+  };
 
   const mapRef = useRef(null);
   const _scrollView = useRef(null);
@@ -134,11 +156,12 @@ export default function App() {
                     longitude: element.coordenadas.y,
                   }}
                   key={element.uuid}
-                  title={element.nome}
                   onPress={() => {
                     setSelectedMarker(element.uuid);
                     setSelectedPlace(null);
                     setSelectedPlace(element);
+                    scrollToCard(element); 
+                    scrollToMarker(element);
                   }}>
                   <Icon
                     name="map-marker"
@@ -147,17 +170,7 @@ export default function App() {
                       selectedMarker === element.uuid ? '#FE0472' : '#8200A8'
                     }
                   />
-                  {selectedPlace && (
-                    <Callout tooltip>
-                      <View>
-                        <View style={styles.bubble}>
-                          <Text style={styles.name}>{element.nome}</Text>
-                        </View>
-                        <View style={styles.arrowBorder} />
-                        <View style={styles.arrow} />
-                      </View>
-                    </Callout>
-                  )}
+                 
                 </Marker>
               ))}
           </MapView>
@@ -191,9 +204,16 @@ export default function App() {
                 },
               ],
               {useNativeDriver: true},
-            )}>
+            )}
+            onMomentumScrollEnd={(e) => {
+              const index = Math.floor(
+                e.nativeEvent.contentOffset.x / CARD_WIDTH
+              );
+              setSelectedMarker(data[index].uuid);
+            }}
+            >
             {data.map(element => (
-              <View style={styles.card}>
+              <View key={element.uuid} style={styles.card}>
                 <CardCommerce commerce={element}  />
               </View>
             ))}
