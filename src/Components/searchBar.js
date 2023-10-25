@@ -39,9 +39,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#EDE0D6',
     borderWidth: 2,
     borderColor: "#8200A8",
+    marginTop: '0%',
+    width: '100%',
+    margin: '2%',
+    alignContent: 'center',
   }, 
   tags:{
     height: '60%',
     marginTop: '16%',
+    
   }
 });

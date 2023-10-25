@@ -17,6 +17,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {getPlaces} from '../../services/commerce';
 import CardCommerce from '../../Components/CartCommerce/Cart';
+import  SearchBar from '../../Components/searchBar';
 
 const {width, height} = Dimensions.get('window');
 
@@ -24,10 +25,10 @@ const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-const CARD_HEIGHT = 220;
-const CARD_WIDTH = width * 0.8;
+const CARD_HEIGHT = 170;
+const CARD_WIDTH = width * 0.9;
 
-const SPACING_FOR_CARD_INSET = width * 0.1 - 10;
+const SPACING_FOR_CARD_INSET = width * 0.08 - 10;
 
 export default function App() {
   const [granted, setGranted] = useState(false);
@@ -104,6 +105,10 @@ export default function App() {
   }, []);
 
   return (
+    <>
+    <View style={styles.searchBox}>
+      <SearchBar style={styles.search}/>
+    </View>
     <View style={styles.container}>
       {!location && <ActivityIndicator size="large" />}
       {location && (
@@ -162,15 +167,15 @@ export default function App() {
             pagingEnabled
             scrollEventThrottle={1}
             showsHorizontalScrollIndicator={false}
-            snapToInterval={CARD_WIDTH + 20}
+            snapToInterval={CARD_WIDTH }
             snapToAlignment="center"
             style={styles.scrollView}
-            contentInset={{
-              top: 0,
-              left: SPACING_FOR_CARD_INSET,
-              bottom: 0,
-              right: SPACING_FOR_CARD_INSET,
-            }}
+            // contentInset={{
+            //   top: 0,
+            //   left: SPACING_FOR_CARD_INSET,
+            //   bottom: 0,
+            //   right: SPACING_FOR_CARD_INSET,
+            // }}
             contentContainerStyle={{
               paddingHorizontal:
                 Platform.OS === 'android' ? SPACING_FOR_CARD_INSET : 0,
@@ -188,7 +193,9 @@ export default function App() {
               {useNativeDriver: true},
             )}>
             {data.map(element => (
-              <CardCommerce commerce={element}/>
+              <View style={styles.card}>
+                <CardCommerce commerce={element}  />
+              </View>
             ))}
             {/* {state.markers.map((marker, index) => (
               <View style={styles.card} key={index}>
@@ -237,6 +244,7 @@ export default function App() {
       )}
       <View style={styles.eventList}></View>
     </View>
+    </>
   );
 }
 const styles = StyleSheet.create({
@@ -279,6 +287,7 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
     borderTopColor: '#007a87',
     borderWidth: 16,
+    
     alignSelf: 'center',
     marginTop: -0.5,
     // marginBottom: -15
@@ -289,19 +298,16 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   searchBox: {
-    position:'absolute', 
-    marginTop: Platform.OS === 'ios' ? 40 : 20, 
+    marginTop: Platform.OS === 'ios' ? 40 : 10, 
+    alignContent: 'center',
     flexDirection:"row",
-    backgroundColor: '#fff',
-    width: '90%',
+    width: '100%',
+    minHeight: '20%',
     alignSelf:'center',
     borderRadius: 5,
     padding: 10,
-    shadowColor: '#ccc',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.5,
-    shadowRadius: 5,
-    elevation: 10,
+    position: 'absolute',
+    zIndex: 1,
   },
   chipsScrollView: {
     position:'absolute', 
@@ -336,19 +342,18 @@ const styles = StyleSheet.create({
     paddingRight: width - CARD_WIDTH,
   },
   card: {
-    // padding: 10,
-    elevation: 2,
-    backgroundColor: "#FFF",
-    borderTopLeftRadius: 5,
-    borderTopRightRadius: 5,
-    marginHorizontal: 10,
-    shadowColor: "#000",
-    shadowRadius: 5,
-    shadowOpacity: 0.3,
-    shadowOffset: { x: 2, y: -2 },
-    height: CARD_HEIGHT,
+    // flexDirection: 'row',
+    // textAlign: 'center',
+    // alignItems: 'center',
+    alignItems: 'center',
     width: CARD_WIDTH,
-    overflow: "hidden",
+    height: CARD_HEIGHT,
+    // marginTop: 10,
+    // borderWidth: 2,
+    // borderRadius: 10,
+
+    // borderColor: 'red',
+    // borderWidth: 1 ,
   },
   cardImage: {
     flex: 3,
@@ -383,15 +388,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 5
   },
-  signIn: {
-      width: '100%',
-      padding:5,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 3
-  },
-  textSign: {
-      fontSize: 14,
-      fontWeight: 'bold'
-  }
+
 });

@@ -2,6 +2,7 @@ import * as React from 'react';
 import {Avatar} from 'react-native-paper';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import MenuPerfil from '../UserProfile/menuPerfil';
 
 const AvatarUser = () => (
   <>
@@ -12,9 +13,9 @@ const AvatarUser = () => (
         Josefinobistefundo Santos Fulano Rodrigues Santos Vieira Sousa Sousa
         Sousa Sousa
       </Text>
-      <TouchableOpacity style={styles.viewConfig}>
-        <Icon name={'cog'} size={30} color="#EDE0D6" />
-      </TouchableOpacity>
+      <View style={styles.viewConfig}>
+        <MenuPerfil/>
+      </View>
     </View>
   </>
   // Josefinobistefundo Santos Fulano Rodrigues Santos Vieira Sousa Sousa Sousa Sousa
@@ -34,7 +35,11 @@ const styles = StyleSheet.create({
   },
   viewConfig: {
     alignSelf: 'flex-end',
-    marginEnd: '8%'
+    marginEnd: '8%',
+    // width: '30%',
+    // height: '50%',
+  // borderColor: 'red',
+  // borderWidth: 1
   },
 });
 export default AvatarUser;

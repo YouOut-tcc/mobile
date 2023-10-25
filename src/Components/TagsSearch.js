@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     margin: 10,
     height: 40,
+    backgroundColor: '#EDE0D6',
     
   },
   selectedItem: {

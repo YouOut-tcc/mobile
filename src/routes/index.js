@@ -16,10 +16,6 @@ import Welcome from '../pages/Welcome';
 import AccessCommerce from '../pages/AccessCommerce';
 import AuthContext from '../context/authContext';
 import * as SecureStore from 'expo-secure-store';
-import {sessionStorage} from '../helpers/storage';
-import {Image} from 'react-native-paper/lib/typescript/src/components/Avatar/Avatar';
-import LogoYouOut from '../Components/LogoYouOut';
-import Load from '../Components/load';
 
 import {getToken, userLogin} from '../services/user';
 import {BackendAcessError, LoginError} from '../error/user';
@@ -80,7 +76,7 @@ function BottomTab() {
           component={ProfileCommerce}
           options={{tabBarButton: () => null}}
         />
-      </Tab.Navigator>
+       </Tab.Navigator>
     </PaperProvider>
   );
 }
