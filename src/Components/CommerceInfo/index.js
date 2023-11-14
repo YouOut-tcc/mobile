@@ -92,7 +92,7 @@ export default function ProfileCommerce() {
 
     // console.log(commerce)
     // console.log(data.uuid)
-  }, [commerce, data3]);
+  }, [commerce]);
 
   const commentList = [
     {

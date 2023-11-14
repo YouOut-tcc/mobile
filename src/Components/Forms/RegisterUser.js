@@ -47,6 +47,7 @@ export default function InputRegister() {
         name: nome,
         email,
         password,
+        telefone
       };
       const response = await api.post("/usuario/cadastro", data);
 
