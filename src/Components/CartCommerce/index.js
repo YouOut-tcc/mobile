@@ -7,7 +7,6 @@ import {
   ActivityIndicator
 } from 'react-native';
 import CartInfo from './Cart';
-import consts from './consts';
 
 export default function CommerceInfos({Empty, Header, Data, isLoading, fetchData}) {
   return (
@@ -26,8 +25,7 @@ export default function CommerceInfos({Empty, Header, Data, isLoading, fetchData
         onEndReached={fetchData}
         onEndReachedThreshold={5}
       />
-      <ActivityIndicator />
-      {isLoading && <ActivityIndicator size="large" />}
+      {isLoading && <ActivityIndicator size="small" />}
     </View>
   );
 }

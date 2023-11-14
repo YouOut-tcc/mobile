@@ -11,6 +11,9 @@ export default function AnswerList({ comment, index }) {
     comentario: "Este é um comentário denunciado.",
     denunciado: true 
   };
+  let date = new Date(comment.criado);
+  date = date.toLocaleDateString("en-GB");
+
   return (
     <View style={styles.commentContainer}>
       <Avatar.Image
@@ -22,7 +25,7 @@ export default function AnswerList({ comment, index }) {
         <View style={styles.header}>
           <Text style={styles.userName}>{comentarioDenunciado.nome}</Text>
           <View style={styles.dados}>
-              <Text style={styles.userName}>18/11/2022</Text>
+              <Text style={styles.userName}>14/11/2023</Text>
             </View>
           <View style={styles.tst}>
           {denunciado && (
@@ -34,7 +37,7 @@ export default function AnswerList({ comment, index }) {
           <MenuDenuncia denunciado={denunciado} setDenunciado={setDenunciado} />
           </View>
         </View>
-        <Text>{comentarioDenunciado.comentario}</Text>
+        <Text>{comment}</Text>
       </View>
     </View>
   );

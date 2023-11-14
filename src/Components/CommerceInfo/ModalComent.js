@@ -11,9 +11,9 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {TextInput} from 'react-native-paper';
 import StarRating from '../StarRating';
-import { postComment } from '../../services/commerce';
+import {postComment} from '../../services/commerce';
 
-const ModalComent = ({isVisible, closeModal, selectedRating, uuid}) => {
+const ModalComent = ({isVisible, closeModal, selectedRating, uuid, reload}) => {
   const [comment, setComment] = useState('');
   const maxCharacters = 300;
 
@@ -21,10 +21,12 @@ const ModalComent = ({isVisible, closeModal, selectedRating, uuid}) => {
     if (text.length <= maxCharacters) {
       setComment(text);
     }
-  }; 
-  const coment=() => {
-   postComment(uuid, comment, selectedRating);
-  closeModal();
+  };
+  const coment = () => {
+    setComment("");
+    postComment(uuid, comment, selectedRating);
+    closeModal();
+    reload();
   };
 
   return (
