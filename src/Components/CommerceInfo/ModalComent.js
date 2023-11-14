@@ -23,10 +23,10 @@ const ModalComent = ({isVisible, closeModal, selectedRating, uuid, reload}) => {
     }
   };
   const coment = () => {
-    reload();
     setComment("");
     postComment(uuid, comment, selectedRating);
     closeModal();
+    reload();
   };
 
   return (

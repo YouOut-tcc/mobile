@@ -5,7 +5,7 @@ import MenuDenuncia from '../menuDenuncia';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ComentsAnswer from '../CommerceInfo/ComentsAnswer';
 
-export default function CommentList({comment, index, reload}) {
+export default function CommentList({comment, index}) {
   const [denunciado, setDenunciado] = useState(false);
   const comentarioDenunciado = {
     nome: 'Usuário',
