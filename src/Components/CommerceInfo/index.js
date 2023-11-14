@@ -12,13 +12,14 @@ import {getCommerceInfo, getAvaliacoes} from '../../services/commerce';
 import {fetchCEP} from '../../services/cep';
 import TagsCommerce from './TagsCommerce';
 import ModalComent from './ModalComent';
-function CommentHeader({ Length, stars, uuid }) {
+
+function CommentHeader({Length, stars, uuid, reload}) {
   const [startRating, setStarsRating] = useState(0);
   const [isModalVisible, setModalVisible] = useState(false);
 
   const handleRatingPress = selectedRating => {
     setStarsRating(selectedRating);
-    setModalVisible(true); 
+    setModalVisible(true);
   };
 
   const closeModal = () => {
@@ -34,14 +35,20 @@ function CommentHeader({ Length, stars, uuid }) {
             stars={startRating}
             clickable={true}
             onRatingPress={handleRatingPress}
-            starSize={35} 
+            starSize={35}
           />
         </View>
       </View>
       <View>
         <Text style={styles.title}>{Length} Comentários</Text>
         <View style={styles.rate}>{<StarRating stars={stars} />}</View>
-        <ModalComent isVisible={isModalVisible} closeModal={closeModal} selectedRating={startRating} uuid={uuid} />
+        <ModalComent
+          isVisible={isModalVisible}
+          closeModal={closeModal}
+          selectedRating={startRating}
+          uuid={uuid}
+          reload={reload}
+        />
       </View>
     </>
   );
@@ -49,28 +56,38 @@ function CommentHeader({ Length, stars, uuid }) {
 
 export default function ProfileCommerce() {
   const [uuid, setUuid] = useState();
-  const [data, setData] = useState(null);
-  const [data2, setData2] = useState(null);
-  const [data3, setData3] = useState(null);
+  const [info, setInfo] = useState(null);
+  const [infoCep, setCep] = useState(null);
+  const [placeAvaliacoes, setAvaliacoes] = useState(null);
+  const [reload, setReload] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
 
   const route = useRoute();
   const commerce = route.params.commerce;
 
+  const Reload = () => {
+    console.log("reload")
+    setReload(!reload);
+    console.log(reload)
+  }
+
   const fetchData = async () => {
     try {
       setIsLoading(true);
-      setUuid (commerce.uuid);
-      console.log(uuid)
+      setUuid(commerce.uuid);
+      console.log(uuid);
       let commerceInfo = await getCommerceInfo(commerce.uuid);
+
       let avaliacoes = await getAvaliacoes(commerce.uuid);
-      console.log(`json ${JSON.stringify(commerceInfo)}`);
+      console.log(`json ${JSON.stringify(avaliacoes)}`);
+
+      // console.log(`json ${JSON.stringify(commerceInfo)}`);
       let cep = await fetchCEP(commerceInfo.cep);
 
-      setData(commerceInfo);
-      setData2(cep);
-      setData3(avaliacoes);
+      setInfo(commerceInfo);
+      setCep(cep);
+      setAvaliacoes(avaliacoes);
 
       console.log(commerceInfo);
       console.log();
@@ -92,7 +109,7 @@ export default function ProfileCommerce() {
 
     // console.log(commerce)
     // console.log(data.uuid)
-  }, [commerce, data3]);
+  }, [commerce]);
 
   const commentList = [
     {
@@ -112,14 +129,15 @@ export default function ProfileCommerce() {
   return (
     <View style={styles.containerForm}>
       <Carousel />
-      {data2 && (
+      {infoCep && (
         <View style={styles.Infos}>
-          <Infos commerce={commerce} info={data} endereco={data2} />
+          <Infos commerce={commerce} info={info} endereco={infoCep} />
         </View>
       )}
 
-      {data3 && (
+      {placeAvaliacoes && (
         <FlatList
+          extraData={reload}
           ListHeaderComponent={
             <>
               <View style={styles.tagsContainer}>
@@ -127,13 +145,18 @@ export default function ProfileCommerce() {
               </View>
               <Menu />
               <Events />
-              <CommentHeader Length={data3.length} stars={commerce.nota} uuid={uuid} />
+              <CommentHeader
+                Length={placeAvaliacoes.length}
+                stars={commerce.nota}
+                uuid={uuid}
+                reload={Reload}
+              />
             </>
           }
-          data={data3}
+          data={placeAvaliacoes}
           renderItem={({item, index}) => (
             <View>
-              <Coments comment={item} index={index} />
+              <Coments comment={item} index={index}  />
             </View>
           )}
           keyExtractor={item => item.id}
@@ -169,11 +192,11 @@ const styles = StyleSheet.create({
     color: '#000',
     marginLeft: 16,
   },
-  titleRating:{
+  titleRating: {
     fontSize: 22,
     marginTop: 16,
     color: '#000',
-    textAlign: 'center'
+    textAlign: 'center',
   },
   rate: {
     alignItems: 'flex-end',
@@ -181,8 +204,8 @@ const styles = StyleSheet.create({
     top: 16,
     position: 'absolute',
   },
-  rating:{
+  rating: {
     alignItems: 'center',
     marginBottom: '3%',
-  }
+  },
 });

@@ -7,15 +7,19 @@ async function getCommerceInfo(uuid) {
   let token;
   try {
     token = await SecureStore.getItemAsync('userToken');
-
+    
     let res = await api.get(`/estabelecimento/places/${uuid}/informacoes`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
 
+    console.log("aqui erro 4")
+
+
     return res.data;
   } catch (error) {
+    console.log("erro aqui")
     console.log(error.constructor.name);
     if (error instanceof AxiosError) {
       console.log(error.response.status);
@@ -76,7 +80,7 @@ async function setFav(uuid) {
     token = await SecureStore.getItemAsync('userToken');
 
     let res = await api.post(
-      `/estabelecimento/places/${uuid}/favoritar`,
+      `/estabelecimento/places/${uuid}/favorito`,
       null,
       {
         headers: {

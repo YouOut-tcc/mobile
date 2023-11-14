@@ -43,9 +43,11 @@ export default function InputRegister() {
 
   const handleConfirmSubmit = async () => {
     try {
+      console.log(celular);
       const data = {
         name: nome,
         email,
+        telefone: 56455,
         password,
       };
       const response = await api.post("/usuario/cadastro", data);

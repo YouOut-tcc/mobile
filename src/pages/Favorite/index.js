@@ -10,10 +10,10 @@ import Commerce from '../../Components/CartCommerce';
 import SearchbarComponent from '../../Components/searchBar';
 import FavoriteHeader from '../../Components/CartCommerce/FavotieHeader';
 // import consts from "../../Components/CartCommerce/consts";
-import { useIsFocused } from "@react-navigation/native";
-import { useFocusEffect } from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
+import {useFocusEffect} from '@react-navigation/native';
 
-import { getAllFav } from '../../services/commerce';
+import {getAllFav} from '../../services/commerce';
 
 function Vazio() {
   return (
@@ -28,52 +28,47 @@ function Vazio() {
   );
 }
 
-export default function Favorites({ navigation }) {
+export default function Favorites({navigation}) {
   const [commerceLength, setcommerceLength] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
   const [focusbool, setFocusBool] = useState(true);
 
   const isFocused = useIsFocused();
 
-
-  const consts = [
-    {
-      id: 1,
-      name: 'Lorem Ipsum 1',
-      rating: 4,
-      distance: '3km de distância',
-      checkins: 2,
-    },
-  ];
-  
   const fetchData = async () => {
+    setIsLoading(true);
+    console.log('teste');
     try {
       let favs = await getAllFav();
       console.log(favs);
-      setData(data.concat(favs));
+      // setData(data.concat(favs));
+      setData(favs);
       setcommerceLength(favs.length);
     } catch (error) {
-      console.log(error.constructor.name)
-      if (error instanceof AxiosError){
-        console.log(error.response.status)
-        console.log(error.response.data.message)
-      } else if (error instanceof ReferenceError){
-        console.log(error.message)
+      console.log(error.constructor.name);
+      if (error instanceof AxiosError) {
+        console.log(error.response.status);
+        console.log(error.response.data.message);
+      } else if (error instanceof ReferenceError) {
+        console.log(error.message);
       }
+    } finally {
+      setIsLoading(false);
+      console.log(isLoading);
     }
-  }
+  };
 
-  useEffect(()=>{
-    const unsubscribe = navigation.addListener('focus', () => {
-      if(focusbool){
-        console.log("fucus")
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      if (focusbool) {
+        console.log('fucus');
         fetchData();
-        console.log(data)
-        setFocusBool(false)
+        console.log(data);
+        setFocusBool(false);
       }
     });
-
-  },[])
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -85,6 +80,7 @@ export default function Favorites({ navigation }) {
           <Commerce
             fetchData={fetchData}
             Empty={<Vazio />}
+            isLoading={isLoading}
             Header={<FavoriteHeader Length={commerceLength} />}
             Data={data}
           />

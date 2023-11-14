@@ -5,13 +5,18 @@ import MenuDenuncia from '../menuDenuncia';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ComentsAnswer from '../CommerceInfo/ComentsAnswer';
 
-export default function CommentList({comment, index}) {
+export default function CommentList({comment, index, reload}) {
   const [denunciado, setDenunciado] = useState(false);
   const comentarioDenunciado = {
     nome: 'Usuário',
     comentario: 'Este é um comentário denunciado.',
     denunciado: true,
   };
+
+  let date = new Date(comment.criado);
+  date = date.toLocaleDateString("en-GB");
+
+  
   return (
     <View style={styles.container}>
       <View style={styles.commentContainer}>
@@ -24,9 +29,9 @@ export default function CommentList({comment, index}) {
           <View style={styles.header}>
             <Text style={styles.userName}>{comment.nome}</Text>
             <View style={styles.dados}>
-              <Text style={styles.userName}>16/11/2022</Text>
+              <Text style={styles.userName}>{date}</Text>
               <Text>
-                4   <Icon name="star" size={16} color="#FE0472" />
+                {comment.pontuacao}   <Icon name="star" size={16} color="#FE0472" />
               </Text>
             </View>
             <View style={styles.tst}>
@@ -47,7 +52,9 @@ export default function CommentList({comment, index}) {
           <Text>{comment.comentario}</Text>
         </View>
       </View>
-      <ComentsAnswer />
+      {comment.resposta && 
+        <ComentsAnswer comment={comment.resposta}/>
+      }
     </View>
   );
 }

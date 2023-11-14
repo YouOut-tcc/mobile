@@ -14,11 +14,15 @@ const cepApi = axios.create({
 
 api.interceptors.request.use(async (config)=>{
   let token;
+
   try {
     token = await SecureStore.getItemAsync('userToken');
-    config.headers.Authorization =  token ? `Bearer ${token}` : '';
+
+    
+  config.headers.Authorization =  token ? `Bearer ${token}` : '';
     return config;
   } catch (error) {
+
     console.log("error on initial setup of a request: "+error.constructor.name);
   }
 });
