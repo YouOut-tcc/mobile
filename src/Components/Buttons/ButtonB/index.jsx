@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { View, Text, TouchableWithoutFeedback, StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import React, {useState} from 'react';
+import {View, Text, TouchableWithoutFeedback, StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
-export default function ButtonUser() {
+export default function ButtonB({label, location}) {
   const navigation = useNavigation();
   const [isPressed, setIsPressed] = useState(false);
 
@@ -12,17 +12,16 @@ export default function ButtonUser() {
 
   const handlePressOut = () => {
     setIsPressed(false);
-    navigation.navigate("SignInUser"); // Navegar para a próxima tela aqui
+    navigation.navigate(location);
   };
 
   return (
     <View>
       <TouchableWithoutFeedback
         onPressIn={handlePressIn}
-        onPressOut={handlePressOut}
-      >
+        onPressOut={handlePressOut}>
         <View style={[style.buttonUser, isPressed && style.buttonUserPressed]}>
-          <Text style={style.buttonText}>Usuário</Text>
+          <Text style={style.buttonText}>{label}</Text>
         </View>
       </TouchableWithoutFeedback>
     </View>
@@ -31,24 +30,25 @@ export default function ButtonUser() {
 
 const style = StyleSheet.create({
   buttonUser: {
-    backgroundColor: "#FE0472",
+    backgroundColor: '#FE0472',
     borderRadius: 50,
     paddingVertical: 8,
-    marginTop: "15%",
-    // width: 250,
+    marginTop: '8%',
+    width: 250,
+    maxWidth: 250,
     minWidth: 250,
-    maxHeight: "100%",
+    maxHeight: '100%',
     height: 50,
-    alignSelf: "center",
-    alignItems: "center",
-    justifyContent: "center",
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonUserPressed: {
-    backgroundColor: "#8200A8",
+    backgroundColor: '#8200A8',
   },
   buttonText: {
-    color: "#fff",
-    fontWeight: "bold",
+    color: '#fff',
+    fontWeight: 'bold',
     fontSize: 20,
   },
 });
