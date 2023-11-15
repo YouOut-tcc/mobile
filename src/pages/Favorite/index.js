@@ -34,8 +34,6 @@ export default function Favorites({navigation}) {
   const [data, setData] = useState([]);
   const [focusbool, setFocusBool] = useState(true);
 
-  const isFocused = useIsFocused();
-
   const fetchData = async () => {
     setIsLoading(true);
     console.log('teste');

@@ -36,7 +36,9 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   flatList: {
-    marginBottom: '18%',
+    marginLeft: "8%",
+    marginRight: "8%",
+    // marginBottom: '18%',
   },
 
 });

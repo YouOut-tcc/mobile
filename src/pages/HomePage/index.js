@@ -109,6 +109,7 @@ export default function HomePage() {
     navigate.addListener('focus', ()=>{
       if(isFocused){
         console.log("focus");
+        // setPage(0);
         fetchData();
         SetIsFocused(false);
         console.log(page);

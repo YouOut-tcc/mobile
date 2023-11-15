@@ -11,11 +11,10 @@ export default function SignIn() {
         <LogoYouOut />
       </View>
       <View style={styles.containerForm}>
-      <Text style={styles.message}>Login</Text>
-      <Text style={styles.text}>Faça login para continuar</Text>
-      
-      <LoginForm />
+        <Text style={styles.message}>Login</Text>
+        <Text style={styles.text}>Faça login para continuar</Text>
 
+        <LoginForm />
       </View>
     </View>
   );

@@ -75,14 +75,11 @@ const styles = StyleSheet.create({
   //   scrollViewContent: {
   //     flexGrow: 1,
   //   },
-  favorite: {
-    position: 'relative',
-  },
   commerce: {
     flexDirection: 'row',
     textAlign: 'center',
     alignItems: 'center',
-    width: '90%',
+    width: '100%',
     height: 140,
     marginTop: 10,
     borderWidth: 2,
@@ -124,12 +121,13 @@ const styles = StyleSheet.create({
     // borderWidth: 1 ,
   },
   viewFav: {
-    width: '30%',
+    width: 130,
+    height: '100%',
     // borderColor: 'red',
     // borderWidth: 1,
-    alignItems: 'center',
-    alignSelf: 'flex-end',
+
+    alignItems: 'flex-end',
+    justifyContent: "flex-end",
     position: 'absolute',
-    marginTop: '75%',
   },
 });
