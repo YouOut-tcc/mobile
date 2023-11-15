@@ -3,30 +3,54 @@ import {View, Text, StyleSheet} from 'react-native';
 import {TextInput} from 'react-native-paper';
 import ButtonLogin from '../../Components/Buttons/ButtonA';
 import InputA from '../Inputs/InputA';
+import InputB from '../Inputs/InputB';
 import ButtonGoogle from '../../Components/Buttons/ButtonGoogle';
 import ButtonForgotPass from '../../Components/Buttons/ButtonForgotPass';
 import ButtonRegister from '../../Components/Buttons/ButtonRegister';
+import {useReducerInputs} from '../../hooks/Inputs';
 
 import AuthContext from '../../context/authContext';
 import {BackendAcessError, LoginError} from '../../error/user';
 
+const loginInitialState = [
+  {
+    label: 'E-mail',
+    value: '',
+    error: false,
+    errorMessage: undefined,
+    type: 'email',
+  },
+  {
+    label: 'Senha',
+    value: '',
+    error: false,
+    errorMessage: undefined,
+    type: 'current-password',
+  },
+];
+
 export default function InputLogin() {
-  const [email, setEmail] = useState('');
+  const [login, onChange, setError, clearErrors] =
+    useReducerInputs(loginInitialState);
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(true);
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
 
   const {signIn} = React.useContext(AuthContext);
 
   const handleSignIn = async () => {
+    let email = login[0].value;
+    let password = login[1].value;
+
+    clearErrors();
+
     if (!email) {
-      setEmailError('Por favor, preencha o campo de e-mail.');
+      setError(0);
+      setError(1, 'Por favor, preencha o campo de e-mail.');
       return;
     }
 
     if (!password) {
-      setPasswordError('Por favor, preencha o campo de senha.');
+      setError(1, 'Por favor, preencha o campo de senha.');
       return;
     }
 
@@ -35,37 +59,32 @@ export default function InputLogin() {
     } catch (error) {
       console.log(error.constructor.name);
       if (error instanceof BackendAcessError) {
-        setPasswordError(
+        setError(0);
+        setError(
+          1,
           'Ocorreu um erro durante o login. Tente novamente mais tarde.',
         );
       } else if (error instanceof LoginError) {
-        setPasswordError(
-          <Text style={style.errorMessage}>
-            Credenciais incorretas. Verifique seu e-mail e senha.
-          </Text>,
-        );
+        setError(0);
+        setError(1, 'Credenciais incorretas. Verifique seu e-mail e senha.');
       }
     }
   };
 
   return (
     <View style={style.containerForm}>
-      <View>
-        <InputA
-          label="E-mail"
-          value={email}
-          onChange={setEmail}
-          error={emailError}
-          width={44}
+      <View style={style.containerInputs}>
+        <InputB
+          index={0}
+          state={login}
+          onChange={onChange}
           right={<TextInput.Icon icon="account-circle" color={'#8200A8'} />}
         />
 
-        <InputA
-          label="Senha"
-          value={password}
-          onChange={setPassword}
-          error={passwordError}
-          width={46}
+        <InputB
+          index={1}
+          state={login}
+          onChange={onChange}
           secureTextEntry={showPassword}
           right={
             showPassword ? (
@@ -97,10 +116,17 @@ const style = StyleSheet.create({
   containerForm: {
     flex: 1,
     backgroundColor: '#EDE0D6',
+    width: '100%',
+    height: '100%',
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     alignContent: 'center',
     alignItems: 'center',
+  },
+  containerInputs: {
+    width: '80%',
+    // borderColor: "red",
+    // borderWidth: 1,
   },
   or: {
     alignContent: 'center',
