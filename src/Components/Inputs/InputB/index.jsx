@@ -8,8 +8,11 @@ export default forwardRef(function InputB(
   ref,
 ) {
   const labelRef = useRef(null);
+  const inputRef = useRef();
 
   let type = state[index].type;
+
+  state[index].ref = inputRef;
 
   const email = {
     autoCapitalize: 'none',
@@ -30,7 +33,7 @@ export default forwardRef(function InputB(
   };
 
   const handleSubmit = () => {
-    props.next.current.focus();
+    state[index+1].ref.current.focus();
   };
 
   let typeProps = type => {
@@ -61,7 +64,7 @@ export default forwardRef(function InputB(
               }
             : undefined
         }
-        ref={ref}
+        ref={inputRef}
         keyboardType={state[index].keyboardType}
         onSubmitEditing={onSubmit ? onSubmit : handleSubmit}
         onChangeText={value => onChange(value, index)}

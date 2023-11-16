@@ -31,7 +31,7 @@ const loginInitialState = [
 export default function InputLogin() {
   const [login, onChange, setError, clearErrors] =
     useReducerInputs(loginInitialState);
-  const [password, setPassword] = useState('');
+
   const [showPassword, setShowPassword] = useState(true);
 
   const {signIn} = React.useContext(AuthContext);
@@ -39,8 +39,6 @@ export default function InputLogin() {
   const handleSignIn = async () => {
     let email = login[0].value;
     let password = login[1].value;
-
-    console.log(login[0].value)
 
     clearErrors();
 
@@ -87,6 +85,7 @@ export default function InputLogin() {
           state={login}
           onChange={onChange}
           secureTextEntry={showPassword}
+          onSubmit={handleSignIn}
           right={
             showPassword ? (
               <TextInput.Icon

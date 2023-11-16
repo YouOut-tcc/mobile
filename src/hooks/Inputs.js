@@ -1,4 +1,5 @@
 import {useReducer} from 'react';
+import {deepCopyArray} from '../helpers/deepCopy';
 
 function inputReducer(state, action) {
   switch (action.optType) {
@@ -18,15 +19,21 @@ function inputReducer(state, action) {
       state[action.key].error = true;
       state[action.key].errorMessage = action.message;
       break;
+    case 'allError':
+      state.forEach((element, index) => {
+        element.error = true;
+      });
+      break;
   }
   return JSON.parse(JSON.stringify(state));
+  // return deepCopyArray(state);
 }
 
 function useReducerInputs(initialState) {
   const [inputState, setInputState] = useReducer(inputReducer, initialState);
 
   const onChange = (value, key) => {
-    console.log(value)
+    console.log(value);
     setInputState({key, value, optType: 'change'});
   };
 
@@ -38,11 +45,15 @@ function useReducerInputs(initialState) {
     setInputState({key, optType: 'error'});
   };
 
+  const setAllErrors = () => {
+    setInputState({optType: 'allError'});
+  };
+
   const clearErrors = () => {
     setInputState({optType: 'clear'});
   };
 
-  return [inputState, onChange, setError, clearErrors];
+  return [inputState, onChange, setError, clearErrors, setAllErrors];
 }
 
 export {useReducerInputs};

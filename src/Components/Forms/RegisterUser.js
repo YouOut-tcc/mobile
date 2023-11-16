@@ -11,6 +11,7 @@ import {TextInput} from 'react-native-paper';
 import ButtonRegis from '../../Components/Buttons/ButtonA';
 import InputB from '../Inputs/InputB';
 import {useReducerInputs} from '../../hooks/Inputs';
+import { BackendAcessError, LoginError } from '../../error/user';
 
 import api from '../../apis/backend';
 import {AxiosError} from 'axios';
@@ -63,38 +64,75 @@ const inputsInitialState = [
     value: '',
     error: false,
     errorMessage: undefined,
+    // onSubmit: handleConfirmSubmit
   },
 ];
 
 export default function InputRegister() {
-  const [input, onChange, setError, clearErrors] =
+  const [input, onChange, setError, clearErrors, setAllErrors] =
     useReducerInputs(inputsInitialState);
 
   const navigation = useNavigation();
 
-  const nomeRef = useRef();
-  const CPFRef = useRef();
-  const dateRef = useRef();
-  const emailRef = useRef();
-  const celularRef = useRef();
-  const passwordRef = useRef();
-  const confirmRef = useRef();
   const registerRef = useRef();
 
   const [showPassword, setShowPassword] = useState(true);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(true);
 
+  const handleConfirmPassword = () => {
+    let password = input[5].value;
+    let confirmPasswprd = input[6].value;
+    console.log("entrou")
+    clearErrors()
+
+    if (password !== confirmPasswprd) {
+    console.log("nao foi")
+      setError(6, 'As senhas não coincidem!');
+      return true;
+    }
+  };
+
+  // ainda não é possivel cadastrar um numero
   const handleConfirmSubmit = async () => {
-    // console.log(JSON.parse(JSON.stringify(ScrollView)))
+    let name = input[0].value;
+    let email = input[3].value;
+    let telefone = input[4].value;
+    let password = input[5].value;
+
+    clearErrors();
+
+    if (!name) {
+      setError(0, 'Por favor, preencha o campo de Nome.');
+      return;
+    }
+
+    if (!email) {
+      setError(3, 'Por favor, preencha o campo de E-mail.');
+      return;
+    }
+
+    if (!telefone) {
+      setError(4, 'Por favor, preencha o campo de Telefone.');
+      return;
+    }
+
+    if (!password) {
+      setError(5, 'Por favor, preencha o campo de Senha.');
+      return;
+    }
+
+    if(handleConfirmPassword()){
+      return;
+    }
+
     try {
-      console.log(celular);
       const data = {
-        name: nome,
+        name,
         email,
         telefone: 56455,
         password,
-        telefone,
       };
+
       const response = await api.post('/usuario/cadastro', data);
 
       console.log(data);
@@ -102,22 +140,24 @@ export default function InputRegister() {
       console.log(response.data.message);
 
       navigation.navigate('SignInUser');
-    } catch (err) {
-      console.log(err.constructor.name);
-      if (err instanceof AxiosError) {
-        console.log(err.response.status);
-        console.log(err.response.data.message);
+    } catch (error) {
+      console.log(error.constructor.name);
+      if (error instanceof BackendAcessError) {
+        setAllErrors();
+        setError(
+          6,
+          'Ocorreu um erro durante o Cadastro. Tente novamente mais tarde.',
+        );
+      } else if (error instanceof LoginError) {
+        setAllErrors();
+        setError(6, 'Falha ao cadastra o usuario.');
+      } else if(error instanceof ReferenceError){
+        console.log(error.message)
       }
     }
   };
 
-  const handleConfirmPassword = () => {
-    if (password !== passwordConfirm) {
-      // setPasswordError('As senhas não coincidem!');
-    } else {
-      // setPasswordError('');
-    }
-  };
+
 
   return (
     <View style={style.containerForm}>
@@ -152,9 +192,14 @@ export default function InputRegister() {
                 color={'#8200A8'}
                 onPress={() => setShowPassword(!showPassword)}
               />
-
             )
           }
+          onBlur={() => {
+            let confirmPassword = input[6].value;
+            if (confirmPassword) {
+              handleConfirmPassword();
+            }
+          }}
         />
 
         <InputB
@@ -178,6 +223,7 @@ export default function InputRegister() {
             )
           }
           onBlur={() => {
+            let password = input[5].value;
             if (password) {
               handleConfirmPassword();
             }
