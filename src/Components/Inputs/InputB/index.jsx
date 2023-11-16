@@ -1,18 +1,10 @@
 import React, {useRef, forwardRef, useState} from 'react';
 import {Text, StyleSheet, View} from 'react-native';
 import {TextInput} from 'react-native-paper';
+import {MaskedTextInput, mask} from 'react-native-mask-text';
 
 export default forwardRef(function InputB(
-  {
-    index,
-    state,
-    onChange,
-    right,
-    secureTextEntry,
-    onSubmit,
-    mask,
-    onBlur,
-  },
+  {index, state, onChange, right, secureTextEntry, onSubmit, onBlur},
   ref,
 ) {
   const labelRef = useRef(null);
@@ -23,37 +15,38 @@ export default forwardRef(function InputB(
     autoCapitalize: 'none',
     autoComplete: 'email',
     inputMode: 'email',
-    keyboardType: 'email-address'
+    keyboardType: 'email-address',
     // keyboardType={keyboardType}
   };
 
   const currentPassword = {
-    autoComplete: "current-password",
+    autoComplete: 'current-password',
     autoCapitalize: 'none',
-  }
+  };
 
   const newPassword = {
-    autoComplete: "new-password",
+    autoComplete: 'new-password',
     autoCapitalize: 'none',
-  }
-  
+  };
+
   const handleSubmit = () => {
     props.next.current.focus();
   };
 
-  let typeProps = (type) => {
+  let typeProps = type => {
     switch (type) {
-      case "email":
+      case 'email':
         return email;
-      case "new-password":
+      case 'new-password':
         return newPassword;
-      case "current-password":
+      case 'current-password':
         return currentPassword;
       default:
         return {};
     }
-  }
+  };
 
+  // esse compomente mask é bem merda, talvez trocar no futuro, ou fazer um proprio
   return (
     <View style={style.conteiner}>
       <Text style={style.InputText} ref={labelRef}>
@@ -61,8 +54,15 @@ export default forwardRef(function InputB(
       </Text>
       <TextInput
         mode="outlined"
-        render={mask}
+        render={
+          state[index].mask
+            ? props => {
+                return <MaskedTextInput {...props} mask={state[index].mask} />;
+              }
+            : undefined
+        }
         ref={ref}
+        keyboardType={state[index].keyboardType}
         onSubmitEditing={onSubmit ? onSubmit : handleSubmit}
         onChangeText={value => onChange(value, index)}
         secureTextEntry={secureTextEntry}
@@ -71,7 +71,6 @@ export default forwardRef(function InputB(
         right={right}
         onBlur={onBlur}
         error={state[index].error}
-
         {...typeProps(type)}
       />
       {state[index].errorMessage ? (

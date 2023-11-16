@@ -5,21 +5,73 @@ import {
   StyleSheet,
   ScrollView,
   KeyboardAvoidingView,
-  Alert,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {TextInput} from 'react-native-paper';
-import {MaskedTextInput} from 'react-native-mask-text';
-
 import ButtonRegis from '../../Components/Buttons/ButtonA';
+import InputB from '../Inputs/InputB';
+import {useReducerInputs} from '../../hooks/Inputs';
 
-import CommercePage from '../../pages/HomePage';
-import InputA from '../Inputs/InputA';
+import api from '../../apis/backend';
+import {AxiosError} from 'axios';
 
-import api from "../../apis/backend";
-import { AxiosError } from 'axios';
+const inputsInitialState = [
+  {
+    label: 'Nome Completo',
+    value: '',
+    error: false,
+    errorMessage: undefined,
+  },
+  {
+    label: 'CPF',
+    value: '',
+    error: false,
+    errorMessage: undefined,
+    mask: '999.999.999-99',
+    keyboardType: 'numeric',
+  },
+  {
+    label: 'Data de Nascimento',
+    value: '',
+    error: false,
+    errorMessage: undefined,
+    mask: '99/99/9999',
+    keyboardType: 'numeric',
+  },
+  {
+    label: 'E-mail',
+    value: '',
+    error: false,
+    errorMessage: undefined,
+  },
+  {
+    label: 'Celular',
+    value: '',
+    error: false,
+    errorMessage: undefined,
+    mask: '(99) 99999-9999',
+    keyboardType: 'numeric',
+  },
+  {
+    label: 'Senha',
+    value: '',
+    error: false,
+    errorMessage: undefined,
+  },
+  {
+    label: 'Confirme a senha',
+    value: '',
+    error: false,
+    errorMessage: undefined,
+  },
+];
 
 export default function InputRegister() {
+  const [input, onChange, setError, clearErrors] =
+    useReducerInputs(inputsInitialState);
+
+  const navigation = useNavigation();
+
   const nomeRef = useRef();
   const CPFRef = useRef();
   const dateRef = useRef();
@@ -29,19 +81,11 @@ export default function InputRegister() {
   const confirmRef = useRef();
   const registerRef = useRef();
 
-  const navigation = useNavigation();
-  const [nome, setNome] = useState('');
-  const [CPF, setCPF] = useState('');
-  const [Date, setDate] = useState('');
-  const [email, setEmail] = useState('');
-  const [celular, setCelular] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [passwordError, setPasswordError] = useState(false);
   const [showPassword, setShowPassword] = useState(true);
   const [showPasswordConfirm, setShowPasswordConfirm] = useState(true);
 
   const handleConfirmSubmit = async () => {
+    // console.log(JSON.parse(JSON.stringify(ScrollView)))
     try {
       console.log(celular);
       const data = {
@@ -49,173 +93,143 @@ export default function InputRegister() {
         email,
         telefone: 56455,
         password,
-        telefone
+        telefone,
       };
-      const response = await api.post("/usuario/cadastro", data);
+      const response = await api.post('/usuario/cadastro', data);
 
       console.log(data);
-      // console.log(response.data);
       console.log(response.code);
       console.log(response.data.message);
 
-
-      navigation.navigate("SignInUser");
-
+      navigation.navigate('SignInUser');
     } catch (err) {
-      console.log(err.constructor.name)
-      if (err instanceof AxiosError){
-          
-        console.log(err.response.status)
-        console.log(err.response.data.message)
+      console.log(err.constructor.name);
+      if (err instanceof AxiosError) {
+        console.log(err.response.status);
+        console.log(err.response.data.message);
       }
     }
-    
   };
 
   const handleConfirmPassword = () => {
     if (password !== passwordConfirm) {
-      setPasswordError('As senhas não coincidem!');
+      // setPasswordError('As senhas não coincidem!');
     } else {
-      setPasswordError('');
+      // setPasswordError('');
     }
   };
 
   return (
-    <View style={style.ContainerLogin}>
-      <KeyboardAvoidingView style={style.ContainerLogin} behavior="padding">
-        <ScrollView style={style.scrollViewContent}>
-          <InputA
-            label="Nome Completo"
-            value={nome}
-            onChange={setNome}
-            ref={nomeRef}
-            width={104}
-            next={CPFRef}
-          />
+    <View style={style.containerForm}>
+      {/* <KeyboardAvoidingView style={style.containerInputs} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}> */}
+      {/* <ScrollView style={style.scrollViewContent}> */}
+      <View style={style.containerInputs}>
+        <InputB index={0} state={input} onChange={onChange} />
 
-          <InputA
-            label="CPF"
-            value={CPF}
-            onChange={setCPF}
-            ref={CPFRef}
-            width={30}
-            next={dateRef}
-            keyboardType="numeric"
-            mask={props => <MaskedTextInput {...props} mask="999.999.999-99" />}
-          />
+        <InputB index={1} state={input} onChange={onChange} />
 
-          <InputA
-            label="Data de nascimento"
-            value={Date}
-            onChange={setDate}
-            ref={dateRef}
-            width={128}
-            next={emailRef}
-            keyboardType="numeric"
-            mask={props => <MaskedTextInput {...props} mask="99/99/9999" />}
-          />
+        <InputB index={2} state={input} onChange={onChange} />
 
-          <InputA
-            label="Email"
-            value={email}
-            onChange={setEmail}
-            ref={emailRef}
-            width={38}
-            next={celularRef}
-          />
+        <InputB index={3} state={input} onChange={onChange} />
 
-          <InputA
-            label="Celular"
-            value={celular}
-            onChange={setCelular}
-            ref={celularRef}
-            width={50}
-            next={passwordRef}
-            keyboardType="numeric"
-            mask={props => (
-              <MaskedTextInput {...props} mask="(99) 99999-9999" />
-            )}
-          />
+        <InputB index={4} state={input} onChange={onChange} />
 
-          <InputA
-            label="Senha"
-            value={password}
-            onChange={setPassword}
-            ref={passwordRef}
-            width={40}
-            next={confirmRef}
-            secureTextEntry={showPassword}
-            right={
-              showPassword ? (
-                <TextInput.Icon
-                  icon="eye"
-                  color={'#8200A8'}
-                  onPress={() => setShowPassword(!showPassword)}
-                />
-              ) : (
-                <TextInput.Icon
-                  icon="eye-off"
-                  onPress={() => setShowPassword(!showPassword)}
-                />
-              )
+        <InputB
+          index={5}
+          state={input}
+          onChange={onChange}
+          secureTextEntry={showPassword}
+          right={
+            showPassword ? (
+              <TextInput.Icon
+                icon="eye"
+                color={'#8200A8'}
+                onPress={() => setShowPassword(!showPassword)}
+              />
+            ) : (
+              <TextInput.Icon
+                icon="eye-off"
+                color={'#8200A8'}
+                onPress={() => setShowPassword(!showPassword)}
+              />
+
+            )
+          }
+        />
+
+        <InputB
+          index={6}
+          state={input}
+          onChange={onChange}
+          secureTextEntry={showPasswordConfirm}
+          onSubmit={handleConfirmSubmit}
+          right={
+            showPasswordConfirm ? (
+              <TextInput.Icon
+                icon="eye"
+                color={'#8200A8'}
+                onPress={() => setShowPasswordConfirm(!showPasswordConfirm)}
+              />
+            ) : (
+              <TextInput.Icon
+                icon="eye-off"
+                onPress={() => setShowPasswordConfirm(!showPasswordConfirm)}
+              />
+            )
+          }
+          onBlur={() => {
+            if (password) {
+              handleConfirmPassword();
             }
-          />
+          }}
+        />
+      </View>
+      <ButtonRegis
+        ref={registerRef}
+        text="Confimar"
+        handlePressOut={handleConfirmSubmit}
+      />
 
-          {passwordError ? (
-            <Text style={style.ErrorMessage}>{passwordError}</Text>
-          ) : null}
-
-          <InputA
-            label="Confirme a senha"
-            value={passwordConfirm}
-            onChange={setPasswordConfirm}
-            ref={confirmRef}
-            width={114}
-            next={celularRef}
-            secureTextEntry={showPasswordConfirm}
-            onSubmit={handleConfirmSubmit}
-            right={
-              showPasswordConfirm ? (
-                <TextInput.Icon
-                  icon="eye"
-                  color={'#8200A8'}
-                  onPress={() => setShowPasswordConfirm(!showPasswordConfirm)}
-                />
-              ) : (
-                <TextInput.Icon
-                  icon="eye-off"
-                  onPress={() => setShowPasswordConfirm(!showPasswordConfirm)}
-                />
-              )
-            }
-            onBlur={() => {
-              if (password) {
-                handleConfirmPassword();
-              }
-            }}
-          />
-
-          <ButtonRegis
-            ref={registerRef}
-            text="Confimar"
-            handlePressOut={handleConfirmSubmit}
-          />
-        </ScrollView>
-      </KeyboardAvoidingView>
+      {/* </ScrollView> */}
+      <View style={style.gap} />
+      {/* </KeyboardAvoidingView> */}
     </View>
   );
 }
 
 const style = StyleSheet.create({
-  scrollContainer: {
-    flexGrow: 1,
+  // scrollContainer: {
+  //   // flexGrow: 1,
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   borderColor: 'red',
+  //   borderWidth: 1,
+  //   backgroundColor: "red"
+  // },
+  // scrollViewContent: {
+  //   // flexGrow: 1,
+  //   // flex: 1,
+  //   width: "100%",
+  //   // borderColor: 'red',
+  //   // borderWidth: 1,
+  // },
+  containerForm: {
+    flex: 1,
+    backgroundColor: '#EDE0D6',
+    width: '100%',
+    height: '100%',
+    alignContent: 'center',
     alignItems: 'center',
-    justifyContent: 'center',
   },
-  scrollViewContent: {
-    flexGrow: 1,
+  gap: {
+    width: '100%',
+    height: 80,
   },
-
+  containerInputs: {
+    width: '80%',
+    // borderColor: "red",
+    // borderWidth: 1,
+  },
   ErrorMessage: {
     color: 'red',
     fontSize: 12,

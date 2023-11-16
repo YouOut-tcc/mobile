@@ -4,7 +4,6 @@ import LogoYouOut from '../../Components/LogoYouOut';
 import {View, Text, ScrollView} from 'react-native';
 import RegisterUser from '../../Components/Forms/RegisterUser';
 
-
 export default function Register() {
   return (
     <View style={styles.container}>
@@ -13,8 +12,9 @@ export default function Register() {
       </View>
       <View style={styles.containerForm}>
         <Text style={styles.message}>Cadastre-se</Text>
-
-        <RegisterUser />
+        <ScrollView style={styles.scrollViewContent}>
+          <RegisterUser />
+        </ScrollView>
       </View>
     </View>
   );

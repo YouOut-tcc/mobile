@@ -24,8 +24,8 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
   },
-  touchableArea: {
-    flex: 1,
+  scrollViewContent: {
+    width: "100%",
   },
   message: {
     fontSize: 40,
@@ -34,17 +34,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginBottom: 12,
     color: '#000',
-  },
-
-  containerRegister: {
-    alignItems: 'center',
-  },
-  or: {
-    alignSelf: 'center',
-    marginVertical: 10,
-  },
-  containerGoogle: {
-    alignItems: 'center',
   },
 });
 

@@ -8,7 +8,6 @@ import ButtonGoogle from '../../Components/Buttons/ButtonGoogle';
 import ButtonForgotPass from '../../Components/Buttons/ButtonForgotPass';
 import ButtonRegister from '../../Components/Buttons/ButtonRegister';
 import {useReducerInputs} from '../../hooks/Inputs';
-
 import AuthContext from '../../context/authContext';
 import {BackendAcessError, LoginError} from '../../error/user';
 
@@ -40,6 +39,8 @@ export default function InputLogin() {
   const handleSignIn = async () => {
     let email = login[0].value;
     let password = login[1].value;
+
+    console.log(login[0].value)
 
     clearErrors();
 
