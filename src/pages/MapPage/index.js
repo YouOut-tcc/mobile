@@ -181,7 +181,7 @@ export default function App() {
             horizontal
             pagingEnabled
             scrollEventThrottle={1}
-            showsHorizontalScrollIndicator={true}
+            showsHorizontalScrollIndicator={false}
             // snapToInterval={CARD_WIDTH }
             snapToAlignment="center"
             style={styles.scrollView}

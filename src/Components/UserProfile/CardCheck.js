@@ -91,8 +91,6 @@ const styles = StyleSheet.create({
     borderColor: '#8200A8',
     backgroundColor: '#EFD9D3',
     alignSelf: 'center',
-    borderColor: 'red',
-    borderWidth: 1 ,
   },
   commerceName: {
     color: '#000',
