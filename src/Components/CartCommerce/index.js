@@ -6,6 +6,7 @@ import {
   Text,
   ActivityIndicator
 } from 'react-native';
+import { useState } from 'react';
 import CartInfo from './Cart';
 
 export default function CommerceInfos({Empty, Header, Data, isLoading, fetchData}) {
@@ -15,6 +16,8 @@ export default function CommerceInfos({Empty, Header, Data, isLoading, fetchData
       style={styles.flatList}
         ListEmptyComponent={Empty}
         ListHeaderComponent={Header}
+        refreshing={isLoading}
+        onRefresh={fetchData}
         data={Data}
         renderItem={({item}) => (
           <View style={styles.cartsConteiner}>

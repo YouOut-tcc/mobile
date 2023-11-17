@@ -33,7 +33,6 @@ function useReducerInputs(initialState) {
   const [inputState, setInputState] = useReducer(inputReducer, initialState);
 
   const onChange = (value, key) => {
-    console.log(value);
     setInputState({key, value, optType: 'change'});
   };
 

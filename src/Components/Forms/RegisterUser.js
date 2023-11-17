@@ -44,6 +44,7 @@ const inputsInitialState = [
     value: '',
     error: false,
     errorMessage: undefined,
+    type: 'email',
   },
   {
     label: 'Celular',
@@ -58,13 +59,14 @@ const inputsInitialState = [
     value: '',
     error: false,
     errorMessage: undefined,
+    type: "new-password"
   },
   {
     label: 'Confirme a senha',
     value: '',
     error: false,
     errorMessage: undefined,
-    // onSubmit: handleConfirmSubmit
+    type: "new-password"
   },
 ];
 

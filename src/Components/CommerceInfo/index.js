@@ -1,4 +1,11 @@
-import {View, Text, ScrollView, StyleSheet, FlatList} from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  FlatList,
+  RefreshControl,
+} from 'react-native';
 import {useContext} from 'react';
 import Carousel from './Carousel';
 import Infos from './Infos';
@@ -59,41 +66,50 @@ export default function ProfileCommerce() {
   const [info, setInfo] = useState(null);
   const [infoCep, setCep] = useState(null);
   const [placeAvaliacoes, setAvaliacoes] = useState(null);
-  const [reload, setReload] = useState(false);
+  const [reloadComments, setReloadComments] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
 
   const route = useRoute();
   const commerce = route.params.commerce;
 
-  const Reload = () => {
-    console.log("reload")
-    setReload(!reload);
-    console.log(reload)
+  const ReloadComments = async () => {
+    setReloadComments(true);
+  };
+
+  const fetchComments = async () => {
+    // setReloadComments(true);
+    console.log("pegando os comentarios");
+
+    try {
+      let avaliacoes = await getAvaliacoes(commerce.uuid);
+      setAvaliacoes(avaliacoes);
+      // console.log(`json ${JSON.stringify(avaliacoes)}`);
+
+    } catch (error) {
+      console.log('Error: ' + error.constructor.name);
+      if (error instanceof ReferenceError) {
+        console.log(error.message);
+      }
+    } finally {
+      setIsLoading(false);
+      setReloadComments(false);
+    }
   }
 
-  const fetchData = async () => {
+  const fetchInfo = async () => {
     try {
-      setIsLoading(true);
-      setUuid(commerce.uuid);
+      console.log('pegando a infos do estabelecimento');
       console.log(uuid);
       let commerceInfo = await getCommerceInfo(commerce.uuid);
-
-      let avaliacoes = await getAvaliacoes(commerce.uuid);
-      console.log(`json ${JSON.stringify(avaliacoes)}`);
 
       // console.log(`json ${JSON.stringify(commerceInfo)}`);
       let cep = await fetchCEP(commerceInfo.cep);
 
       setInfo(commerceInfo);
       setCep(cep);
-      setAvaliacoes(avaliacoes);
 
-      console.log(commerceInfo);
-      console.log();
-      console.log();
-
-      console.log('cep: ' + cep);
+      // console.log('cep: ' + cep);
     } catch (error) {
       console.log('Error: ' + error.constructor.name);
       if (error instanceof ReferenceError) {
@@ -105,11 +121,15 @@ export default function ProfileCommerce() {
   };
 
   useEffect(() => {
-    fetchData();
+    setUuid(commerce.uuid);
+    fetchInfo();
+    fetchComments();
 
-    // console.log(commerce)
-    // console.log(data.uuid)
   }, [commerce]);
+
+  useEffect(()=>{
+    fetchComments();
+  }, [reloadComments]);
 
   const commentList = [
     {
@@ -137,7 +157,12 @@ export default function ProfileCommerce() {
 
       {placeAvaliacoes && (
         <FlatList
-          extraData={reload}
+          extraData={placeAvaliacoes}
+          refreshing={reloadComments}
+          onRefresh={ReloadComments}
+          refreshControl={
+            <RefreshControl size={'default'} refreshing={reloadComments} onRefresh={ReloadComments} />
+          }
           ListHeaderComponent={
             <>
               <View style={styles.tagsContainer}>
@@ -149,14 +174,14 @@ export default function ProfileCommerce() {
                 Length={placeAvaliacoes.length}
                 stars={commerce.nota}
                 uuid={uuid}
-                reload={Reload}
+                reload={ReloadComments}
               />
             </>
           }
           data={placeAvaliacoes}
           renderItem={({item, index}) => (
             <View>
-              <Coments comment={item} index={index}  />
+              <Coments comment={item} index={index} />
             </View>
           )}
           keyExtractor={item => item.id}
