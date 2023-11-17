@@ -26,9 +26,11 @@ const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 const CARD_HEIGHT = 170;
-const CARD_WIDTH = width * 0.9;
+const CARD_WIDTH = width * 0.8;
+const CARD_MARGIN_PEAK = CARD_WIDTH * 0.05;
+const CARD_PEAK = (width-(CARD_WIDTH+CARD_MARGIN_PEAK*2))/2;
 
-const SPACING_FOR_CARD_INSET = width * 0.08 - 10;
+const SPACING_FOR_CARD_INSET = CARD_MARGIN_PEAK + CARD_PEAK;
 
 export default function App() {
   const [granted, setGranted] = useState(false);
@@ -179,15 +181,15 @@ export default function App() {
             horizontal
             pagingEnabled
             scrollEventThrottle={1}
-            showsHorizontalScrollIndicator={false}
-            snapToInterval={CARD_WIDTH }
+            showsHorizontalScrollIndicator={true}
+            // snapToInterval={CARD_WIDTH }
             snapToAlignment="center"
             style={styles.scrollView}
             // contentInset={{
-            //   top: 0,
+            //   top: 100,
             //   left: SPACING_FOR_CARD_INSET,
             //   bottom: 0,
-            //   right: SPACING_FOR_CARD_INSET,
+            //   right: 0,
             // }}
             contentContainerStyle={{
               paddingHorizontal:
@@ -329,34 +331,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     zIndex: 1,
   },
-  chipsScrollView: {
-    position:'absolute', 
-    top:Platform.OS === 'ios' ? 90 : 80, 
-    paddingHorizontal:10
-  },
-  chipsIcon: {
-    marginRight: 5,
-  },
-  chipsItem: {
-    flexDirection:"row",
-    backgroundColor:'#fff', 
-    borderRadius:20,
-    padding:8,
-    paddingHorizontal:20, 
-    marginHorizontal:10,
-    height:35,
-    shadowColor: '#ccc',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.5,
-    shadowRadius: 5,
-    elevation: 10,
-  },
   scrollView: {
     position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
     paddingVertical: 10,
+    
   },
   endPadding: {
     paddingRight: width - CARD_WIDTH,
@@ -368,12 +349,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: CARD_WIDTH,
     height: CARD_HEIGHT,
-    // marginTop: 10,
-    // borderWidth: 2,
-    // borderRadius: 10,
-
-    // borderColor: 'red',
-    // borderWidth: 1 ,
+    marginRight: CARD_MARGIN_PEAK,
   },
   cardImage: {
     flex: 3,
