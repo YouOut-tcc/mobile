@@ -22,7 +22,7 @@ if linkage != nil
   use_frameworks! :linkage => linkage.to_sym
 end
 
-target 'tcc' do
+target 'youout' do
   use_expo_modules!
   post_integrate do |installer|
     begin
@@ -57,7 +57,7 @@ target 'tcc' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  target 'tccTests' do
+  target 'yououtTests' do
     inherit! :complete
     # Pods for testing
   end
