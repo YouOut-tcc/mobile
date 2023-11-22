@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import CardNotificacoes from './cardNotificacao';
+import CardNotificacoes from './ListNotificacao';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 export default function Notificacoes() {
   return (
@@ -11,7 +12,9 @@ export default function Notificacoes() {
         <Text style={styles.textNoti}>Notificações</Text>
       </View>
       <View style={styles.cardNoti}>
-        <CardNotificacoes />
+        <GestureHandlerRootView style={{flex: 1}}>
+          <CardNotificacoes />
+        </GestureHandlerRootView>
       </View>
     </View>
   );
@@ -20,8 +23,8 @@ export default function Notificacoes() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 10, 
-    width: '90%'
+    margin: 10,
+    width: '90%',
   },
   header: {
     flexDirection: 'row',
@@ -33,5 +36,4 @@ const styles = StyleSheet.create({
     color: '#000',
     marginLeft: 10,
   },
- 
 });

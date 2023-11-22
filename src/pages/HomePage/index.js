@@ -19,6 +19,10 @@ import {getPlaces} from '../../services/commerce';
 import Geolocation from '@react-native-community/geolocation';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import {useFocusEffect} from '@react-navigation/native';
+import { Alert } from 'react-native';
+import messaging from '@react-native-firebase/messaging';
+import usePushNotification from '../../hooks/notifications';
+
 
 function Vazio({isLoading}) {
   // {!isLoading && <Text style={styles.textNot}>Não há estabelecimento cadastrados...</Text>}
@@ -48,6 +52,15 @@ export default function HomePage() {
 
   // const isFocused = useIsFocused();
   const navigate = useNavigation();
+
+  const {
+    requestUserPermission,
+    getFCMToken,
+    listenToBackgroundNotifications,
+    listenToForegroundNotifications,
+    onNotificationOpenedAppFromBackground,
+    onNotificationOpenedAppFromQuit,
+  } = usePushNotification();
 
   const fetchData = async () => {
     try {
@@ -105,6 +118,7 @@ export default function HomePage() {
   // não tenho a mimina ideia de como resolver isso kk
 
   useEffect(() => {
+
     requestLocationPermission();
     navigate.addListener('focus', ()=>{
       if(isFocused){
@@ -123,6 +137,25 @@ export default function HomePage() {
     // requestLocationPermission();
     // fetchData();
     // console.log('why?');
+
+  }, []);
+
+
+  useEffect(() => {
+    const listenToNotifications = () => {
+      try {
+        getFCMToken();
+        requestUserPermission();
+        onNotificationOpenedAppFromQuit();
+        listenToBackgroundNotifications();
+        listenToForegroundNotifications();
+        onNotificationOpenedAppFromBackground();
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    listenToNotifications();
   }, []);
 
   return (
