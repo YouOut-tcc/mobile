@@ -36,12 +36,14 @@ export default function CommerceInfos({Empty, Header, Data, isLoading, fetchData
 const styles = StyleSheet.create({
   cartsConteiner: {
     flex: 1,
-    alignItems: 'center'
+    alignItems: 'center',
+     // borderColor: 'red',
+    // borderWidth: 1 ,
   },
   flatList: {
     marginLeft: "8%",
     marginRight: "8%",
-    // marginBottom: '18%',
+    marginBottom: '35%',
   },
 
 });

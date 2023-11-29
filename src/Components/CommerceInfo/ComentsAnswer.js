@@ -1,18 +1,21 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { Avatar } from 'react-native-paper';
+import React, {useState} from 'react';
+import {View, Text, StyleSheet} from 'react-native';
+import {Avatar} from 'react-native-paper';
 import MenuDenuncia from '../menuDenuncia';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default function AnswerList({ comment, index }) {
+export default function AnswerList({comment, index}) {
   const [denunciado, setDenunciado] = useState(false);
   const comentarioDenunciado = {
-    nome: "Comércio",
-    comentario: "Este é um comentário denunciado.",
-    denunciado: true 
+    nome: 'Comércio',
+    comentario: 'Este é um comentário denunciado.',
+    denunciado: true,
+  };
+  const handleDenunciar = () => {
+    setDenunciado(true);
   };
   let date = new Date(comment.criado);
-  date = date.toLocaleDateString("en-GB");
+  date = date.toLocaleDateString('en-GB');
 
   return (
     <View style={styles.commentContainer}>
@@ -25,19 +28,21 @@ export default function AnswerList({ comment, index }) {
         <View style={styles.header}>
           <Text style={styles.userName}>{comentarioDenunciado.nome}</Text>
           <View style={styles.dados}>
-              <Text style={styles.userName}>14/11/2023</Text>
-            </View>
-          <View style={styles.tst}>
-          {denunciado && (
-            <>
-              <Icon name="exclamationcircle" size={16} color="red" />
-              <Text style={styles.denunciadoText}>Comentário Denunciado</Text>
-            </>
-          )}
-          <MenuDenuncia denunciado={denunciado} setDenunciado={setDenunciado} />
+            <Text style={styles.userName}>14/11/2023</Text>
           </View>
         </View>
+        <View style={styles.coment}>
         <Text>{comment}</Text>
+        </View>
+          <MenuDenuncia onDenunciar={handleDenunciar} />
+          <View style={styles.tst}>
+            {denunciado && (
+              <View style={styles.denunciadoContainer}>
+                <Icon name="exclamation-circle" size={16} color="red" />
+                <Text style={styles.denunciadoText}>{" "}Comentário Denunciado</Text>
+              </View>
+            )}
+          </View>
       </View>
     </View>
   );
@@ -77,12 +82,21 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  tst:{
+  tst: {
     zIndex: 1,
+
   },
   dados: {
     marginLeft: '20%',
     alignSelf: 'center',
     alignItems: 'center',
+  },
+  denunciadoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    maxWidth: '70%',
+     
+  },  coment: {
+    maxWidth: '85%',
   },
 });

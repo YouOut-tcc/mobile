@@ -13,10 +13,13 @@ export default function CommentList({comment, index}) {
     denunciado: true,
   };
 
-  let date = new Date(comment.criado);
-  date = date.toLocaleDateString("en-GB");
+  const handleDenunciar = () => {
+    setDenunciado(true);
+  };
 
-  
+  let date = new Date(comment.criado);
+  date = date.toLocaleDateString('en-GB');
+
   return (
     <View style={styles.container}>
       <View style={styles.commentContainer}>
@@ -31,30 +34,35 @@ export default function CommentList({comment, index}) {
             <View style={styles.dados}>
               <Text style={styles.userName}>{date}</Text>
               <Text>
-                {comment.pontuacao}   <Icon name="star" size={16} color="#FE0472" />
+                {comment.pontuacao}{' '}
+                <Icon name="star" size={16} color="#FE0472" />
               </Text>
             </View>
-            <View style={styles.tst}>
-              {denunciado && (
-                <>
-                  <Icon name="exclamationcircle" size={16} color="red" />
-                  <Text style={styles.denunciadoText}>
-                    Comentário Denunciado
-                  </Text>
-                </>
-              )}
-              <MenuDenuncia
-                denunciado={denunciado}
-                setDenunciado={setDenunciado}
-              />
-            </View>
           </View>
-          <Text>{comment.comentario}</Text>
+          <View style={styles.coment}>
+            <Text>{comment.comentario}</Text>
+          </View>
+          <View style={styles.tst}>
+            {denunciado && (
+              <>
+                <Icon name="exclamation-circle" size={16} color="red" />
+                <Text style={styles.denunciadoText}>
+                  {' '}
+                  Comentário Denunciado
+                </Text>
+              </>
+            )}
+            <MenuDenuncia onDenunciar={handleDenunciar} />
+          </View>
         </View>
       </View>
-      {comment.resposta && 
-        <ComentsAnswer comment={comment.resposta}/>
-      }
+      <View style={styles.resposta}>
+        {comment.resposta && (
+          <ComentsAnswer comment={comment.resposta}>
+             <MenuDenuncia onDenunciar={handleDenunciar} />
+          </ComentsAnswer>
+        )}
+      </View>
     </View>
   );
 }
@@ -93,10 +101,20 @@ const styles = StyleSheet.create({
   },
   tst: {
     zIndex: 1,
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 15,
   },
   dados: {
-    marginLeft: '30%',
+    // marginLeft: '15%',
     alignSelf: 'center',
     alignItems: 'center',
+    marginRight: '5%',
   },
+  coment: {
+    maxWidth: '80%',
+  },
+
 });
