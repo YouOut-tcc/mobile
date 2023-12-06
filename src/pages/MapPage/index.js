@@ -14,7 +14,7 @@ import MapView, {Marker, Polygon, Polyline, Callout} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import {useIsFocused} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import { pesquisarPlace, handleSearchError } from '../../services/user';
 import {getPlaces} from '../../services/commerce';
 import CardCommerce from '../../Components/CartCommerce/Cart';
 import  SearchBar from '../../Components/searchBar';
@@ -41,6 +41,7 @@ export default function App() {
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [selectedPlace, setSelectedPlace] = useState(null);
   const _scrolView = useRef(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const scrollToMarker = (element) => {
     mapRef.current.animateToRegion({
@@ -76,7 +77,7 @@ export default function App() {
     try {
       setIsLoading(true);
       let places = await getPlaces(page, 13 ,13);
-
+      
       console.log(data)
       setData(data.concat(places));
       setPage(page + 1);
@@ -92,7 +93,7 @@ export default function App() {
       setIsLoading(false);
     }
   };
-
+  
   const requestCameraPermission = async () => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -128,10 +129,35 @@ export default function App() {
     console.log('why?');
   }, []);
 
+  const handleSearchChange = async (query) => {
+    setSearchQuery(query);
+    try {
+      const filteredList = await pesquisarPlace(query);
+      setData(filteredList);
+      console.log(filteredList)
+    } catch (error) {
+      console.error('Erro ao realizar pesquisa:', error);
+    }
+  };
+  
+  
+  const focusOnMarker = (element) => {
+    
+    if (mapRef.current) {
+      mapRef.current.animateToRegion({
+        latitude: element.coordenadas.x,
+        longitude: element.coordenadas.y,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
+      });
+    }
+  };
+
   return (
     <>
     <View style={styles.searchBox}>
-      <SearchBar style={styles.search}/>
+      <SearchBar style={styles.search} 
+       onSearchChange={handleSearchChange}/>
     </View>
     <View style={styles.container}>
       {!location && <ActivityIndicator size="large" />}
@@ -162,9 +188,11 @@ export default function App() {
                     setSelectedMarker(element.uuid);
                     setSelectedPlace(null);
                     setSelectedPlace(element);
+                    focusOnMarker(element);
                     scrollToCard(element); 
-                    scrollToMarker(element);
-                  }}>
+                    scrollToMarker(element); 
+                  }}
+                  zIndex={selectedMarker === element.uuid ? 1 : 0}>
                   <Icon
                     name="map-marker"
                     size={40}
@@ -176,6 +204,7 @@ export default function App() {
                 </Marker>
               ))}
           </MapView>
+          
           <Animated.ScrollView
             ref={_scrollView}
             horizontal
@@ -269,6 +298,7 @@ export default function App() {
     </>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFillObject,

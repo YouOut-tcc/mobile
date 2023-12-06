@@ -15,6 +15,7 @@ import SearchbarComponent from '../../Components/searchBar';
 import consts from '../../Components/CartCommerce/consts';
 import {sessionStorage} from '../../helpers/storage';
 import {getPlaces} from '../../services/commerce';
+import { pesquisarPlace, handleSearchError } from '../../services/user';
 
 import Geolocation from '@react-native-community/geolocation';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
@@ -107,9 +108,17 @@ export default function HomePage() {
     }
   };
 
-  const handleSearchChange = filteredList => {
-    setFilteredCommerceList(filteredList);
+  const handleSearchChange = async (query) => {
+    setSearchQuery(query);
+    try {
+      const filteredList = await pesquisarPlace(query);
+      setData(filteredList);
+      console.log(filteredList)
+    } catch (error) {
+      console.error('Erro ao realizar pesquisa:', error);
+    }
   };
+
 
   // no momento o app precisa saber a localização do usuario com o gps
   // caso o usuario não permita o uso do gps, sera nessesario base a localização via ip

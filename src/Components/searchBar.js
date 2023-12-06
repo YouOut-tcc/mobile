@@ -9,11 +9,8 @@ const SearchbarComponent = ({ commerceList, onSearchChange }) => {
 
   const onChangeSearch = query => {
     setSearchQuery(query);
-    const filteredList = consts.commerceList.filter(commerce =>
-      commerce.name.toLowerCase().includes(query.toLowerCase())
-    );
-    console.log('filteredList:', filteredList);
-    onSearchChange(filteredList);
+    console.log('filteredList:', query);
+    onSearchChange(query);
   };
 
   return (

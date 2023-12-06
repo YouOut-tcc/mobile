@@ -67,7 +67,7 @@ const ModalInfosPessoais = ({ isVisible, closeModal }) => {
 
               <InputA
                 label="Celular"
-                width={50}
+                width={80}
                 keyboardType="numeric"
                 mask={props => (
                   <MaskedTextInput {...props} mask="(99) 99999-9999" />
@@ -145,6 +145,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
+   
   },
   backgroundTouchable: {
     flex: 1,
@@ -200,7 +201,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   input: {
-    alignSelf: 'center',
+    alignSelf: 'center', 
+    width: '90%',
     
   },
   closeButton: {

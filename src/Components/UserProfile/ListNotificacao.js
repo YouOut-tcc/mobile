@@ -7,11 +7,12 @@ import {
   ScrollView,
 } from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const initialNotifications = [
   {
     id: 1,
-    title: 'Notificação 1',
+    title: 'xção 1',
     description: 'Esta é a descrição da notificação 1.',
   },
   {
@@ -62,10 +63,11 @@ export default function CardNotificacao() {
 
   const swipeOpen = (direction, index, id) => {
     console.log(`Swipe from ${direction}`);
-    let newNotifications = [...notifications];
-    delete newNotifications[index];
-    setNotifications(newNotifications);
+    setNotifications(prevNotifications =>
+      prevNotifications.filter((_, i) => i !== index)
+    );
   };
+
   const swipeClose = (direction, item) => {
     console.log(`Swipe close ${direction}`);
     // console.log(item)
@@ -92,20 +94,15 @@ export default function CardNotificacao() {
     return (
       <View
         style={{
-          backgroundColor: '#ff8303',
+          backgroundColor: '#EDE0D6',
           justifyContent: 'center',
-          alignItems: 'flex-end',
+          alignItems: 'center',
+          width: 50,
         }}>
-        <Text
-          style={{
-            color: '#1b1a17',
-            paddingHorizontal: 10,
-            fontWeight: '600',
-            paddingHorizontal: 30,
-            paddingVertical: 20,
-          }}>
-          Delete
-        </Text>
+            <Icon name="trash" size={30} color="#FE0472" style={{
+            justifyContent: 'center',
+            alignItems: 'flex-end',
+            }}/> 
       </View>
     );
   };

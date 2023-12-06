@@ -8,7 +8,7 @@ import AuthContext from '../../context/authContext';
 import ModalInfosPessoais from './ModalInfosPessoais';
 import ModalSobreNós from './ModalSobreNós';
 
-const MenuPerfil = () => {
+const MenuPerfil = (userInfo) => {
   const [visible, setVisible] = React.useState(false);
   const navigation = useNavigation();
   const {signOut} = React.useContext(AuthContext);
@@ -44,7 +44,7 @@ const MenuPerfil = () => {
         <Menu.Item onPress={signOut} title="Sair" />
       </Menu>
 
-      {isModalVisible && <ModalInfosPessoais isVisible={isModalVisible} closeModal={() => setModalVisible(false)} />}
+      {isModalVisible && <ModalInfosPessoais isVisible={isModalVisible} closeModal={() => setModalVisible(false)}  userInfo={userInfo}/>}
       {isModalVisibleSobre && <ModalSobreNós isVisible={isModalVisibleSobre} closeModal={() => setModalVisibleSobre(false)} />}
     </View>
   );

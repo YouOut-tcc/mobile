@@ -83,6 +83,13 @@ export default function ProfileCommerce() {
 
     try {
       let avaliacoes = await getAvaliacoes(commerce.uuid);
+      avaliacoes = avaliacoes.map(avaliacao => ({
+        ...avaliacao,
+        timestamp: new Date(avaliacao.criado).getTime(), 
+      }));
+  
+      avaliacoes.sort((a, b) => b.timestamp - a.timestamp);
+  
       setAvaliacoes(avaliacoes);
       // console.log(`json ${JSON.stringify(avaliacoes)}`);
 

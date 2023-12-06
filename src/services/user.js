@@ -45,5 +45,63 @@ async function userLogin(data) {
   }
 }
 
+async function pesquisarPlaceTag(tagId) {
+  try {
+    let res = await api.post(`/usuario/pesquisar/tag/${tagId}`);
+    return res.data;
+  } catch (error) {
+    console.log(error.constructor.name);
+    if (error instanceof AxiosError) {
+      console.log(error.response.status);
+      console.log(error.response.data.message);
+    } else if (error instanceof ReferenceError) {
+      console.log(error.message);
+    }
+  }
+}
 
-export { getUserToken as getToken, userLogin }
+async function pesquisarPlace(nome) {
+  let token;
+  try {
+    token = await SecureStore.getItemAsync('userToken');
+
+  let res = await api.post(`/usuario/pesquisar`, {nome : nome});
+
+    return res.data;
+  } catch (error) {
+    console.log(error.constructor.name);
+    if (error instanceof AxiosError) {
+      console.log(error.response.status);
+      console.log(error.response.data.message);
+    } else if (error instanceof ReferenceError) {
+      console.log(error.message);
+    }
+  }
+}
+
+async function getInformacoesUsuario(userId) {
+  try {
+    const response = await api.get(`/usuario/informacoes/`, {userId : userId});
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao obter informações do usuário:', error);
+    throw error;
+  }
+}
+
+async function updateUser(userId, name, email, password, telefone) {
+  try {
+    const response = await api.put(`/usuario/update-informacoes/${userId}`, {
+      name,
+      email,
+      password,
+      telefone,
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Erro ao atualizar informações do usuário:', error);
+    throw error;
+  }
+}
+
+export { getUserToken as getToken, userLogin, pesquisarPlace, pesquisarPlaceTag, getInformacoesUsuario, updateUser}
