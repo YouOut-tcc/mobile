@@ -10,7 +10,7 @@ import {
   Animated,
   PermissionsAndroid,
 } from 'react-native';
-import MapView, {Polygon, Polyline, Callout, AnimatedRegion} from 'react-native-maps';
+import MapView, {Polygon, Polyline, Callout} from 'react-native-maps';
 import Geolocation from '@react-native-community/geolocation';
 import {useIsFocused} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -49,6 +49,9 @@ export default function App() {
 
   const scrollToMarker = element => {
     console.log("aqui mapa")
+    mapRef.current.getCamera(camera => {
+      
+    })
     mapRef.current.animateToRegion({
       latitude: element.coordenadas.x,
       longitude: element.coordenadas.y,
