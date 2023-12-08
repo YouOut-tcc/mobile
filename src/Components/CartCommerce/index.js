@@ -14,6 +14,7 @@ export default function CommerceInfos({Empty, Header, Data, isLoading, fetchData
     <View>
       <FlatList
       style={styles.flatList}
+      // extraData={Data}
         ListEmptyComponent={Empty}
         ListHeaderComponent={Header}
         refreshing={isLoading}

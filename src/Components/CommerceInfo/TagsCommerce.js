@@ -46,7 +46,7 @@ const TagsCommerce = () => {
         </View>
         <View style={styles.item}>
         <Icon name={'hashtag'} size={13} color="#FE0472" />
-          <Text style={styles.tagtxt}>Não sei mais</Text>
+          <Text style={styles.tagtxt}>Outros</Text>
         </View>
     
       </ScrollView>

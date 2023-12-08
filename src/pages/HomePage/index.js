@@ -44,6 +44,7 @@ function Vazio({isLoading}) {
 
 export default function HomePage() {
   const [data, setData] = useState([]);
+  const [oldData, setOldData] = useState([]);
   const [page, setPage] = useState(0);
   const [location, setLocation] = useState(undefined);
   const [isFocused, SetIsFocused] = useState(true);
@@ -110,7 +111,15 @@ export default function HomePage() {
 
   const handleSearchChange = async (query) => {
     setSearchQuery(query);
+    if(query.trim().length === 0 || query == undefined || query == ""){
+      console.log("não tem nada para pesquisar");
+      setData([]);
+      fetchData();
+      setPage(0);
+      return
+    }
     try {
+      console.log("ainda pesquisando")
       const filteredList = await pesquisarPlace(query);
       setData(filteredList);
       console.log(filteredList)
