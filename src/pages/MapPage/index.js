@@ -55,8 +55,7 @@ export default function App() {
     mapRef.current.animateToRegion({
       latitude: element.coordenadas.x,
       longitude: element.coordenadas.y,
-      // latitudeDelta: LATITUDE_DELTA,
-      // longitudeDelta: LONGITUDE_DELTA,
+      af52
     }
     );
   };
