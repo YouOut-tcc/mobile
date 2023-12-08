@@ -15,11 +15,17 @@ import Coments from './Coments';
 import StarRating from '../StarRating';
 import {useRoute} from '@react-navigation/native';
 import {useEffect, useState} from 'react';
-import {getCommerceInfo, getAvaliacoes, getBannersImage, getEvetos} from '../../services/commerce';
+import {
+  getCommerceInfo,
+  getAvaliacoes,
+  getBannersImage,
+  getEvetos,
+  getCardapio,
+} from '../../services/commerce';
 import {fetchCEP} from '../../services/cep';
 import TagsCommerce from './TagsCommerce';
 import ModalComent from './ModalComent';
-import noImage from "../../assets/image1.jpg";
+import noImage from '../../assets/menu.png';
 
 function CommentHeader({Length, stars, uuid, reload}) {
   const [startRating, setStarsRating] = useState(0);
@@ -69,6 +75,7 @@ export default function ProfileCommerce() {
   const [placeAvaliacoes, setAvaliacoes] = useState(null);
   const [reloadComments, setReloadComments] = useState(false);
   const [banners, setBanners] = useState([]);
+  const [cardapio, setCadapio] = useState([]);
   const [eventos, setEventos] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -82,20 +89,19 @@ export default function ProfileCommerce() {
 
   const fetchComments = async () => {
     // setReloadComments(true);
-    console.log("pegando os comentarios");
+    console.log('pegando os comentarios');
 
     try {
       let avaliacoes = await getAvaliacoes(commerce.uuid);
       avaliacoes = avaliacoes.map(avaliacao => ({
         ...avaliacao,
-        timestamp: new Date(avaliacao.criado).getTime(), 
+        timestamp: new Date(avaliacao.criado).getTime(),
       }));
-  
+
       avaliacoes.sort((a, b) => b.timestamp - a.timestamp);
-  
+
       setAvaliacoes(avaliacoes);
       // console.log(`json ${JSON.stringify(avaliacoes)}`);
-
     } catch (error) {
       console.log('Error: ' + error.constructor.name);
       if (error instanceof ReferenceError) {
@@ -105,7 +111,7 @@ export default function ProfileCommerce() {
       setIsLoading(false);
       setReloadComments(false);
     }
-  }
+  };
 
   const fetchInfo = async () => {
     try {
@@ -138,7 +144,6 @@ export default function ProfileCommerce() {
 
       console.log(`json ${JSON.stringify(eventosResult)}`);
       setEventos(eventosResult);
-
     } catch (error) {
       console.log('Error: ' + error.constructor.name);
       if (error instanceof ReferenceError) {
@@ -156,15 +161,34 @@ export default function ProfileCommerce() {
       let bannersResult = await getBannersImage(commerce.uuid);
 
       console.log(`json ${JSON.stringify(bannersResult)}`);
-      if(bannersResult){
+      if (bannersResult) {
         setBanners(bannersResult);
-
       } else {
         setBanners([noImage]);
       }
-
     } catch (error) {
-      console.log("Error ao pegar os banners");
+      console.log('Error ao pegar os banners');
+      console.log('Error: ' + error.constructor.name);
+      if (error instanceof ReferenceError) {
+        console.log(error.message);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchCardapio = async () => {
+    try {
+      let result = await getCardapio(commerce.uuid);
+
+      console.log(`json cardapio ${JSON.stringify(result)}`);
+      if (result) {
+        setCadapio({uri:result[0]});
+      } else {
+        setCadapio(noImage);
+      }
+    } catch (error) {
+      console.log('Error ao pegar os Cardapio');
       console.log('Error: ' + error.constructor.name);
       if (error instanceof ReferenceError) {
         console.log(error.message);
@@ -180,16 +204,16 @@ export default function ProfileCommerce() {
     fetchComments();
     fetchEventos();
     fetchBanners();
-
+    fetchCardapio();
   }, [commerce]);
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchComments();
   }, [reloadComments]);
 
   return (
     <View style={styles.containerForm}>
-      <Carousel images={banners}/>
+      <Carousel images={banners} />
       {infoCep && (
         <View style={styles.Infos}>
           <Infos commerce={commerce} info={info} endereco={infoCep} />
@@ -202,15 +226,19 @@ export default function ProfileCommerce() {
           refreshing={reloadComments}
           onRefresh={ReloadComments}
           refreshControl={
-            <RefreshControl size={'default'} refreshing={reloadComments} onRefresh={ReloadComments} />
+            <RefreshControl
+              size={'default'}
+              refreshing={reloadComments}
+              onRefresh={ReloadComments}
+            />
           }
           ListHeaderComponent={
             <>
               <View style={styles.tagsContainer}>
                 <TagsCommerce />
               </View>
-              <Menu />
-              <Events eventos={eventos}/>
+              <Menu imageCardapio={cardapio} />
+              <Events eventos={eventos} />
               <CommentHeader
                 Length={placeAvaliacoes.length}
                 stars={commerce.nota}

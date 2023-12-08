@@ -223,6 +223,21 @@ async function getEvetos(uuid) {
   }
 }
 
+async function getCardapio(uuid) {
+  try {
+    let res = await api.get(`/estabelecimento/places/${uuid}/cardapio`);
+    return res.data;
+  } catch (error) {
+    console.log(error.constructor.name);
+    if (error instanceof AxiosError) {
+      console.log(error.response.status);
+      console.log(error.response.data.message);
+    } else if (error instanceof ReferenceError) {
+      console.log(error.message);
+    }
+  }
+}
+
 export {
   getAvaliacoes,
   getCommerceInfo,
@@ -233,5 +248,6 @@ export {
   getPlaces,
   postComment,
   getBannersImage,
-  getEvetos
+  getEvetos,
+  getCardapio
 };

@@ -4,7 +4,7 @@ import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ModalPreviewPDF from './ModalPreviewPDF';
 
-const Menu = () => {
+const Menu = ({imageCardapio}) => {
     const images = [
         require('../../assets/menu.png'),
       ];
@@ -33,6 +33,7 @@ const Menu = () => {
             <ModalPreviewPDF
               isVisible={isModalVisible[index]}
               closeModal={() => closeModal(index)}
+              image={imageCardapio}
             />
             </TouchableOpacity>
           </View>

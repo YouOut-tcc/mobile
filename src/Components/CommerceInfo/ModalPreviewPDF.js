@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal, View, Text, Button, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const ModalPreviewPDF = ({ isVisible, closeModal }) => {
+const ModalPreviewPDF = ({ isVisible, closeModal, image }) => {
 
   return (
     <Modal
@@ -23,7 +23,7 @@ const ModalPreviewPDF = ({ isVisible, closeModal }) => {
            
             </View>
             <Image
-              source={require('./../../assets/cardapioex.png')}
+              source={image}
               style={styles.image}
               />
           </View>
