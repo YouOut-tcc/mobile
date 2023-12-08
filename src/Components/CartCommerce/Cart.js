@@ -16,7 +16,7 @@ import FavoriteIcon from './FavoriteIcon';
 
 export default function CartInfo({commerce}) {
   const navigation = useNavigation();
-  // console.log(commerce)
+  console.log(commerce)
   return (
     <TouchableOpacity
       onPress={() =>
@@ -24,7 +24,7 @@ export default function CartInfo({commerce}) {
       }
       style={styles.commerce}>
       <View style={styles.viewImg}>
-        <AvatarCommerce />
+        <AvatarCommerce image={commerce.icon_url}/>
         {!commerce.favorito ? null : (
           <View style={styles.viewFav}>
             <FavoriteIcon favorite={true} />

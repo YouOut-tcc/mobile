@@ -1,8 +1,23 @@
 import React, { useState } from 'react';
 import { Modal, View, Text, Button, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import noEvent from '../../assets/events.png';
 
-const ModalEvent = ({ isVisible, closeModal }) => {
+const ModalEvent = ({ isVisible, closeModal, eventos, index }) => {
+  const opcoesDeFormato = { 
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric' 
+  };
+  const dataInicio = new Date(eventos[index].inicio);
+  const dataFim = new Date(eventos[index].fim);
+
+  const dataInicioFormatted = dataInicio.toLocaleDateString('pt-Br', opcoesDeFormato);
+  const dataFimFormatted = dataFim.toLocaleDateString('pt-Br', opcoesDeFormato);
+
+  console.log(index);
+  console.log(eventos[index]);
   return (
     <Modal
       animationType="slide"
@@ -14,29 +29,29 @@ const ModalEvent = ({ isVisible, closeModal }) => {
         <TouchableOpacity style={styles.backgroundTouchable} onPress={closeModal} activeOpacity={1}>
           <View style={styles.modal}>
             <View style={styles.head}>
-              <Text style={styles.titleEvent}>Evento tal</Text>
+              <Text style={styles.titleEvent}>{eventos[index].nome}</Text>
               <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
                 <Icon name={'close'} size={30} color="#8200A8" />
               </TouchableOpacity>
             </View>
             <View style={styles.slide}>
             <Image
-              source={require('../../assets/events.png')}
+              source={eventos[index].image?{uri: eventos[index].image}:noEvent}
               style={styles.image}
               />
               </View>
             <Text style={styles.details}>Detalhes</Text>
             <View style={styles.viewInfo}>
               <Icon name={'calendar-check-o'} size={25} color="#8200A8" style={styles.iconInfo} />
-              <Text style={styles.info}>{'Segunda, 00 de maio de 2023'}</Text>
+              <Text style={styles.info}>{dataInicioFormatted}</Text>
             </View>
             <View style={styles.viewInfo}>
               <Icon name={'clock-o'} size={25} color="#8200A8" style={styles.iconInfo} />
-              <Text style={styles.info}>{'Após às 00h'}</Text>
+              <Text style={styles.info}>{dataFimFormatted}</Text>
             </View>
             <View style={styles.viewInfo}>
               <Icon name={'money'} size={25} color="#8200A8" style={styles.iconInfo} />
-              <Text style={styles.info}>{'R$ 00,00'}</Text>
+              <Text style={styles.info}>{'R$ '}{eventos[index].valor}</Text>
             </View>
             <View>
 

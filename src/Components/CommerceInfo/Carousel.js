@@ -1,15 +1,12 @@
 import React from 'react';
-import { View, Image, StyleSheet, Text } from 'react-native';
+import {View, Image, StyleSheet, Text} from 'react-native';
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FavoriteIcon from '../CartCommerce/FavoriteIcon';
+import noImage from '../../assets/image1.jpg';
 
-const Carousel = () => {
-  const images = [
-    require('../../assets/image1.jpg'),
-    require('../../assets/image2.jpg'),
-    require('../../assets/image3.jpg'),
-  ];
+const Carousel = ({images}) => {
+  console.log(images);
 
   return (
     <View style={styles.carouselContainer}>
@@ -31,11 +28,17 @@ const Carousel = () => {
             <Icon name={'chevron-right'} size={20} color="#FE0472" />
           </Text>
         }>
-        {images.map((image, index) => (
-          <View key={index} style={styles.slide}>
-            <Image source={image} style={styles.image} />
-          </View>
-        ))}
+        {images.map((image, index) => {
+          let loadImage;
+          if(typeof image == "string"){
+            loadImage = {uri: image};
+          }
+          return (
+            <View key={index} style={styles.slide}>
+              <Image source={loadImage? loadImage:image} style={styles.image} />
+            </View>
+          );
+        })}
       </Swiper>
     </View>
   );
@@ -70,7 +73,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  
 });
 
 export default Carousel;

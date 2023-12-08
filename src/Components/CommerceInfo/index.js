@@ -15,10 +15,11 @@ import Coments from './Coments';
 import StarRating from '../StarRating';
 import {useRoute} from '@react-navigation/native';
 import {useEffect, useState} from 'react';
-import {getCommerceInfo, getAvaliacoes} from '../../services/commerce';
+import {getCommerceInfo, getAvaliacoes, getBannersImage, getEvetos} from '../../services/commerce';
 import {fetchCEP} from '../../services/cep';
 import TagsCommerce from './TagsCommerce';
 import ModalComent from './ModalComent';
+import noImage from "../../assets/image1.jpg";
 
 function CommentHeader({Length, stars, uuid, reload}) {
   const [startRating, setStarsRating] = useState(0);
@@ -67,6 +68,8 @@ export default function ProfileCommerce() {
   const [infoCep, setCep] = useState(null);
   const [placeAvaliacoes, setAvaliacoes] = useState(null);
   const [reloadComments, setReloadComments] = useState(false);
+  const [banners, setBanners] = useState([]);
+  const [eventos, setEventos] = useState([]);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -127,10 +130,56 @@ export default function ProfileCommerce() {
     }
   };
 
+  const fetchEventos = async () => {
+    try {
+      console.log('pegando os Eventos');
+      console.log(uuid);
+      let eventosResult = await getEvetos(commerce.uuid);
+
+      console.log(`json ${JSON.stringify(eventosResult)}`);
+      setEventos(eventosResult);
+
+    } catch (error) {
+      console.log('Error: ' + error.constructor.name);
+      if (error instanceof ReferenceError) {
+        console.log(error.message);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchBanners = async () => {
+    try {
+      console.log('pegando os Banners');
+      console.log(uuid);
+      let bannersResult = await getBannersImage(commerce.uuid);
+
+      console.log(`json ${JSON.stringify(bannersResult)}`);
+      if(bannersResult){
+        setBanners(bannersResult);
+
+      } else {
+        setBanners([noImage]);
+      }
+
+    } catch (error) {
+      console.log("Error ao pegar os banners");
+      console.log('Error: ' + error.constructor.name);
+      if (error instanceof ReferenceError) {
+        console.log(error.message);
+      }
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     setUuid(commerce.uuid);
     fetchInfo();
     fetchComments();
+    fetchEventos();
+    fetchBanners();
 
   }, [commerce]);
 
@@ -138,24 +187,9 @@ export default function ProfileCommerce() {
     fetchComments();
   }, [reloadComments]);
 
-  const commentList = [
-    {
-      id: 1,
-      nome: 'Fulano de tal bla bla bla',
-      comentario:
-        'Lorem ipsum dolor sit amet. Nam debitis maxime et rerum unde id,Lorem ipsum dolor sit amet. Nam debitis maxime et rerum unde id,Lorem ipsum dolor sit amet. Nam debitis maxime et rerum unde id',
-    },
-    {
-      id: 2,
-      nome: 'Lorem Ipsum 1',
-      comentario:
-        'Lorem ipsum dolor sit amet. Nam debitis maxime et rerum unde id',
-    },
-  ];
-
   return (
     <View style={styles.containerForm}>
-      <Carousel />
+      <Carousel images={banners}/>
       {infoCep && (
         <View style={styles.Infos}>
           <Infos commerce={commerce} info={info} endereco={infoCep} />
@@ -176,7 +210,7 @@ export default function ProfileCommerce() {
                 <TagsCommerce />
               </View>
               <Menu />
-              <Events />
+              <Events eventos={eventos}/>
               <CommentHeader
                 Length={placeAvaliacoes.length}
                 stars={commerce.nota}

@@ -1,23 +1,29 @@
-import React, { useState } from 'react';
-import { View, Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import React, {useState} from 'react';
+import {View, Image, StyleSheet, Text, TouchableOpacity} from 'react-native';
 import Swiper from 'react-native-swiper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import ModalEvent from './ModalEvent';
+import noEvent from '../../assets/events.png';
 
-const Events = () => {
-  const images = [
-    require('../../assets/events.png'),
-    require('../../assets/events.png'),
-    require('../../assets/events.png'),
-  ];
+const Events = ({eventos}) => {
+  // const noEvent = require('../../assets/events.png');
+  // const images = [
+  //   require('../../assets/events.png'),
+  //   require('../../assets/events.png'),
+  //   require('../../assets/events.png'),
+  // ];
 
   const [modalIndex, setModalIndex] = useState(null);
+  const [indexEvent, setIndexEvent] = useState();
+  const [autoPlay, setAutoPlay] = useState(true);
 
-  const openModal = (index) => {
+  const openModal = index => {
+    setAutoPlay(false);
     setModalIndex(index);
   };
 
   const closeModal = () => {
+    setAutoPlay(true);
     setModalIndex(null);
   };
 
@@ -27,7 +33,7 @@ const Events = () => {
       <Swiper
         style={styles.wrapper}
         showsButtons={true}
-        autoplay={true}
+        autoplay={autoPlay}
         autoplayTimeout={5}
         showsPagination={false}
         buttonWrapperStyle={styles.buttonWrapper}
@@ -42,27 +48,41 @@ const Events = () => {
             <Icon name={'chevron-right'} size={20} color="#FE0472" />
           </Text>
         }
-        onIndexChanged={(index) => {
+        onIndexChanged={index => {
           closeModal();
-        }}
-      >
-        {images.map((image, index) => (
-          <View key={index} style={styles.slide}>
-            <TouchableOpacity onPress={() => openModal(index)} style={styles.touch}>
-              <Image source={image} style={styles.image} />
+        }}>
+        {eventos.length > 0 ? (
+          eventos.map((elemet, index) => (
+            <View key={index} style={styles.slide}>
+              <TouchableOpacity
+                onPress={() => {
+                  setIndexEvent(index);
+                  openModal(index)
+                }}
+                style={styles.touch}>
+                <Image source={elemet.image?{uri: elemet.image}:noEvent} style={styles.image} />
+              </TouchableOpacity>
+            </View>
+          ))
+        ) : (
+          <View style={styles.slide}>
+            <TouchableOpacity style={styles.touch}>
+              <Image source={noEvent} style={styles.image} />
             </TouchableOpacity>
           </View>
-        ))}
+        )}
       </Swiper>
       {modalIndex !== null && (
         <ModalEvent
+          index={indexEvent}
           isVisible={true}
           closeModal={closeModal}
+          eventos={eventos}
         />
       )}
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   carouselContainer: {
@@ -95,7 +115,7 @@ const styles = StyleSheet.create({
   },
   touch: {
     width: '100%',
-  }
+  },
 });
 
 export default Events;
